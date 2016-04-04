@@ -1,0 +1,23 @@
+{
+  "name": "dva",
+  "description": "this is a stub",
+  "main": "index.js",
+  "authors": [
+    "Keyvan Fatehi <keyvanfatehi@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/kfatehi/dva",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-2.2.2.min": "https://code.jquery.com/jquery-2.2.2.min.js",
+    "d3.v3.min": "https://d3js.org/d3.v3.min.js"
+  }
+}
