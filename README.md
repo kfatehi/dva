@@ -1,17 +1,12 @@
 # dva
 
-this is a stub
-
+Data visualization appliance
 
 ## install dependencies
 
-* Install Node.js & NPM
-
-* Install Bower `npm install --global bower`
-
+* Install Node.js from https://nodejs.org
 * Install application dependencies `npm install`
 
 ## start server
 
-`./server`
-
+`npm start`
