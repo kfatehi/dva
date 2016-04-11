@@ -24,13 +24,11 @@ app.set('view engine', 'ejs');
 passport.use(new Strategy(function(email, password, cb) {
   debug('strat', email, password)
   models.User.findOne({ where: { email: email } }).then(function(user) {
-    if (err) { return cb(err); }
     if (!user) { return cb(null, false); }
     if (user.password != password) { return cb(null, false); }
     return cb(null, user);
   }).catch(cb)
 }));
-
 
 // Configure Passport authenticated session persistence.
 //
