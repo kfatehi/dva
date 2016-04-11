@@ -22,12 +22,15 @@ app.set('view engine', 'ejs');
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(function(email, password, cb) {
-  debug('strat', email, password)
   models.User.findOne({ where: { email: email } }).then(function(user) {
-    if (!user) { return cb(null, false); }
-    if (user.password != password) { return cb(null, false); }
+    return user.comparePassword(password)
+  }).then(function(user) {
+    debug('user', user);
     return cb(null, user);
-  }).catch(cb)
+  }).catch(function(err) {
+    if (err) debug('strategy error', err)
+    return cb(null, false)
+  })
 }));
 
 // Configure Passport authenticated session persistence.
@@ -43,12 +46,13 @@ passport.serializeUser(function(user, cb) {
 
 passport.deserializeUser(function(id, cb) {
   models.User.findById(id).then(function(user) {
-    if (!user) return cb(new Error("Not found"))
+    if (!user) return cb(null, false);
     cb(null, user);
   }).catch(cb)
 });
 
-// app.use(express.static('public'));
+//app.use(express.static('public'));
+
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
