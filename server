@@ -5,9 +5,20 @@ const express = require('express');
 const app = express();
 const models = require('./models');
 const routes = require('./routes')
+const session = require('express-session')
 
 app.set('port', process.env.PORT || 3000);
 app.use(express.static('public'));
+
+// https://github.com/expressjs/session
+app.use(session({
+  resave: false,
+  secret: 'loosely-named-a-secret',
+  saveUninitialized: false
+}));
+// use this later to keep dev cycle quick
+// https://github.com/darul75/express-session-json
+
 app.use(routes);
 
 models.sequelize.sync().then(function () {
