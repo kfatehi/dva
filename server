@@ -56,6 +56,11 @@ app.use(session({
 // use this later to keep dev cycle quick
 // https://github.com/darul75/express-session-json
 
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(routes);
 
 models.sequelize.sync().then(function () {
