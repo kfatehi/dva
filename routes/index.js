@@ -5,18 +5,6 @@ const passport = require('passport');
 const ensureLogin = require('connect-ensure-login')
 const router  = express.Router();
 
-router.get('/users', function(req, res) {
-  models.User.findAll({
-  }).then(function(users) {
-    res.send({
-      title: 'Express',
-      users: users
-    });
-  });
-});
-
-
-// Define routes.
 router.get('/', function(req, res) {
   res.render('home', { user: req.user });
 });
