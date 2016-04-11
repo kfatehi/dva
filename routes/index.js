@@ -3,10 +3,27 @@ const models  = require('../models');
 const express = require('express');
 const passport = require('passport');
 const ensureLogin = require('connect-ensure-login')
-const router  = express.Router();
+const router = express.Router();
 
 router.get('/', function(req, res) {
   res.render('home', { user: req.user });
+});
+
+router.get('/register', function(req, res) {
+  res.render('register');
+});
+
+router.post('/register', function(req, res, next) {
+  console.log(req.body);
+  if (req.body.password === req.body.password_confirm) {
+    models.User.createWithPassword(req.body.password, {
+      email: req.body.email,
+    }).then(function(user) {
+      res.redirect('/profile')
+    }).catch(next)
+  } else {
+    next(new Error("Password does not match confirmation"))
+  }
 });
 
 router.get('/login', function(req, res){
