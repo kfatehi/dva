@@ -4,9 +4,8 @@ var router  = express.Router();
 
 router.get('/users', function(req, res) {
   models.User.findAll({
-    include: [ models.Task ]
   }).then(function(users) {
-    res.render('index', {
+    res.send({
       title: 'Express',
       users: users
     });
