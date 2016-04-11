@@ -4,9 +4,11 @@ const debug = require('debug')('dva:server');
 const express = require('express');
 const app = express();
 const models = require('./models');
+const routes = require('./routes')
 
 app.set('port', process.env.PORT || 3000);
 app.use(express.static('public'));
+app.use(routes);
 
 models.sequelize.sync().then(function () {
   var server = app.listen(app.get('port'), function() {
