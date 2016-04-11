@@ -4,6 +4,8 @@
   "description": "this is a stub",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^0.8.5",
+    "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.1",
