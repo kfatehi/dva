@@ -58,14 +58,21 @@ app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 
-// https://github.com/expressjs/session
-app.use(session({
-  resave: false,
-  secret: 'loosely-named-a-secret',
-  saveUninitialized: false
-}));
-// use this later to keep dev cycle quick
-// https://github.com/darul75/express-session-json
+if (app.get('env') === 'development') {
+  const JsonStore = require('express-session-json')(session);
+  app.use(session({
+    resave: false,
+    secret: 'loosely-named-a-secret',
+    saveUninitialized: false,
+    store: new JsonStore({ path: __dirname })
+  }));
+} else {
+  app.use(session({
+    resave: false,
+    secret: 'loosely-named-a-secret',
+    saveUninitialized: false
+  }));
+}
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
