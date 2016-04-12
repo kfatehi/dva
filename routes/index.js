@@ -17,6 +17,8 @@ router.post('/register', function(req, res, next) {
   if (req.body.password === req.body.password_confirm) {
     models.User.createWithPassword(req.body.password, {
       email: req.body.email,
+      first_name: req.body.firstname,
+      last_name: req.body.lastname,
     }).then(function(user) {
       res.redirect('/profile')
     }).catch(next)

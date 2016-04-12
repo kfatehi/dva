@@ -8,6 +8,7 @@ const routes = require('./routes')
 const session = require('express-session')
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
+const layout = require('express-layout')
 
 app.set('port', process.env.PORT || 3000);
 
@@ -51,8 +52,6 @@ passport.deserializeUser(function(id, cb) {
   }).catch(cb)
 });
 
-//app.use(express.static('public'));
-
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
@@ -72,6 +71,10 @@ app.use(session({
 // session.
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(layout());
+
+app.use(express.static('public'));
 
 app.use(routes);
 
