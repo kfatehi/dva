@@ -26,7 +26,6 @@ passport.use(new Strategy(function(email, password, cb) {
   models.User.findOne({ where: { email: email } }).then(function(user) {
     return user.comparePassword(password)
   }).then(function(user) {
-    debug('user', user);
     return cb(null, user);
   }).catch(function(err) {
     if (err) debug('strategy error', err)

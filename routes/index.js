@@ -47,4 +47,8 @@ router.get('/profile', ensureLogin.ensureLoggedIn(), function(req, res){
   res.render('profile', { user: req.user });
 });
 
+router.get('/workspace', function(req, res) {
+  res.render('workspace');
+})
+
 module.exports = router;
