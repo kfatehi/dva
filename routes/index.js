@@ -51,4 +51,8 @@ router.get('/workspace', function(req, res) {
   res.render('workspace');
 })
 
+router.get('/data-sources', function(req, res) {
+  res.render('data-sources/index');
+})
+
 module.exports = router;
