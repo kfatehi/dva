@@ -7,7 +7,9 @@
     {
       name      : "API",
       script    : "server",
-      env: {},
+      env: {
+        DEBUG: "dva:*"
+      },
       env_production : {
         NODE_ENV: "production"
       }
