@@ -28,7 +28,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server",
     "postinstall": "bower install",
-    "watch": "DEBUG=dva:* node-dev server"
+    "watch": "DEBUG=dva:* node-dev server",
+    "deploy": "pm2 deploy ecosystem.json dev"
   },
   "repository": {
     "type": "git",
