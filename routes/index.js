@@ -64,4 +64,10 @@ router.get('/data-sources.:format?', function(req, res) {
   }
 })
 
+router.get('/data-sources/new', (req, res, next) => {
+  res.render('data-sources/new', {
+    types: models.DataSources.TYPES
+  })
+})
+
 module.exports = router;

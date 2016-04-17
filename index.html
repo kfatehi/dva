@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title></title>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+
+App = {
+	loadData: function(dataSetId) {
+    return new Promise(function(resolve, reject) {
+      resolve([{
+        source: 1,
+        target: 2,
+        flights: 5,
+        complaints: 3 
+      }])
+    });
+	},
+  loadProps: function() {
+    return new Promise(function(resolve, reject) {
+      resolve({
+        "labels": {
+          "font": "12px sans-serif",
+          "color": "black"
+        }
+      })
+    });
+  }
+}
+
+d3.select('g').style('font', config.props.labels.font);
+
+getDefaultSchemaProperties = function(ext) {
+  ext.loadSchema().then(function(schema){
+  return  getDefaultSchemaProperties( schema.properties);
+  })
+}
+
+var App.load('com.sankey').then(function(ext) {
+  return [App.loadData(dataSetID), ext]
+}).then(function(arr){
+	return arr.concat(App.loadSchema('com.sankey'));
+}).spread(function(data, ext, schema){
+
+  var config = {
+    width: 500,
+    height: 400,
+    data: data,
+    buckets: {
+      from: ['source'],
+      to: ['target'],
+      value: ['flights', 'complaints']
+    },
+    props: mergeSchemaProperties(schema.properties, { /* user overrides */ })
+  }
+  ext.render(document.body, config);
+});
+
+</script>
+
+test
+
+
+</body>
+</html>
