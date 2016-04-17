@@ -51,8 +51,17 @@ router.get('/workspace', function(req, res) {
   res.render('workspace');
 })
 
-router.get('/data-sources', function(req, res) {
-  res.render('data-sources/index');
+router.get('/data-sources.:format?', function(req, res) {
+  let dataSources = [{
+    name: "my data"
+  }]
+  if (req.params.format === 'json') {
+    res.json(dataSources)
+  } else {
+    res.render('data-sources/index', {
+      dataSources: dataSources
+    });
+  }
 })
 
 module.exports = router;
