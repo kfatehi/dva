@@ -67,7 +67,7 @@ viz.extensions.load('com.sankey').then(function(ext) {
   ]
 }).spread(function(data, ext, schema){
   
-  var leanData = parseData(data, bucketMapping);
+  var leanData = viz.util.applyBucketMapping(data, bucketMapping);
 
   [{
     subgroup: ['Smithh'],

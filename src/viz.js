@@ -24,15 +24,16 @@ module.exports = () => {
     });
   }
 
-  let dataset = [];
-  
-  dataset.load = (id) => {
-    return new Promise(function(resolve, reject) {
-      axios.get(`/datasets/${id}`).then(function (response) {
-        resolve(response)
-      })
-    });
+  let dataset = {
+    load: (id) => {
+      return new Promise(function(resolve, reject) {
+        axios.get(`/datasets/${id}`).then(function (response) {
+          resolve(response)
+        })
+      });
+    }
   }
+  
 
   return { extensions, dataset }
 }

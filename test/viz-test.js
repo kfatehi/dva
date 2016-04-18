@@ -30,7 +30,7 @@ describe("viz.extensions", function() {
   })
 });
 
-describe("viz.dataset", function() {
+describe("viz.dataset.load", function() {
   var promise;
   beforeEach(function () {
     promise = sinon.stub(axios, 'get').returnsPromise()
@@ -50,4 +50,9 @@ describe("viz.dataset", function() {
       expect(res).to.deep.eq(data);
     })
   });
+});
+
+describe("viz.dataset.applyBucketMapping", function() {
+
+ //  var leanData = viz.dataset.applyBucketMapping(data, bucketMapping);
 });
