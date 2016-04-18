@@ -46,7 +46,9 @@ describe("viz.dataset", function() {
     let data = { some: "data" }
     promise.resolves(data)
     return viz.dataset.load(1).then(function(res) {
-      expect(res).to.deep.eq(data)
+      var path = promise.getCall(0).args[0];
+      expect(path).to.eq('/datasets/1');
+      expect(res).to.deep.eq(data);
     })
   });
 });
