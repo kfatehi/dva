@@ -14,7 +14,11 @@ module.exports = () => {
 
   extensions.load = (name) => {
     return new Promise((resolve, reject) => {
-      let ext = require(`${__dirname}/../extensions/${name}`);
+      let ext = {
+        name,
+        schema: require(`${__dirname}/../extensions/${name}/schema`),
+        script: require(`${__dirname}/../extensions/${name}`),
+      }
       extensions.push(ext);
       resolve(ext);
     });
