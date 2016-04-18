@@ -85,5 +85,5 @@ app.use(routes);
 
 module.exports = {
   app: app,
-  models: models
+  models: models,
 }
