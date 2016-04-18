@@ -61,3 +61,8 @@ Apply the changes by restarting nginx
 `sudo /etc/init.d/nginx restart`
 
 `dva` should now be accessible on port 80
+
+# TODO
+
+* note the dual data stores (sql for relational, rethink for data)
+* explain how to setup rethinkdb

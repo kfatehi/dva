@@ -40,25 +40,59 @@ getDefaultSchemaProperties = function(ext) {
   })
 }
 
+
+    // generated data:
+var bucketMapping = {
+  from: ['source'],
+  to: ['target'],
+  value: ['flights', 'complaints']
+};
+
+var bucketMapping = {
+  subgroup: ['Last Name'],
+  group: ['Country', 'Quarter'],
+  value: ['Sales']
+}
+
 var App.load('com.sankey').then(function(ext) {
-  return [App.loadData(dataSetID), ext]
-}).then(function(arr){
-	return arr.concat(App.loadSchema('com.sankey'));
+  return [
+    App.loadData(dataSetID),
+    ext,
+    App.loadSchema('com.sankey')
+  ]
 }).spread(function(data, ext, schema){
+  
+  var leanData = parseData(data, bucketMapping);
+
+  [{
+    subgroup: ['Smithh'],
+    group: ['UK', 'Qtr3'],
+    value: [16753]
+  }]
 
   var config = {
     width: 500,
     height: 400,
-    data: data,
-    buckets: {
-      from: ['source'],
-      to: ['target'],
-      value: ['flights', 'complaints']
-    },
+    data: leanData,
+    buckets: bucketMapping, // this here for labelling purposes
     props: mergeSchemaProperties(schema.properties, { /* user overrides */ })
   }
   ext.render(document.body, config);
 });
+
+// ---------- for the index.html extensions test...
+
+  var config = {
+    width: 500,
+    height: 400,
+    data: [{
+      subgroup: ['Smithh'],
+      group: ['UK', 'Qtr3'],
+      value: [16753]
+    }]
+    buckets: bucketMapping,
+    props: mergeSchemaProperties(schema.properties, { /* user overrides */ })
+  }
 
 </script>
 
