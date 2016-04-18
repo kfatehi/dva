@@ -4,6 +4,7 @@
   "description": "this is a stub",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.9.1",
     "bcrypt": "^0.8.5",
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
@@ -26,7 +27,9 @@
     "chai": "^3.5.0",
     "express-session-json": "0.0.8",
     "minimist": "^1.2.0",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3",
+    "sinon-stub-promise": "^2.0.0"
   },
   "scripts": {
     "test": "mocha test/**/*-test.js",

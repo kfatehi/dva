@@ -1,7 +1,14 @@
 "use strict";
-var Promise = require('bluebird')
+const Promise = require('bluebird');
+const axios = require('axios');
 
-module.exports = function () {
+/**
+ * Constructs a `viz` object
+ *
+ * This module is designed to be isomorphic meaning that it
+ * works on the server or in the browser (via webpack or browserify)
+ */
+module.exports = () => {
 
   let extensions = [];
 
@@ -13,7 +20,15 @@ module.exports = function () {
     });
   }
 
-  return {
-    extensions: extensions
+  let dataset = [];
+  
+  dataset.load = (id) => {
+    return new Promise(function(resolve, reject) {
+      axios.get(`/datasets/${id}`).then(function (response) {
+        resolve(response)
+      })
+    });
   }
+
+  return { extensions, dataset }
 }

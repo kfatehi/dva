@@ -54,7 +54,11 @@ var bucketMapping = {
   value: ['Sales']
 }
 
-var App.load('com.sankey').then(function(ext) {
+// --------- 
+
+var viz = Viz();
+
+viz.extensions.load('com.sankey').then(function(ext) {
   return [
     App.loadData(dataSetID),
     ext,
