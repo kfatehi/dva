@@ -59,11 +59,11 @@ var bucketMapping = {
 var viz = Viz();
 var dataSetID = 1;
 
-viz.extensions.load('com.sankey').then(function(ext, schema) {
+viz.extensions.load('com.sankey').then(function(ext) {
   return [
     viz.dataset.load(dataSetID),
-    ext,
-    schema,
+    ext.script,
+    ext.schema,
   ]
 }).spread(function(data, ext, schema){
   

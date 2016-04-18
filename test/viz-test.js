@@ -2,8 +2,7 @@
 const expect = require('chai').expect;
 const Viz = require('../src/viz');
 const sinon = require('sinon');
-var sinonStubPromise = require('sinon-stub-promise');
-sinonStubPromise(sinon);
+require('sinon-stub-promise')(sinon);
 const axios = require('axios');
 
 describe("viz.extensions", function() {
