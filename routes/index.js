@@ -1,5 +1,5 @@
 "use strict";
-const models  = require('../models');
+const models = require('../models');
 const express = require('express');
 const passport = require('passport');
 const ensureLogin = require('connect-ensure-login')
@@ -74,7 +74,7 @@ const browserify = require('browserify');
 
 const viz = require('../src/viz')();
 
-router.get('/extensions/:extname/index.js', function(req, res, next) {
+router.get('/extensions/:extname/bundle.js', function(req, res, next) {
   viz.extensions.load(req.params.extname).then(function(ext) {
     var b = browserify();
     b.add(`${ext.dirname}/index.js`);
@@ -83,9 +83,9 @@ router.get('/extensions/:extname/index.js', function(req, res, next) {
 });
 
 router.get('/extensions/:extname', function(req, res, next) {
-  console.log(req.params.name);
   res.render('extension-test', {
-    extname: req.params.name
+    extname: req.params.extname,
+    layout: 'extension'
   })
 });
 

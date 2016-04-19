@@ -12,6 +12,8 @@ const layout = require('express-layout')
 app.set('port', process.env.PORT || 3000);
 
 // Configure view engine to render EJS templates.
+app.set('layouts', './views/layouts');
+app.set('layout', 'default');
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 
