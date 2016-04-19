@@ -9,6 +9,8 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const layout = require('express-layout')
 
+module.exports = app;
+
 app.set('port', process.env.PORT || 3000);
 
 // Configure view engine to render EJS templates.
@@ -84,8 +86,3 @@ app.use(layout());
 app.use(express.static('public'));
 
 app.use(routes);
-
-module.exports = {
-  app: app,
-  models: models,
-}
