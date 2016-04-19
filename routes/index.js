@@ -70,4 +70,23 @@ router.get('/data-sources/new', (req, res, next) => {
   })
 })
 
+const browserify = require('browserify');
+
+const viz = require('../src/viz')();
+
+router.get('/extensions/:extname/index.js', function(req, res, next) {
+  viz.extensions.load(req.params.extname).then(function(ext) {
+    var b = browserify();
+    b.add(`${ext.dirname}/index.js`);
+    b.bundle().pipe(res)
+  })
+});
+
+router.get('/extensions/:extname', function(req, res, next) {
+  console.log(req.params.name);
+  res.render('extension-test', {
+    extname: req.params.name
+  })
+});
+
 module.exports = router;

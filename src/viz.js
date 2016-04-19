@@ -14,10 +14,12 @@ module.exports = () => {
 
   extensions.load = (name) => {
     return new Promise((resolve, reject) => {
+      let dirname = `${__dirname}/../extensions/${name}`;
       let ext = {
         name,
-        schema: require(`${__dirname}/../extensions/${name}/schema`),
-        script: require(`${__dirname}/../extensions/${name}`),
+        dirname,
+        schema: require(`${dirname}/schema`),
+        script: require(dirname),
       }
       extensions.push(ext);
       resolve(ext);
@@ -31,6 +33,11 @@ module.exports = () => {
           resolve(response)
         })
       });
+    },
+    /**
+     * apply a bucket mapping to a dataset
+     */
+    applyBucketMapping: (data, mapping) => {
     }
   }
   
