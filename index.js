@@ -83,6 +83,8 @@ app.use(passport.session());
 
 app.use(layout());
 
-app.use(express.static('public'));
-
 app.use(routes);
+
+app.use('/ext', express.static('extensions'));
+
+app.use(express.static('public'));
