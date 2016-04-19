@@ -45,8 +45,8 @@ var test =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var d3 = __webpack_require__(2);
-	var ext = __webpack_require__(3);
+	var d3 = __webpack_require__(1);
+	var ext = __webpack_require__(2);
 
 	d3.csv('data.csv', function(err, data) {
 	  if (err) throw err;
@@ -88,8 +88,7 @@ var test =
 
 
 /***/ },
-/* 1 */,
-/* 2 */
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;!function() {
@@ -9648,10 +9647,10 @@ var test =
 	}();
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var d3 = __webpack_require__(2);
+	var d3 = __webpack_require__(1);
 
 	module.exports = {
 	  render: function(container, config) {
