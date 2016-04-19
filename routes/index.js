@@ -75,7 +75,7 @@ const viz = require('../src/viz')();
 const webpack = require('webpack');
 const MemoryFS = require("memory-fs");
 
-router.get('/extensions/:extname/script/:script*', function(req, res, next) {
+router.get('/extensions/:extname/:script*', function(req, res, next) {
   var script = req.params.script+req.params["0"]
   viz.extensions.load(req.params.extname).then(function(ext) {
     let scriptPath = `${ext.dirname}/${script}`;
@@ -104,9 +104,11 @@ router.get('/extensions/:extname/script/:script*', function(req, res, next) {
 });
 
 router.get('/extensions/:extname', function(req, res, next) {
-  res.render('extension-test', {
-    extname: req.params.extname,
-    layout: 'extension'
+  viz.extensions.load(req.params.extname).then(function(ext) {
+    res.render('extension-show', {
+      ext,
+      layout: 'extension'
+    })
   })
 });
 
