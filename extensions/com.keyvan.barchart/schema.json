@@ -1,3 +1,6 @@
 {
-  "example": "stuff"
+  "bar-color": {
+    "type": "color",
+    "default": "blue"
+  }
 }

@@ -6,7 +6,8 @@ module.exports = {
     .selectAll("div")
     .data(config.data)
     .enter().append("div")
-    .style("width", function(d) { return d * 10 + "px"; })
-    .text(function(d) { return d; });
+    .style("width", function(d) { return d.value * 10 + "px"; })
+    .style("background-color", config.props["bar-color"])
+    .text(function(d) { return d.name; });
   }
 }

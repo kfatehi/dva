@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify -o test/bundle.js test/test-src.js",
-    "watch": "watchy -w test/test-src.js -- npm run build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +13,5 @@
     "d3": "^3.5.16"
   },
   "devDependencies": {
-    "jquery": "^2.2.3"
   }
 }
