@@ -15,14 +15,18 @@ module.exports = () => {
   extensions.load = (name) => {
     return new Promise((resolve, reject) => {
       let dirname = `${__dirname}/../extensions/${name}`;
-      let ext = {
-        name,
-        dirname,
-        schema: require(`${dirname}/schema`),
-        script: require(dirname),
+      try {
+        let ext = {
+          name,
+          dirname,
+          schema: require(`${dirname}/schema`),
+          script: require(dirname),
+        }
+        extensions.push(ext);
+        resolve(ext);
+      } catch (e) {
+        reject(e)
       }
-      extensions.push(ext);
-      resolve(ext);
     });
   }
 

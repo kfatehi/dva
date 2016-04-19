@@ -4,6 +4,7 @@ const express = require('express');
 const passport = require('passport');
 const ensureLogin = require('connect-ensure-login')
 const router = express.Router();
+const debug = require('debug')('dva:router')
 
 router.get('/', function(req, res) {
   res.render('home', { user: req.user });
@@ -70,15 +71,35 @@ router.get('/data-sources/new', (req, res, next) => {
   })
 })
 
-const browserify = require('browserify');
-
 const viz = require('../src/viz')();
+const webpack = require('webpack');
+const MemoryFS = require("memory-fs");
 
-router.get('/extensions/:extname/bundle.js', function(req, res, next) {
+router.get('/extensions/:extname/script/:script*', function(req, res, next) {
+  var script = req.params.script+req.params["0"]
   viz.extensions.load(req.params.extname).then(function(ext) {
-    var b = browserify();
-    b.add(`${ext.dirname}/index.js`);
-    b.bundle().pipe(res)
+    let scriptPath = `${ext.dirname}/${script}`;
+    var fs = new MemoryFS();
+    var compiler = webpack({
+      entry: scriptPath,
+      output: {
+        path: "/wat",
+        library: "tmp",
+        filename: 'tmp.js'
+      }
+    })
+    compiler.outputFileSystem = fs;
+    compiler.run(function(err, stats) {
+      if (err) return next(err);
+      try {
+        let result = fs.readFileSync('/wat/tmp.js');
+        res.status(200).end(result);
+      } catch (e) {
+        res.status(404).end('Not Found');
+      }
+    })
+  }).catch(function(e) {
+    res.status(404).end('Not Found');
   })
 });
 
