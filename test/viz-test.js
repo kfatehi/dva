@@ -6,6 +6,10 @@ require('sinon-stub-promise')(sinon);
 const axios = require('axios');
 const studentDataFixture = require('./fixtures/student-data');
 
+const bucketMappingTestData = require('./fixtures/bucket-mapping-test-data');
+const bucketMappingTestMapping = require('./fixtures/bucket-mapping-test-mapping');
+const bucketMappingTestExpectation = require('./fixtures/bucket-mapping-test-expectation');
+
 describe("viz.extensions", function() {
   it("resolves with the given extension", function() {
     let viz = Viz()
@@ -57,15 +61,8 @@ describe("viz.dataset", function() {
   describe(".applyBucketMapping", function() {
     it("returns a copy of the dataset for which the bucket mappings have been applied", function() {
       let viz = Viz();
-      let data = studentDataFixture;
-      promise.resolves(data)
-      return viz.dataset.load(1).then(function(res) {
-        var path = promise.getCall(0).args[0];
-        expect(path).to.eq('/datasets/1');
-        expect(res).to.deep.eq(data);
-      })
-    });
-    //var leanData = viz.dataset.applyBucketMapping(data, bucketMapping);
+      let result = viz.dataset.applyBucketMapping(bucketMappingTestData, bucketMappingTestMapping);
+      expect(result).to.deep.eq(bucketMappingTestExpectation);
+    })
   });
 });
-
