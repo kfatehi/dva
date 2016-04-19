@@ -71,6 +71,22 @@ router.get('/data-sources/new', (req, res, next) => {
   })
 })
 
+const fs = require('fs');
+
+router.get('/extensions.:format?', function(req, res, next) {
+  fs.readdir(`${__dirname}/../extensions`, function(err, files) {
+    if (err) return next(err);
+    let extensions = files
+    .filter(name => name[0] !== '.')
+    .map(e => { return {name: e} });
+    if (req.params.format === 'json') {
+      res.json(extensions)
+    } else {
+      res.render('extensions/index', { extensions });
+    }
+  })
+})
+
 const viz = require('../src/viz')();
 const webpack = require('webpack');
 const MemoryFS = require("memory-fs");
