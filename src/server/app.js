@@ -2,21 +2,20 @@
 const express = require('express');
 const app = express();
 const models = require('./models');
-const routes = require('./routes')
-const session = require('express-session')
+const routes = require('./routes');
+const session = require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
-const layout = require('express-layout')
+const layout = require('express-layout');
 
 module.exports = app;
-
 
 if (app.get('env') === 'development') {
   const webpackMiddleware = require("webpack-dev-middleware");
   const webpackConfig = require('../../webpack.config');
   const webpack = require('webpack');
   const compiler = webpack(webpackConfig);
-  app.use(webpackMiddleware(compiler, { publicPath: '/public/' }));
+  app.use(webpackMiddleware(compiler));
 }
 
 app.set('port', process.env.PORT || 3000);
