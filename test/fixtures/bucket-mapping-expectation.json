@@ -1,0 +1,401 @@
+expect = [{
+    "series": ["Berry Ortiz"],
+    "group": ["Mitchelltown", "68088-9050"],
+    "value": [4]
+}, {
+    "series": ["Willy Torphy I"],
+    "group": ["East Ezekielchester", "26740"],
+    "value": [37]
+}, {
+    "series": ["Koby Heller"],
+    "group": ["Roweport", "44036"],
+    "value": [31]
+}, {
+    "series": ["Margarita Crist I"],
+    "group": ["New Tremainestad", "43028"],
+    "value": [36]
+}, {
+    "series": ["Fredy Bashirian III"],
+    "group": ["Feeststad", "69195"],
+    "value": [24]
+}, {
+    "series": ["Nikita Funk"],
+    "group": ["Ignatiusshire", "32827"],
+    "value": [17]
+}, {
+    "series": ["Lemuel Quigley"],
+    "group": ["Jeffreyshire", "53020-0880"],
+    "value": [36]
+}, {
+    "series": ["Jamar Hagenes"],
+    "group": ["Mitchellstad", "55479"],
+    "value": [12]
+}, {
+    "series": ["Miss Katelyn Feil"],
+    "group": ["Lilyanmouth", "75857-1195"],
+    "value": [11]
+}, {
+    "series": ["Robin Boyle"],
+    "group": ["West Fay", "69830"],
+    "value": [6]
+}, {
+    "series": ["Cathrine Homenick"],
+    "group": ["New Mikelview", "19929"],
+    "value": [30]
+}, {
+    "series": ["Lennie Botsford"],
+    "group": ["Onashire", "92395"],
+    "value": [21]
+}, {
+    "series": ["Tressie Hermann"],
+    "group": ["South Adaland", "18316-0514"],
+    "value": [40]
+}, {
+    "series": ["Roderick Price MD"],
+    "group": ["Velmafort", "00656"],
+    "value": [23]
+}, {
+    "series": ["Lenna Hirthe"],
+    "group": ["Tremaynestad", "54590"],
+    "value": [5]
+}, {
+    "series": ["Josh Krajcik"],
+    "group": ["East Kingview", "27926"],
+    "value": [14]
+}, {
+    "series": ["Queenie Kemmer"],
+    "group": ["North Maximilliachester", "86184"],
+    "value": [40]
+}, {
+    "series": ["Jeramy Mitchell"],
+    "group": ["West Evanbury", "98628-6401"],
+    "value": [18]
+}, {
+    "series": ["Carmine Pacocha"],
+    "group": ["West Itzelstad", "31454"],
+    "value": [34]
+}, {
+    "series": ["Kennedi Muller"],
+    "group": ["Swiftborough", "44037-2227"],
+    "value": [5]
+}, {
+    "series": ["Shaina Shanahan"],
+    "group": ["South Annamarieberg", "98365"],
+    "value": [22]
+}, {
+    "series": ["Luciano Powlowski"],
+    "group": ["East Vicenta", "82118-2802"],
+    "value": [4]
+}, {
+    "series": ["Robbie Lind"],
+    "group": ["Morissetteville", "71907-9921"],
+    "value": [37]
+}, {
+    "series": ["Myrtis Doyle"],
+    "group": ["Skileston", "65904-4575"],
+    "value": [21]
+}, {
+    "series": ["Jordyn Bergnaum"],
+    "group": ["Port Mckenziehaven", "68150"],
+    "value": [30]
+}, {
+    "series": ["Ms. Kristopher VonRueden"],
+    "group": ["East Veldamouth", "46287"],
+    "value": [6]
+}, {
+    "series": ["Johnathon Waelchi"],
+    "group": ["Westonland", "48303"],
+    "value": [9]
+}, {
+    "series": ["Kiana Jerde"],
+    "group": ["North Rosendomouth", "96139-5869"],
+    "value": [29]
+}, {
+    "series": ["Mr. Luella Mosciski"],
+    "group": ["New Anachester", "31161"],
+    "value": [5]
+}, {
+    "series": ["Hermann Wolf"],
+    "group": ["Ernsermouth", "54765-1244"],
+    "value": [33]
+}, {
+    "series": ["Kellen Reilly"],
+    "group": ["Shieldsshire", "80692-9784"],
+    "value": [0]
+}, {
+    "series": ["Brooks Hartmann"],
+    "group": ["North Melisa", "30408-7224"],
+    "value": [11]
+}, {
+    "series": ["Meda Wilderman"],
+    "group": ["Wunschmouth", "35760-5907"],
+    "value": [14]
+}, {
+    "series": ["Sadie Strosin"],
+    "group": ["Ernestineshire", "75909"],
+    "value": [28]
+}, {
+    "series": ["Norbert Senger"],
+    "group": ["Oswaldofort", "69987-6492"],
+    "value": [20]
+}, {
+    "series": ["Otis Dickinson"],
+    "group": ["West Kristin", "37193"],
+    "value": [19]
+}, {
+    "series": ["Columbus Johns"],
+    "group": ["Dayneview", "68890"],
+    "value": [15]
+}, {
+    "series": ["Shanel Langosh"],
+    "group": ["South Riverton", "20356-1214"],
+    "value": [12]
+}, {
+    "series": ["Miss Ezequiel Bayer"],
+    "group": ["Rileyview", "00213"],
+    "value": [40]
+}, {
+    "series": ["Kaley Reichert V"],
+    "group": ["New Ladarius", "45448"],
+    "value": [8]
+}, {
+    "series": ["Dimitri McCullough"],
+    "group": ["Katherynborough", "45714-6972"],
+    "value": [5]
+}, {
+    "series": ["Lilla Bahringer"],
+    "group": ["South Sydneemouth", "66198-2290"],
+    "value": [37]
+}, {
+    "series": ["Amanda Braun"],
+    "group": ["North Adrian", "05840-5108"],
+    "value": [22]
+}, {
+    "series": ["Elena Frami I"],
+    "group": ["Johnsville", "43545"],
+    "value": [4]
+}, {
+    "series": ["Vena Dare"],
+    "group": ["Willchester", "51514-3016"],
+    "value": [4]
+}, {
+    "series": ["Martina Terry"],
+    "group": ["Vedaborough", "98210-6468"],
+    "value": [16]
+}, {
+    "series": ["Mrs. Maxine Morar"],
+    "group": ["Purdyfort", "99695"],
+    "value": [30]
+}, {
+    "series": ["Dr. Mavis Osinski"],
+    "group": ["South Rhett", "45009-6449"],
+    "value": [14]
+}, {
+    "series": ["Mossie Mayer"],
+    "group": ["East Ethanburgh", "82977"],
+    "value": [0]
+}, {
+    "series": ["Carrie Bosco"],
+    "group": ["South Garretbury", "18722"],
+    "value": [22]
+}, {
+    "series": ["Carlee Conn"],
+    "group": ["Lake Jaleel", "49574-7974"],
+    "value": [24]
+}, {
+    "series": ["Winona Thiel"],
+    "group": ["Lockmanton", "43596"],
+    "value": [20]
+}, {
+    "series": ["Angus Hickle"],
+    "group": ["West Maggiefurt", "06448"],
+    "value": [15]
+}, {
+    "series": ["Samantha Brekke Jr."],
+    "group": ["North Griffinport", "94581-8168"],
+    "value": [36]
+}, {
+    "series": ["Armani Lueilwitz"],
+    "group": ["Eldridgetown", "52557"],
+    "value": [8]
+}, {
+    "series": ["Bertrand Hodkiewicz"],
+    "group": ["Grimeshaven", "10237-2115"],
+    "value": [12]
+}, {
+    "series": ["Jacinto Wisozk"],
+    "group": ["Port Norwoodchester", "85996"],
+    "value": [33]
+}, {
+    "series": ["Sarina McDermott"],
+    "group": ["Port Tysonfort", "75354-4273"],
+    "value": [37]
+}, {
+    "series": ["Noemi Herman"],
+    "group": ["Ginoland", "31823-2404"],
+    "value": [30]
+}, {
+    "series": ["Trace Spinka"],
+    "group": ["West Oswaldobury", "50176-4320"],
+    "value": [13]
+}, {
+    "series": ["Dock Ondricka Sr."],
+    "group": ["South Eduardo", "82853"],
+    "value": [27]
+}, {
+    "series": ["Jalon Keeling"],
+    "group": ["East Glennaberg", "62758"],
+    "value": [21]
+}, {
+    "series": ["Trinity Bode"],
+    "group": ["East Lorenzbury", "04684-3634"],
+    "value": [7]
+}, {
+    "series": ["Makayla Kuhic"],
+    "group": ["New Thurmanbury", "42507-2538"],
+    "value": [12]
+}, {
+    "series": ["Miss Cecilia Cartwright"],
+    "group": ["New Giles", "48172-5789"],
+    "value": [40]
+}, {
+    "series": ["Mitchell Dibbert"],
+    "group": ["Lizethmouth", "66477-6859"],
+    "value": [9]
+}, {
+    "series": ["Garnet Kozey"],
+    "group": ["MacGyverside", "57008"],
+    "value": [18]
+}, {
+    "series": ["Daisha Mitchell"],
+    "group": ["North Donmouth", "40959-5115"],
+    "value": [5]
+}, {
+    "series": ["Marilyne Daugherty"],
+    "group": ["East Celestine", "10082"],
+    "value": [28]
+}, {
+    "series": ["Ms. Reid Kirlin"],
+    "group": ["Gislasonhaven", "28620"],
+    "value": [40]
+}, {
+    "series": ["Sheridan Crona"],
+    "group": ["New Kole", "18809-0254"],
+    "value": [14]
+}, {
+    "series": ["Dr. Treva Aufderhar"],
+    "group": ["East Elvaton", "13951-4709"],
+    "value": [29]
+}, {
+    "series": ["Keagan Sanford"],
+    "group": ["New Frederiquemouth", "70585"],
+    "value": [7]
+}, {
+    "series": ["Miss Mariano Kirlin"],
+    "group": ["East Terrellland", "35879-2759"],
+    "value": [24]
+}, {
+    "series": ["Dion Rempel"],
+    "group": ["Lake Dianna", "70061"],
+    "value": [24]
+}, {
+    "series": ["Holly Gerhold"],
+    "group": ["Port Ines", "27325-0939"],
+    "value": [22]
+}, {
+    "series": ["Miss Joey Price"],
+    "group": ["Alannaside", "52122-0387"],
+    "value": [38]
+}, {
+    "series": ["Morris Prosacco"],
+    "group": ["Dietrichview", "79877-5695"],
+    "value": [30]
+}, {
+    "series": ["Louvenia Boehm"],
+    "group": ["East Thomasfort", "69457"],
+    "value": [13]
+}, {
+    "series": ["Skylar Mante"],
+    "group": ["South Fredview", "36082"],
+    "value": [6]
+}, {
+    "series": ["Oran Deckow"],
+    "group": ["Lake Quincymouth", "77228"],
+    "value": [17]
+}, {
+    "series": ["Brian Grady"],
+    "group": ["Port Annettaberg", "03199"],
+    "value": [4]
+}, {
+    "series": ["Mabelle Grady"],
+    "group": ["Wolffbury", "13181-7051"],
+    "value": [30]
+}, {
+    "series": ["London Huel"],
+    "group": ["Port Ilenechester", "35166"],
+    "value": [0]
+}, {
+    "series": ["Dr. Pearline Russel"],
+    "group": ["East Abbigailborough", "90754"],
+    "value": [32]
+}, {
+    "series": ["Miss Hans Schroeder"],
+    "group": ["South Julianne", "12812-7882"],
+    "value": [38]
+}, {
+    "series": ["Jordi Renner Jr."],
+    "group": ["North Hadley", "55075-7433"],
+    "value": [27]
+}, {
+    "series": ["Maurice Wuckert"],
+    "group": ["Hilarioside", "56573-9593"],
+    "value": [23]
+}, {
+    "series": ["Frederique Fisher DDS"],
+    "group": ["Eliasstad", "41002-4291"],
+    "value": [25]
+}, {
+    "series": ["Danielle DuBuque"],
+    "group": ["Port Lisandroborough", "79672"],
+    "value": [8]
+}, {
+    "series": ["Kacie Jacobi"],
+    "group": ["Lake Jorge", "35899-3162"],
+    "value": [13]
+}, {
+    "series": ["Annette Klein DVM"],
+    "group": ["East Keagan", "26791"],
+    "value": [20]
+}, {
+    "series": ["Laney West"],
+    "group": ["Lake Monserratefort", "67975-1296"],
+    "value": [12]
+}, {
+    "series": ["Ms. Sean Lehner"],
+    "group": ["Lake Janis", "86851"],
+    "value": [36]
+}, {
+    "series": ["Paula Schuster"],
+    "group": ["Lake Kieraland", "03749-3190"],
+    "value": [12]
+}, {
+    "series": ["Ellie Bashirian"],
+    "group": ["Port Travis", "29286-9026"],
+    "value": [2]
+}, {
+    "series": ["Soledad Breitenberg"],
+    "group": ["New Ena", "67974-6574"],
+    "value": [10]
+}, {
+    "series": ["Genesis Mueller"],
+    "group": ["New Ransom", "16759"],
+    "value": [21]
+}, {
+    "series": ["Mr. Christina Reichel"],
+    "group": ["Lake Theo", "30230-7909"],
+    "value": [10]
+}, {
+    "series": ["Mrs. Brook Dach"],
+    "group": ["Goldnerville", "56222-7411"],
+    "value": [34]
+}];
