@@ -1,7 +1,7 @@
 "use strict";
 const express = require('express');
 const app = express();
-const models = require('../../models');
+const models = require('./models');
 const routes = require('./routes')
 const session = require('express-session')
 const passport = require('passport');
@@ -13,9 +13,9 @@ module.exports = app;
 app.set('port', process.env.PORT || 3000);
 
 // Configure view engine to render EJS templates.
-app.set('layouts', './views/layouts');
-app.set('layout', 'default');
 app.set('views', `${__dirname}/views`);
+app.set('layouts', `${__dirname}/views/layouts`);
+app.set('layout', 'default');
 app.set('view engine', 'ejs');
 
 // Configure the local strategy for use by Passport.

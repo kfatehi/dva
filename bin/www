@@ -2,7 +2,7 @@
 "use strict";
 const debug = require('debug')('dva:server');
 const app = require('../src/server/app');
-const models = require('../models');
+const models = require('../src/server/models');
 
 models.sequelize.sync().then(function () {
   const server = app.listen(app.get('port'), function() {

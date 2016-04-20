@@ -1,5 +1,5 @@
 "use strict";
-const models = require('../../../models');
+const models = require('../models');
 const express = require('express');
 const passport = require('passport');
 const ensureLogin = require('connect-ensure-login')
