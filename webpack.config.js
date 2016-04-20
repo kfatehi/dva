@@ -1,10 +1,15 @@
+var webpack = require('webpack');
+
 module.exports = {
   devtool: 'eval-source-map',
-  entry: `${__dirname}/src/index.js`,
+  entry: {
+    bundle: `${__dirname}/src/index.js`,
+    vendor: ["jquery"]
+  },
   output: {
     path: `${__dirname}/public`,
-    library: 'app',
-    filename: 'js/app.js'
+    library: 'bundle',
+    filename: 'js/bundle.js'
   },
   module: {
     loaders: [{
@@ -15,5 +20,8 @@ module.exports = {
         presets: ['es2015', 'react']
       }
     }]
-  }
+  },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin("vendor", "js/vendor.bundle.js")
+  ]
 };
