@@ -10,26 +10,6 @@ const axios = require('axios');
  */
 module.exports = () => {
 
-  let extensions = [];
-
-  extensions.load = (name) => {
-    return new Promise((resolve, reject) => {
-      let dirname = `${__dirname}/../extensions/${name}`;
-      try {
-        let ext = {
-          name,
-          dirname,
-          schema: require(`${dirname}/schema`),
-          script: require(dirname),
-        }
-        extensions.push(ext);
-        resolve(ext);
-      } catch (e) {
-        reject(e)
-      }
-    });
-  }
-
   let dataset = {
     load: (id) => {
       return new Promise(function(resolve, reject) {
@@ -59,5 +39,5 @@ module.exports = () => {
   }
   
 
-  return { extensions, dataset }
+  return { dataset }
 }
