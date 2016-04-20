@@ -10,6 +10,15 @@ const layout = require('express-layout')
 
 module.exports = app;
 
+
+if (app.get('env') === 'development') {
+  const webpackMiddleware = require("webpack-dev-middleware");
+  const webpackConfig = require('../../webpack.config');
+  const webpack = require('webpack');
+  const compiler = webpack(webpackConfig);
+  app.use(webpackMiddleware(compiler, { publicPath: '/public/' }));
+}
+
 app.set('port', process.env.PORT || 3000);
 
 // Configure view engine to render EJS templates.

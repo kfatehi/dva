@@ -30,8 +30,7 @@
     "redux": "^3.5.1",
     "rethinkdb": "^2.3.0",
     "sequelize": "^3.21.0",
-    "sqlite3": "^3.1.3",
-    "webpack": "^1.13.0"
+    "sqlite3": "^3.1.3"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
@@ -44,14 +43,16 @@
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
     "sinon-stub-promise": "^2.0.0",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.0",
+    "webpack-dev-middleware": "^1.6.1"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-register",
-    "dev": "DEBUG=dva:* node-dev bin/www",
     "start": "DEBUG=dva:* babel-node bin/www",
+    "dev": "DEBUG=dva:* node-dev bin/www",
+    "test": "mocha --compilers js:babel-register",
+    "tdd": "mocha -w  --compilers js:babel-register",
     "deploy": "pm2 deploy ecosystem.json dev",
-    "tdd": "mocha -w test/**/*-test.js"
+    "postinstall": "webpack"
   },
   "repository": {
     "type": "git",

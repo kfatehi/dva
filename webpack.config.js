@@ -2,11 +2,11 @@ var path = require('path');
 
 module.exports = {
   devtool: 'eval-source-map',
-  entry: path.join(__dirname, './js/index.js'),
+  entry: path.join(__dirname, './src/index.js'),
   output: {
-    path: path.join(__dirname, 'js/dst'),
-    library: 'myapp',
-    filename: 'myapp.js'
+    path: path.join(__dirname, 'public'),
+    library: 'dva',
+    filename: 'js/main.js'
   },
 
   module: {
