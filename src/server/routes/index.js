@@ -1,5 +1,5 @@
 "use strict";
-const models = require('../models');
+const models = require('../../../models');
 const express = require('express');
 const passport = require('passport');
 const ensureLogin = require('connect-ensure-login')
@@ -87,7 +87,7 @@ router.get('/extensions.:format?', function(req, res, next) {
   })
 })
 
-const viz = require('../src/viz')();
+const viz = require('../../viz')();
 const webpack = require('webpack');
 const MemoryFS = require("memory-fs");
 

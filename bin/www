@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 const debug = require('debug')('dva:server');
-const app = require('./');
-const models = require('./models');
+const app = require('../src/server/app');
+const models = require('../models');
 
 models.sequelize.sync().then(function () {
   const server = app.listen(app.get('port'), function() {

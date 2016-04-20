@@ -1,8 +1,7 @@
 "use strict";
-const debug = require('debug')('dva:index.js');
 const express = require('express');
 const app = express();
-const models = require('./models');
+const models = require('../../models');
 const routes = require('./routes')
 const session = require('express-session')
 const passport = require('passport');
@@ -31,7 +30,6 @@ passport.use(new Strategy(function(email, password, cb) {
   }).then(function(user) {
     return cb(null, user);
   }).catch(function(err) {
-    if (err) debug('strategy error', err)
     return cb(null, false)
   })
 }));

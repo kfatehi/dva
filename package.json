@@ -35,7 +35,7 @@
   },
   "scripts": {
     "test": "mocha test/**/*-test.js",
-    "start": "node server",
+    "start": "node bin/www",
     "extinstall": "for p in $( ls extensions ); do pushd extensions/$p && npm install || exit 1; popd; done",
     "postinstall": "npm run extinstall && bower install",
     "watch": "DEBUG=dva:* node-dev server",
