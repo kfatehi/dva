@@ -4,7 +4,7 @@ module.exports = {
   devtool: 'eval-source-map',
   entry: {
     bundle: `${__dirname}/src/index.js`,
-    vendor: ["jquery"]
+    vendor: ['react-dom', 'redux', 'react']
   },
   output: {
     path: `${__dirname}/public`,
