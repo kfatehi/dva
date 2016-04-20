@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+"use strict";
+const debug = require('debug')('dva:server');
+const app = require('../src/server/app');
+const models = require('../src/server/models');
+
+models.sequelize.sync().then(function () {
+  const server = app.listen(app.get('port'), function() {
+    debug(`Express server listening on port ${server.address().port}`);
+  });
+});

@@ -1,19 +1,29 @@
-#!/usr/bin/env node
 "use strict";
-const debug = require('debug')('dva:server');
 const express = require('express');
 const app = express();
 const models = require('./models');
-const routes = require('./routes')
-const session = require('express-session')
+const routes = require('./routes');
+const session = require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
-const layout = require('express-layout')
+const layout = require('express-layout');
+
+module.exports = app;
+
+if (app.get('env') === 'development') {
+  const webpackMiddleware = require("webpack-dev-middleware");
+  const webpackConfig = require('../../webpack.config');
+  const webpack = require('webpack');
+  const compiler = webpack(webpackConfig);
+  app.use(webpackMiddleware(compiler));
+}
 
 app.set('port', process.env.PORT || 3000);
 
 // Configure view engine to render EJS templates.
 app.set('views', `${__dirname}/views`);
+app.set('layouts', `${__dirname}/views/layouts`);
+app.set('layout', 'default');
 app.set('view engine', 'ejs');
 
 // Configure the local strategy for use by Passport.
@@ -28,7 +38,6 @@ passport.use(new Strategy(function(email, password, cb) {
   }).then(function(user) {
     return cb(null, user);
   }).catch(function(err) {
-    if (err) debug('strategy error', err)
     return cb(null, false)
   })
 }));
@@ -80,12 +89,8 @@ app.use(passport.session());
 
 app.use(layout());
 
-app.use(express.static('public'));
-
 app.use(routes);
 
-models.sequelize.sync().then(function () {
-  var server = app.listen(app.get('port'), function() {
-    debug(`Express server listening on port ${server.address().port}`);
-  });
-});
+app.use('/ext', express.static('extensions'));
+
+app.use(express.static('public'));

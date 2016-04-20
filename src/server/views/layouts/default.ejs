@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>DVA</title>
+    <script src="/js/vendor.bundle.js"></script>
+    <script src="/js/bundle.js"></script>
+	</head>
+	<body>
+    <div class="container">    
+      <%- body %>
+
+      <div id='root'></div>
+
+      <script>
+        bundle.default(document.querySelector('#root'));
+      </script>
+    </div>
+  </body>
+</html>
