@@ -1,0 +1,5 @@
+buckets = {
+	series: ["name"],
+	group: ["city", "zip"],
+	value: ["transactions"]
+};
