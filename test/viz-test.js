@@ -10,31 +10,6 @@ const studentDataFixture = require('./fixtures/student-data');
 //const bucketMappingTestMapping = require('./fixtures/bucket-mapping-test-mapping');
 //const bucketMappingTestExpectation = require('./fixtures/bucket-mapping-test-expectation');
 
-describe("viz.extensions", function() {
-  it("resolves with the given extension", function() {
-    let viz = Viz()
-    return viz.extensions.load('test').then(function(ext) {
-      expect(typeof ext.script.render).to.eq('function');
-    })
-  });
-
-  it("keeps track of loaded extensions", function() {
-    let viz = Viz()
-    expect(viz.extensions.length).to.eq(0);
-    return viz.extensions.load('test').then(function(ext) {
-      expect(viz.extensions[0].name).to.eq('test');
-      expect(viz.extensions.length).to.eq(1);
-    })
-  });
-
-  it("loads the extension's schema", function() {
-    let viz = Viz()
-    return viz.extensions.load('test').then(function(ext) {
-      expect(ext.schema["example"]).to.eq("stuff")
-    })
-  })
-});
-
 describe("viz.dataset", function() {
   var promise;
   beforeEach(function () {
