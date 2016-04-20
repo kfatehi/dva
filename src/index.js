@@ -5,7 +5,7 @@ import TableComponent from './components/TableComponent';
 import React from 'react';
 
 import { render } from 'react-dom';
-import { createStore } from 'Redux';
+import { createStore } from 'redux';
 
 function createTableComponent( container ) {
 

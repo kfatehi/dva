@@ -1,6 +1,4 @@
 /node_modules
-/public/lib
 /extensions/*/node_modules/
 db.development.sqlite3
 express-sessions.json
-
