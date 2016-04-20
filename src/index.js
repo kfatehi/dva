@@ -28,11 +28,4 @@ function createTableComponent( container ) {
   renderComponent();
 }
 
-/*title = {state.title}
-rows = {state.rows}
-onTitleClick = { () => {
-    store.dispatch(TableActions.changeTitleColor());
-  }
-}*/
-
 export default createTableComponent;
