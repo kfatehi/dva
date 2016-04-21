@@ -1,4 +1,4 @@
-expect = [{
+[{
     "series": ["Berry Ortiz"],
     "group": ["Mitchelltown", "68088-9050"],
     "value": [4]
