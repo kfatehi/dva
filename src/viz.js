@@ -18,6 +18,7 @@ module.exports = () => {
         })
       });
     },
+
     /**
      * apply a bucket mapping to a dataset
      */
@@ -43,38 +44,40 @@ module.exports = () => {
                 valueKeys.push(mapping.value[i]);
         }
 
-var returnObj = [];
+	var returnObj = [];
 
-var k;	
-for(k = 0; k < data.length; k++){
+	var k;	
+	for(k = 0; k < data.length; k++){
 
-	var seriesFinal = [];
-	var groupFinal = [];
-	var valueFinal = [];
+		var seriesFinal = [];
+		var groupFinal = [];
+		var valueFinal = [];
 	
-	//compiles the series field
-	for(i = 0; i < seriesKeys.length; i++){
-		seriesFinal.push(data[k][seriesKeys[i]]);
-	}
-
-	//compiles the group field
-        for(i = 0; i < groupKeys.length; i++){
-               groupFinal.push(data[k][groupKeys[i]]);
-        }
-
-	//compiles the value field
-        for(i = 0; i < valueKeys.length; i++){
-                valueFinal.push(data[k][valueKeys[i]]);
-        }
-
-	var tmpObj = new Object;
-	tmpObj.series = seriesFinal;
-	tmpObj.group = groupFinal;
-	tmpObj.value = valueFinal;
+		//compiles the series field
+		for(i = 0; i < seriesKeys.length; i++){
+			seriesFinal.push(data[k][seriesKeys[i]]);
+		}
 	
-	returnObj.push(tmpObj);
+		//compiles the group field
+       		for(i = 0; i < groupKeys.length; i++){
+              		groupFinal.push(data[k][groupKeys[i]]);
+       		 }
 
-}
+		//compiles the value field
+      		for(i = 0; i < valueKeys.length; i++){
+               		valueFinal.push(data[k][valueKeys[i]]);
+        	}
+
+		//compiles the necessary values into a JSON message
+		var tmpObj = new Object;
+		tmpObj.series = seriesFinal;
+		tmpObj.group = groupFinal;
+		tmpObj.value = valueFinal;
+		
+		//pushed the individual JSON onto an array
+		returnObj.push(tmpObj);
+
+	}	
 
 	return returnObj;
 
