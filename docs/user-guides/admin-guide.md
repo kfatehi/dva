@@ -31,6 +31,19 @@ PM2 is a production process manager for Node.js apps with a built-in load balanc
 
 ```
 npm install -g pm2
+```
+
+## Set PM2 to run on startup
+
+### Amazon Linux
+
+```
+pm2 startup amazon
+```
+
+### Ubuntu
+
+```
 pm2 startup amazon
 ```
 
