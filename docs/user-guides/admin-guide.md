@@ -1,24 +1,37 @@
 # Administrative Guide
 
-This document will walk you through installation of the application on an Amazon Linux EC2 instance.
+This document will walk you through installation of the application on the following platforms:
+
+* Amazon Linux (EC2)
+* Ubuntu (tested on 14.04)
+
+*Don't use this guide if you're trying to develop. For that, see the README in project root.*
 
 ## Get Node.js
 
 https://nodejs.org/en/download/package-manager/
 
+### Amazon Linux
+
 ```
 curl --silent --location https://rpm.nodesource.com/setup_5.x | sudo bash -
-sudo yum -y install nodejs
-sudo yum install gcc-c++ make
+yum -y install nodejs gcc-c++ make
+```
+
+### Ubuntu
+
+```
+curl --silent --location https://deb.nodesource.com/setup_5.x | sudo -E bash -
+apt-get install -y nodejs build-essential
 ```
 
 ## Get PM2
 
-PM2 is a production process manager for Node.js apps with a built-in load balancer.
+PM2 is a production process manager for Node.js apps with a built-in load balancer. We use it in deployment.
 
 ```
-sudo npm install -g pm2
-sudo pm2 startup amazon
+npm install -g pm2
+pm2 startup amazon
 ```
 
 ## Deploying locally with PM2
@@ -34,13 +47,23 @@ pm2 start dva
 
 First, fork dva from https://github.com/kfatehi/dva to somewhere that you control.
 
-## Configure the Reverse Proxy
+## Get Nginx
 
 We use nginx in front of dva as a reverse proxy primarily to separate the application itself from the web server exposed to the outside world. You can benefit from this separation in such ways as keeping TLS configuration logic outside of the app, allow nginx to bind to port 80 with a higher privilege user whilst the app itself runs as a lower privilege user using a higher port number, and others.
+
+### Amazon Linux
 
 ```
 yum -y install nginx
 ```
+
+### Ubuntu
+
+```
+apt-get install nginx
+```
+
+## Configure Nginx
 
 Find the empty `location / {}` and replace it with the following:
 
@@ -58,7 +81,7 @@ location / {
 
 Apply the changes by restarting nginx
 
-`sudo /etc/init.d/nginx restart`
+`/etc/init.d/nginx restart`
 
 `dva` should now be accessible on port 80
 
