@@ -22,20 +22,54 @@ module.exports = () => {
      * apply a bucket mapping to a dataset
      */
     applyBucketMapping: (data, mapping) => {
-/*
-	var jsonMapping = JSON.parse(mapping);
-	var jsonData = JSON.parse(data);
 
-	//first get all of the fields mapping to the series
-	for(i = 0; i < j.......)	
-	//next get all of the fields mapping to the group
+	var seriesKeys = [];
+	var groupKeys = [];
+	var valueKeys = [];
 
-	//Lastly get all of the fields mapping to the value
+	var i;
+	//gets the series key fields
+	for(i = 0; i < mapping.series.length; i++){
+		seriesKeys.push(mapping.series[i]);	
+	}
 
+	//gets the group key fields
+       for(i = 0; i < mapping.group.length; i++){
+                groupKeys.push(mapping.group[i]);
+        }
+		
+	//gets the value key fields
+        for(i = 0; i < mapping.value.length; i++){
+                valueKeys.push(mapping.value[i]);
+        }
 
-	//loop through entire jsonData file and "bucket" it according to the mapping
-*/	
-    }
+	
+	var seriesFinal = [];
+	var groupFinal = [];
+	var valueFinal = [];
+
+	//compiles the series field
+	for(i = 0; i < seriesKeys.length; i++){
+		seriesFinal.push(data[seriesKeys[i]]);
+	}
+
+	//compiles the group field
+        for(i = 0; i < groupKeys.length; i++){
+               groupFinal.push(data[groupKeys[i]]);
+        }
+
+	//compiles the value field
+        for(i = 0; i < valueKeys.length; i++){
+                valueFinal.push(data[valueKeys[i]]);
+        }
+
+	var returnObj = new Object;
+	returnObj.series = seriesFinal;
+	returnObj.group = groupFinal;
+	returnObj.value = valueFinal;
+
+	return returnObj;
+	 }
   }
   
 

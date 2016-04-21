@@ -1,5 +1,5 @@
-buckets = {
-	series: ["name"],
-	group: ["city", "zip"],
-	value: ["transactions"]
-};
+{
+	"series":["name"],
+	"group":["city", "zip"],
+	"value":["transactions"]
+}
