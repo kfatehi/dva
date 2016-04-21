@@ -43,32 +43,41 @@ module.exports = () => {
                 valueKeys.push(mapping.value[i]);
         }
 
-	
+var returnObj = [];
+
+var k;	
+for(k = 0; k < data.length; k++){
+
 	var seriesFinal = [];
 	var groupFinal = [];
 	var valueFinal = [];
-
+	
 	//compiles the series field
 	for(i = 0; i < seriesKeys.length; i++){
-		seriesFinal.push(data[seriesKeys[i]]);
+		seriesFinal.push(data[k][seriesKeys[i]]);
 	}
 
 	//compiles the group field
         for(i = 0; i < groupKeys.length; i++){
-               groupFinal.push(data[groupKeys[i]]);
+               groupFinal.push(data[k][groupKeys[i]]);
         }
 
 	//compiles the value field
         for(i = 0; i < valueKeys.length; i++){
-                valueFinal.push(data[valueKeys[i]]);
+                valueFinal.push(data[k][valueKeys[i]]);
         }
 
-	var returnObj = new Object;
-	returnObj.series = seriesFinal;
-	returnObj.group = groupFinal;
-	returnObj.value = valueFinal;
+	var tmpObj = new Object;
+	tmpObj.series = seriesFinal;
+	tmpObj.group = groupFinal;
+	tmpObj.value = valueFinal;
+	
+	returnObj.push(tmpObj);
+
+}
 
 	return returnObj;
+
 	 }
   }
   
