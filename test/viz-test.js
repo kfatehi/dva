@@ -19,6 +19,9 @@ const bucketMappingTestExpectedSmall = require('./fixtures/bucket-mapping-expect
 const bucketMappingTestData = require('./fixtures/bucket-mapping-test-data.json');
 const bucketMappingTestExpected = require('./fixtures/bucket-mapping-expected.json');
 
+//for a different mapping
+const bucketMappingTestMappingV2 = require('./fixtures/bucket-mapping-test-mapping-v2.json');
+
 describe("viz.dataset", function() {
   var promise;
   beforeEach(function () {
@@ -62,6 +65,14 @@ describe("viz.dataset", function() {
     it("returns a copy of the dataset for which the bucket mappings have been applied", function() {
       let viz = Viz();
       let result = viz.dataset.applyBucketMapping(bucketMappingTestData, bucketMappingTestMapping);
+      expect(result).to.deep.eq(bucketMappingTestExpected);
+    })
+  });
+
+  describe.skip(".applyBucketMappingV2", function() {
+    it("returns a copy of the dataset for which the bucket mappings have been applied", function() {
+      let viz = Viz();
+      let result = viz.dataset.applyBucketMapping(bucketMappingTestData, bucketMappingTestMappingV2);
       expect(result).to.deep.eq(bucketMappingTestExpected);
     })
   });
