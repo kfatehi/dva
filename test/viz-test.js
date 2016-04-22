@@ -21,6 +21,8 @@ const bucketMappingTestExpected = require('./fixtures/bucket-mapping-expected.js
 
 //for a different mapping
 const bucketMappingTestMappingV2 = require('./fixtures/bucket-mapping-test-mapping-v2.json');
+const bucketMappingTestExpectedSmallV2 = require('./fixtures/bucket-mapping-expected-small-v2.json');
+
 
 describe("viz.dataset", function() {
   var promise;
@@ -48,8 +50,8 @@ describe("viz.dataset", function() {
   describe(".applyBucketMappingNull", function() {
     it("returns a copy of the dataset for which the bucket mappings have been applied", function() {
       let viz = Viz();
-      let result = viz.dataset.applyBucketMapping(bucketMappingTestDataSmall, bucketMappingTestMapping);
-      expect(result).to.deep.eq(bucketMappingTestExpectedSmall);
+      let result = viz.dataset.applyBucketMapping(bucketMappingTestDataNull, bucketMappingTestMapping);
+      expect(result).to.deep.eq(bucketMappingTestExpectedNull);
     })
   });
 
@@ -69,11 +71,11 @@ describe("viz.dataset", function() {
     })
   });
 
-  describe.skip(".applyBucketMappingV2", function() {
+  describe(".applyBucketMappingV2", function() {
     it("returns a copy of the dataset for which the bucket mappings have been applied", function() {
       let viz = Viz();
-      let result = viz.dataset.applyBucketMapping(bucketMappingTestData, bucketMappingTestMappingV2);
-      expect(result).to.deep.eq(bucketMappingTestExpected);
+      let result = viz.dataset.applyBucketMapping(bucketMappingTestDataSmall, bucketMappingTestMappingV2);
+      expect(result).to.deep.eq(bucketMappingTestExpectedSmallV2);
     })
   });
 
