@@ -8,6 +8,7 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const layout = require('express-layout');
 const path = require('path');
+const debug = require('debug')('dva:src/server/app');
 
 module.exports = app;
 
@@ -16,7 +17,13 @@ if (app.get('env') === 'development') {
   const webpackConfig = require('../../webpack.config');
   const webpack = require('webpack');
   const compiler = webpack(webpackConfig);
-  app.use(webpackMiddleware(compiler));
+  const webpackDevMiddleware = webpackMiddleware(compiler, {
+    noInfo: true
+  })
+  app.use(webpackDevMiddleware);
+  compiler.plugin('done', function() {
+    debug('Webpack bundle is in a valid state');
+  })
 }
 
 app.set('port', process.env.PORT || 3000);
