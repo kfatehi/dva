@@ -1,4 +1,6 @@
 /node_modules
 /extensions/*/node_modules/
-db.development.sqlite3
-express-sessions.json
+/db.*.sqlite3
+/sessions.*.json
+/public/js/bundle.js
+/public/js/vendor.bundle.js
