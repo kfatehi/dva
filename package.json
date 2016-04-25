@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "this is a stub",
   "main": "index.js",
+  "scripts": {
+    "start": "DEBUG=dva:* babel-node bin/www",
+    "dev": "DEBUG=dva:* node-dev bin/www",
+    "test": "mocha --compilers js:babel-register",
+    "tdd": "mocha -w  --compilers js:babel-register",
+    "deploy": "pm2 deploy ecosystem.json dev",
+    "postinstall": "webpack"
+  },
   "dependencies": {
     "axios": "^0.9.1",
     "babel-cli": "^6.7.5",
@@ -45,14 +53,6 @@
     "sinon-stub-promise": "^2.0.0",
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1"
-  },
-  "scripts": {
-    "start": "DEBUG=dva:* babel-node bin/www",
-    "dev": "DEBUG=dva:* node-dev bin/www",
-    "test": "mocha --compilers js:babel-register",
-    "tdd": "mocha -w  --compilers js:babel-register",
-    "deploy": "pm2 deploy ecosystem.json dev",
-    "postinstall": "webpack"
   },
   "repository": {
     "type": "git",
