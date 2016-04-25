@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const layout = require('express-layout');
+const path = require('path');
 
 module.exports = app;
 
@@ -66,21 +67,16 @@ app.use(require('morgan')('dev', 'combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 
-if (app.get('env') === 'development') {
-  const JsonStore = require('express-session-json')(session);
-  app.use(session({
-    resave: false,
-    secret: 'loosely-named-a-secret',
-    saveUninitialized: false,
-    store: new JsonStore({ path: __dirname })
-  }));
-} else {
-  app.use(session({
-    resave: false,
-    secret: 'loosely-named-a-secret',
-    saveUninitialized: false
-  }));
-}
+const JsonStore = require('express-session-json')(session);
+app.use(session({
+  resave: false,
+  secret: 'loosely-named-a-secret',
+  saveUninitialized: false,
+  store: new JsonStore({
+    path: path.resolve(`${__dirname}/../..`),
+    filename: `sessions.${app.get('env')}.json`
+  })
+}));
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
