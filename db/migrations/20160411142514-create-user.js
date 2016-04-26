@@ -8,12 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      first_name: {
-        type: Sequelize.STRING
-      },
-      last_name: {
-        type: Sequelize.STRING
-      },
       email: {
         type: Sequelize.STRING,
         validate: { isEmail: true },
@@ -21,9 +15,6 @@ module.exports = {
       },
       password: {
         type: Sequelize.STRING
-      },
-      bio: {
-        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
