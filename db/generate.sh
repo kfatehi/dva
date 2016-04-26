@@ -1,8 +1,8 @@
 sequelize model:create --name Dataset --attributes '
 id:int,
-owner_id:int,
+ownerId:int,
 datasource_id:int,
-json_data:text
+jsonData:text
 deleted:bool'
 
 sequelize model:create --name Datasource --attributes '
@@ -12,15 +12,15 @@ config:text'
 
 sequelize model:create --name Transform --attributes '
 id:int
-document_id:int
-function_body:string
+documentId:int
+functionBody:string
 order:int'
 
 sequelize model:create --name Document --attributes '
 id:int
-owner_id:int
-dataset_id:int
-viz_id:string
-viz_opts:text
+ownerId:int
+datasetId:int
+vizId:string
+vizOpts:text
 thumbnail:string
 public:bool'
