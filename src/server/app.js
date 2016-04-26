@@ -80,7 +80,7 @@ app.use(session({
   secret: 'loosely-named-a-secret',
   saveUninitialized: false,
   store: new JsonStore({
-    path: path.resolve(`${__dirname}/../..`),
+    path: path.resolve(`${__dirname}/../../var`),
     filename: `sessions.${app.get('env')}.json`
   })
 }));

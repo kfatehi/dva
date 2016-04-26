@@ -1,6 +1,6 @@
 /node_modules
 /extensions/*/node_modules/
-/db.*.sqlite3
-/sessions.*.json
+/var/db.*.sqlite3
+/var/sessions.*.json
 /public/js/bundle.js
 /public/js/vendor.bundle.js
