@@ -20,7 +20,9 @@ module.exports = function(sequelize, DataTypes) {
         });
       },
       associate: function(models) {
-        User.hasMany(models.DataSources)
+        User.hasMany(models.Dataset, {
+          foreignKey: 'ownerId'
+        })
       }
     },
     instanceMethods: {
