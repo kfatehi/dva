@@ -1,26 +1,22 @@
-sequelize model:create --name Dataset --attributes '
-id:int,
-ownerId:int,
-datasource_id:int,
+sequelize model:create --name Dataset --attributes \
+  'ownerId:integer,
+datasourceId:integer,
 jsonData:text
-deleted:bool'
+deleted:boolean'
 
-sequelize model:create --name Datasource --attributes '
-id:int
-type:string
+sequelize model:create --name Datasource --attributes \
+  'type:string
 config:text'
 
-sequelize model:create --name Transform --attributes '
-id:int
-documentId:int
+sequelize model:create --name Transform --attributes \
+  'documentId:integer
 functionBody:string
-order:int'
+order:integer'
 
-sequelize model:create --name Document --attributes '
-id:int
-ownerId:int
-datasetId:int
+sequelize model:create --name Document --attributes \
+  'ownerId:integer
+datasetId:integer
 vizId:string
 vizOpts:text
 thumbnail:string
-public:bool'
+public:boolean'
