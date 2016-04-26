@@ -22,15 +22,15 @@
    * http://pm2.keymetrics.io/docs/usage/deployment/
    */
   deploy : {
-    dev : {
+    production : {
       user : "keyvan",
       host : "52.4.14.214",
       ref  : "origin/master",
       repo : "https://github.com/kfatehi/dva",
-      path : "/home/keyvan/dva/development",
-      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env dev",
+      path : "/home/keyvan/dva/production",
+      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production",
       env  : {
-        NODE_ENV: "development"
+        NODE_ENV: "production"
       }
     }
   }
