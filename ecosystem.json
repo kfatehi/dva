@@ -7,7 +7,7 @@
   apps : [
     {
       name      : "API",
-      script    : "server",
+      script    : "npm start",
       env: {
         DEBUG: "dva:*"
       },
