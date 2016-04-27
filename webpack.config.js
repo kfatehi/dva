@@ -1,27 +1,37 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'eval-source-map',
   entry: {
-    bundle: `${__dirname}/src/index.js`,
-    vendor: ['react-dom', 'redux', 'react']
+    bundle: `${__dirname}/src/client/index.js`,
+    vendor: [
+      'react-dom',
+      'redux',
+      'react',
+      'react-redux',
+      'react-router',
+      'react-router-redux',
+      'scroll-behavior'
+    ]
   },
   output: {
     path: `${__dirname}/public`,
     library: 'bundle',
-    filename: 'js/bundle.js'
+    filename: 'bundle.js'
   },
   module: {
     loaders: [{
       test: /\.js$/,
       exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: ['es2015', 'react']
-      }
+      loader: 'babel'
+    },{
+      test: /\.css$/i,
+      loader: ExtractTextPlugin.extract("style-loader", "css-loader")
     }]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin("vendor", "js/vendor.bundle.js")
+    new ExtractTextPlugin('style.css'),
+    new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
   ]
 };

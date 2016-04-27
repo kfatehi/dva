@@ -26,12 +26,14 @@
     "bootstrap": "^3.3.6",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.1",
+    "css-loader": "^0.23.1",
     "debug": "^2.2.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "express-layout": "^0.1.0",
     "express-session": "^1.13.0",
     "express-session-json": "0.0.8",
+    "extract-text-webpack-plugin": "^1.0.1",
     "jquery": "^2.2.3",
     "memory-fs": "^0.3.0",
     "morgan": "^1.7.0",
@@ -39,13 +41,19 @@
     "passport-local": "^1.0.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.3.0",
+    "react-router-redux": "^4.0.4",
     "redux": "^3.5.1",
+    "scroll-behavior": "^0.4.0",
     "sequelize": "^3.21.0",
     "sequelize-cli": "^2.4.0",
     "sqlite3": "^3.1.3",
+    "style-loader": "^0.13.1",
     "webpack": "^1.13.0"
   },
   "devDependencies": {
+    "babel-preset-stage-2": "^6.5.0",
     "chai": "^3.5.0",
     "eslint-plugin-react": "^5.0.1",
     "mocha": "^2.4.5",
@@ -66,7 +74,8 @@
   "babel": {
     "presets": [
       "es2015-node5",
-      "react"
+      "react",
+      "stage-2"
     ]
   }
 }
