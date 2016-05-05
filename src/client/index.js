@@ -1,23 +1,35 @@
 import React from 'react'
-import { render } from 'react-dom'
+import ReactDOM from 'react-dom'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import { Router, browserHistory, useRouterHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
-import useScroll from 'scroll-behavior/lib/useStandardScroll'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
+import { Router, Route, browserHistory } from 'react-router'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
-import { configureStore } from './store'
-import routes from './routes'
+import { Home } from './containers/Home/Home'
 
-let state = window.__initialState__ || undefined
-const store = configureStore(browserHistory, state)
-const createScrollHistory = useScroll(createBrowserHistory)
-const appHistory = useRouterHistory(createScrollHistory)()
-const history = syncHistoryWithStore(appHistory, store)
+let reducers = [() => {
+  return {
+    my: 'state'
+  }
+}]
 
-render(
+// Add the reducer to your store on the `routing` key
+const store = createStore(
+  combineReducers({
+    ...reducers,
+    routing: routerReducer
+  })
+)
+
+// Create an enhanced history that syncs navigation events with the store
+const history = syncHistoryWithStore(browserHistory, store)
+
+ReactDOM.render(
   <Provider store={store}>
-    <Router history={history} routes={routes} />
+    { /* Tell the Router to use our enhanced history */ }
+    <Router history={history}>
+      <Route path="/" component={Home} />
+    </Router>
   </Provider>,
   document.getElementById('mount')
 )
