@@ -1,6 +1,6 @@
 {
   data: {
-    // { type: "SET_SOURCE_SET", info: {}, columns: [], rows: [] }
+    // { type: "SET_SOURCE_DATA", info: {}, columns: [], rows: [] }
     source: {
       columns: ['Student ID', 'Grade'],
       rows: [['1234567', '95'], ['4556788', '88']],
@@ -18,9 +18,9 @@
       errors: [], // debugging purposes
     }],
 
-    // { type: "COMPUTE_SINK_SET" }
-    // this applies all the transforms, resulting in a final, filtered and typed data set
     sink: {
+      // { type: "COMPUTE_SINK_DATA" }
+      // this applies all the transforms, resulting in a final, filtered and typed data set
       columns: ['Student ID', 'Grade'],
       rows: [['1234567', '95'], ['4556788', '88']],
 
