@@ -8,6 +8,7 @@
     "test": "mocha --compilers js:babel-core/register --require ./test/test-helper.js --recursive",
     "tdd": "tmuxtdd run --watch={src,test}/**/*.js --cmd='npm test' --fmt='tests S{#[bg=yellow]ON,#[bg=green]OK,#[bg=red]FAIL}'",
     "dev": "tmuxtdd run --watch={*.js,src/**/*.js} --kill --cmd='npm start' --fmt='server S{#[bg=green]ON,#[bg=red]OFF,#[bg=red]ERR}'",
+    "webpack:watch": "tmuxtdd run --watch={*.js,{src,test}/**/*.{js,jsx}} --kill --cmd='webpack --bail' --fmt='webpack S{#[bg=yellow]...,#[bg=green]OK,#[bg=red]ERR}'",
     "deploy": "pm2 deploy ecosystem.json production",
     "postinstall": "webpack"
   },
@@ -40,7 +41,8 @@
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "react": "^15.0.1",
+    "react": "^15.0.2",
+    "react-addons-pure-render-mixin": "^15.0.2",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.3.0",
@@ -48,6 +50,8 @@
     "scroll-behavior": "^0.4.0",
     "sequelize": "^3.21.0",
     "sequelize-cli": "^2.4.0",
+    "socket.io": "^1.4.6",
+    "socket.io-client": "^1.4.6",
     "sqlite3": "^3.1.3",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0"
@@ -75,9 +79,8 @@
   "homepage": "https://github.com/kfatehi/dva#readme",
   "babel": {
     "presets": [
-      "es2015-node5",
-      "react",
-      "stage-2"
+      "es2015",
+      "react"
     ]
   }
 }

@@ -1,6 +1,7 @@
 "use strict";
 const express = require('express');
 const app = express();
+const server = require('http').Server(app);
 const models = require('./models');
 const routes = require('./routes');
 const session = require('express-session');
@@ -9,8 +10,14 @@ const Strategy = require('passport-local').Strategy;
 const layout = require('express-layout');
 const path = require('path');
 const debug = require('debug')('dva:src/server/app');
+const io = require('socket.io').listen(server);
 
-module.exports = app;
+module.exports.app = app
+module.exports.server = server;
+
+io.on('connection', function() {
+  debug('connection!');
+});
 
 if (app.get('env') === 'development') {
   const webpackMiddleware = require("webpack-dev-middleware");
