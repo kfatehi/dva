@@ -4,15 +4,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   devtool: 'eval-source-map',
   entry: {
-    bundle: `${__dirname}/src/client/index.js`,
+    bundle: `${__dirname}/src/client/index.jsx`,
     vendor: [
-      'react-dom',
       'redux',
       'react',
+      'react-dom',
       'react-redux',
-      'react-router',
-      'react-router-redux',
-      'scroll-behavior'
+      'react-router'
     ]
   },
   output: {
@@ -20,9 +18,12 @@ module.exports = {
     library: 'bundle',
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [{
-      test: /\.js$/,
+      test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel'
     },{
