@@ -15,10 +15,6 @@ const io = require('socket.io').listen(server);
 module.exports.app = app
 module.exports.server = server;
 
-io.on('connection', function() {
-  debug('connection!');
-});
-
 if (app.get('env') === 'development') {
   const webpackMiddleware = require("webpack-dev-middleware");
   const webpackConfig = require('../../webpack.config');
@@ -75,21 +71,54 @@ passport.deserializeUser(function(id, cb) {
   }).catch(cb)
 });
 
+const cookieParser = require('cookie-parser');
+
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 app.use(require('morgan')('dev', 'combined'));
-app.use(require('cookie-parser')());
+app.use(cookieParser());
 app.use(require('body-parser').urlencoded({ extended: true }));
 
 const JsonStore = require('express-session-json')(session);
+
+const sessionStore = new JsonStore({
+  path: path.resolve(`${__dirname}/../../var`),
+  filename: `sessions.${app.get('env')}.json`
+})
+
+const sessionSecret = 'loosely-named-a-secret';
+
 app.use(session({
   resave: false,
-  secret: 'loosely-named-a-secret',
+  secret: sessionSecret,
   saveUninitialized: false,
-  store: new JsonStore({
-    path: path.resolve(`${__dirname}/../../var`),
-    filename: `sessions.${app.get('env')}.json`
-  })
+  store: sessionStore
+}));
+
+
+function onAuthorizeSuccess(data, accept){
+  console.log('successful connection to socket.io');
+  accept();
+}
+
+function onAuthorizeFail(data, message, error, accept){
+  console.log('failed connection to socket.io:', message);
+
+  if(error)
+    accept(new Error(message));
+  // this error will be sent to the user as a special error-package
+  // see: http://socket.io/docs/client-api/#socket > error-object
+}
+
+const passportSocketIo = require('passport.socketio');
+
+io.use(passportSocketIo.authorize({
+  cookieParser: cookieParser,
+  key: 'connect.sid',
+  secret: sessionSecret,
+  store: sessionStore,
+  success: onAuthorizeSuccess,
+  fail: onAuthorizeFail
 }));
 
 // Initialize Passport and restore authentication state, if any, from the
@@ -104,3 +133,8 @@ app.use(routes);
 app.use('/ext', express.static('extensions'));
 
 app.use(express.static('public'));
+
+io.on('connection', function(socket) {
+  //console.log(socket);
+  debug('connection!');
+});
