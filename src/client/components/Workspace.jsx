@@ -3,6 +3,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import * as actionCreators from '../action-creators';
 
+import {Datatable} from './Datatable';
+
 export const Workspace = React.createClass({
   mixins: [PureRenderMixin],
   getDimensions: function() {
@@ -39,6 +41,7 @@ export const Workspace = React.createClass({
             </button>
           </li>)}
         </ul>
+        <Datatable rows={this.props.rows} columns={this.props.columns} />
       </div>
     );
   }
@@ -48,7 +51,8 @@ function mapStateToProps(state) {
   const dimensions = state.getIn(['data', 'sink', 'dimensions']);
   const measures = state.getIn(['data', 'sink', 'measures']);
   const columns = state.getIn(['data', 'sink', 'columns']);
-  return { columns, dimensions, measures };
+  const rows = state.getIn(['data', 'sink', 'rows']);
+  return { rows, columns, dimensions, measures };
 }
 
 export const WorkspaceContainer = connect(
