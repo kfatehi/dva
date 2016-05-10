@@ -20,11 +20,11 @@ export const Workspace = React.createClass({
       <div>
         <h3>Dimensions</h3>
         <ul>{this.getDimensions().map((name, i) =>
-          <li key={i}>{name}</li>)}
+          <li className="dimension" key={i}>{name}</li>)}
         </ul>
         <h3>Measures</h3>
         <ul>{this.getMeasures().map((name, i) =>
-          <li key={i}>{name}</li>)}
+          <li className="measure" key={i}>{name}</li>)}
         </ul>
       </div>
     );
