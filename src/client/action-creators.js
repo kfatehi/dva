@@ -1,6 +1,5 @@
-// sample..
-export function setState() {
+export function chooseExtension() {
   return {
-    type: "SET_STATE"
+    type: "CHOOSE_EXTENSION"
   };
 }

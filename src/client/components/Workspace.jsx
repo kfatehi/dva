@@ -15,6 +15,11 @@ export const Workspace = React.createClass({
       return this.props.columns.get(i)
     });
   },
+  getExtensions: function(callback) {
+    return [{
+      id: 'barchart'
+    }]
+  },
   render: function() {
     return (
       <div>
@@ -25,6 +30,14 @@ export const Workspace = React.createClass({
         <h3>Measures</h3>
         <ul>{this.getMeasures().map((name, i) =>
           <li className="measure" key={i}>{name}</li>)}
+        </ul>
+        <h3>Extensions</h3>
+        <ul>{this.getExtensions().map(ext =>
+          <li key={ext.id}>
+            <button onClick={() => this.props.chooseExtension(ext.id)}>
+              {ext.id}
+            </button>
+          </li>)}
         </ul>
       </div>
     );

@@ -44,6 +44,7 @@ function setSourceData(state, action) {
 }
 
 export default function (state = Map(), action) {
+  console.log(action);
   switch (action.type) {
     case 'SET_SOURCE_DATA': {
       return setSourceData(state, action);
