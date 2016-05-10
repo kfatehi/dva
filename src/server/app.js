@@ -139,11 +139,8 @@ io.on('connection', function(socket) {
   debug(`${user.email} connected, sending a document`);
 
   socket.emit('action', {
-    type: "SET_SOURCE_DATA",
-    source: {
-      columns: ['Student ID', 'Grade'],
-      rows: [['1234567', '95'], ['4556788', '88']],
-      info: { name: "foo" }
-    }
+    type: 'SET_SOURCE_DATA',
+    columns: ['Category', 'Grade'],
+    rows: [['A', '95'], ['B', '88']],
   })
 });

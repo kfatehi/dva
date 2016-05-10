@@ -15,19 +15,12 @@ const socket = io();
 const createStoreWithMiddleware = applyMiddleware(
   remoteActionMiddleware(socket)
 )(createStore);
-
-
 const store = createStoreWithMiddleware(reducer);
 
 socket.on('action', action => {
   console.log('got action from server', action);
   store.dispatch(action);
 });
-
-store.subscribe(() => {
-  console.log(store.getState().toJS());
-})
-
 
 const routes = <Route component={App}>
   <Route path="/" component={WorkspaceContainer} />
