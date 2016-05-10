@@ -7,7 +7,7 @@
     "start": "sequelize db:migrate && DEBUG=dva:* babel-node bin/www",
     "test": "mocha --compilers js:babel-core/register --require ./test/test-helper.js --recursive",
     "tdd": "tmuxtdd run --watch={src,test}/**/*.js --cmd='npm test' --fmt='tests S{#[bg=yellow]ON,#[bg=green]OK,#[bg=red]FAIL}'",
-    "dev": "tmuxtdd run --watch={*.js,src/**/*.js} --kill --cmd='npm start' --fmt='server S{#[bg=green]ON,#[bg=red]OFF,#[bg=red]ERR}'",
+    "dev": "tmuxtdd run --watch={bin/www,src/server/**/*.js} --kill --cmd='DEBUG=dva:* babel-node bin/www' --fmt='server S{#[bg=green]ON,#[bg=red]OFF,#[bg=red]ERR}'",
     "webpack:watch": "tmuxtdd run --watch={*.js,{src,test}/**/*.{js,jsx}} --kill --cmd='webpack --bail' --fmt='webpack S{#[bg=yellow]...,#[bg=green]OK,#[bg=red]ERR}'",
     "deploy": "pm2 deploy ecosystem.json production",
     "postinstall": "webpack"
@@ -47,7 +47,7 @@
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.3.0",
-    "redux": "^3.5.1",
+    "redux": "^3.5.2",
     "scroll-behavior": "^0.4.0",
     "sequelize": "^3.21.0",
     "sequelize-cli": "^2.4.0",
@@ -64,7 +64,7 @@
     "eslint-plugin-react": "^5.0.1",
     "jsdom": "^9.0.0",
     "mocha": "^2.4.5",
-    "sinon": "^1.17.3",
+    "sinon": "^1.17.4",
     "sinon-stub-promise": "^2.0.0",
     "webpack-dev-middleware": "^1.6.1"
   },

@@ -1,9 +1,5 @@
-"use strict";
-const expect = require('chai').expect;
-const Viz = require('../src/viz');
-const sinon = require('sinon');
-require('sinon-stub-promise')(sinon);
-const axios = require('axios');
+import Viz from '../src/viz';
+import axios from 'axios';
 
 describe("viz.dataset", function() {
   var promise;
@@ -27,5 +23,4 @@ describe("viz.dataset", function() {
       })
     });
   });
-
 });

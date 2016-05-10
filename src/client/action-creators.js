@@ -1,6 +1,6 @@
 // sample..
-export function importFile() {
+export function setState() {
   return {
-    type: "IMPORT_FILE"
+    type: "SET_STATE"
   };
 }

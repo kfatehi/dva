@@ -135,6 +135,15 @@ app.use('/ext', express.static('extensions'));
 app.use(express.static('public'));
 
 io.on('connection', function(socket) {
-  //console.log(socket);
-  debug('connection!');
+  const user = socket.request.user;
+  debug(`${user.email} connected, sending a document`);
+
+  socket.emit('action', {
+    type: "SET_SOURCE_DATA",
+    source: {
+      columns: ['Student ID', 'Grade'],
+      rows: [['1234567', '95'], ['4556788', '88']],
+      info: { name: "foo" }
+    }
+  })
 });
