@@ -2,6 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { ItemTypes } from '../item-types';
 import { DropTarget } from 'react-dnd';
+import {DraggableDimension} from './Dimension';
 
 const bucketTarget = {
   drop(props) {
@@ -26,8 +27,10 @@ export const Bucket = React.createClass({
     return connectDropTarget(
       <div>
         <label>{this.props.bucket.get('label')}</label>
-        <ul>{this.props.items.map((name, i) =>
-          <li key={i}>{name}</li>)}
+        <ul>{this.props.items.map(item =>
+          <li key={item.columnIndex}>
+            <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
+          </li>)}
         </ul>
       </div>
     );

@@ -52,6 +52,7 @@ export const Workspace = React.createClass({
         { this.props.vizSelected ?
           <BucketMapper
             dragCallback={this.props.draggedToBucket}
+            columns={this.props.columns}
             buckets={this.props.vizSelected.get('buckets')}
             bucketMapping={this.props.bucketMap}
           />

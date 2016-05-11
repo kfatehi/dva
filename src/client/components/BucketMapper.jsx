@@ -4,6 +4,14 @@ import { DropTargetBucket } from './Bucket';
 
 export const BucketMapper = React.createClass({
   mixins: [PureRenderMixin],
+  getItems: function(b) {
+    return this.props.bucketMapping.get(b.get('key')).map((name) => {
+      return {
+        name,
+        columnIndex: this.props.columns.findIndex(n => n===name)
+      }
+    })
+  },
   render: function() {
     // render a bunch of inputs that i can drag into that are based on this visuzlation's bucket schema
     return (
@@ -11,7 +19,7 @@ export const BucketMapper = React.createClass({
         <DropTargetBucket
           key={b.get('key')}
           dragCallback={this.props.dragCallback}
-          items={this.props.bucketMapping.get(b.get('key'))}
+          items={this.getItems(b)}
           bucket={b}
         />)}
       </div>
