@@ -220,7 +220,7 @@ describe("client-side reducer", () => {
       }));
     });
 
-    it("sets a visualization config object with bucket mapping applied", () => {
+    it("sets a visualization config object with mapped data", () => {
       let actions = [
         setSourceData(), setVizSchema(barchartSchema),
         draggedToBucket(0, 'group'),
@@ -228,13 +228,13 @@ describe("client-side reducer", () => {
       ];
       let state = actions.reduce(reducer, Map());
       expect(
-        state.getIn(['viz', 'selected', 'config'])
+        state.getIn(['viz', 'selected', 'config', 'data'])
       ).to.equal(fromJS([{
-        group: ['A'],
-        value: ['95']
-      },{
-        group: ['B'],
-        value: ['88']
+          group: ['A'],
+          value: ['95']
+        },{
+          group: ['B'],
+          value: ['88']
       }]))
     });
   });

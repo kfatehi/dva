@@ -8,8 +8,14 @@ import * as barchart from '../../extensions/com.keyvan.barchart';
 export const Visualization = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
+    let config = this.props.config.toJS()
+    console.log(config);
     let container = ReactFauxDOM.createElement('svg');
-    barchart.render(container, this.props.config)
-    return container.toReact();
+    try {
+      barchart.render(container, this.props.config.toJS())
+      return container.toReact()
+    } catch (e) {
+      return null;
+    }
   }
 })

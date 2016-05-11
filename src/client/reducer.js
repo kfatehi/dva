@@ -45,7 +45,7 @@ function draggedToBucket(state, action) {
   })
 }
 
-function combineColumnsRows(columns, rows) {
+function zipColumnsRows(columns, rows) {
   return rows.map(row => {
     return columns
       .zip(row)
@@ -55,8 +55,16 @@ function combineColumnsRows(columns, rows) {
 }
 
 function genVizConfig(columns, rows, bucketMapping) {
-  let data = combineColumnsRows(columns, rows).toJS();
-  return fromJS(applyBucketMapping(data, bucketMapping.toJS()))
+  let zippedRows = zipColumnsRows(columns, rows).toJS();
+  try {
+    return Map({
+      height: 500,
+      width: 500,
+      data: fromJS(applyBucketMapping(zippedRows, bucketMapping.toJS()))
+    })
+  } catch (e) {
+    return null;
+  }
 }
 
 function genBucketMap(columnMap, schemaBuckets, columns) {
