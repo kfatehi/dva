@@ -8,9 +8,12 @@ export const BucketMapper = React.createClass({
     // render a bunch of inputs that i can drag into that are based on this visuzlation's bucket schema
     return (
       <div>{(this.props.buckets || [] ).map(b =>
-        <DropTargetBucket key={b.get('key')}
+        <DropTargetBucket
+          key={b.get('key')}
           dragCallback={this.props.dragCallback}
-          bucket={b} />)}
+          items={this.props.bucketMapping.get(b.get('key'))}
+          bucket={b}
+        />)}
       </div>
     );
   }

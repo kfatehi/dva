@@ -24,7 +24,12 @@ export const Bucket = React.createClass({
   render: function() {
     const { connectDropTarget, isOver } = this.props;
     return connectDropTarget(
-      <div>{this.props.bucket.get('label')}</div>
+      <div>
+        <label>{this.props.bucket.get('label')}</label>
+        <ul>{this.props.items.map((name, i) =>
+          <li key={i}>{name}</li>)}
+        </ul>
+      </div>
     );
   }
 })

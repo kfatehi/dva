@@ -50,7 +50,9 @@ export const Workspace = React.createClass({
         { this.props.vizSelected ?
           <BucketMapper
             dragCallback={this.props.draggedToBucket}
-            buckets={this.props.vizSelected.get('buckets')} />
+            buckets={this.props.vizSelected.get('buckets')}
+            bucketMapping={this.props.bucketMapping}
+          />
           : null }
         <Datatable rows={this.props.rows} columns={this.props.columns} />
       </div>
@@ -59,13 +61,15 @@ export const Workspace = React.createClass({
 })
 
 function mapStateToProps(state) {
-  const dimensions = state.getIn(['data', 'sink', 'dimensions']);
-  const measures = state.getIn(['data', 'sink', 'measures']);
-  const columns = state.getIn(['data', 'sink', 'columns']);
-  const rows = state.getIn(['data', 'sink', 'rows']);
-  const vizExts = state.getIn(['viz', 'available']);
-  const vizSelected = state.getIn(['viz', 'selected']);
-  return { rows, columns, dimensions, measures, vizExts, vizSelected };
+  return {
+    dimensions: state.getIn(['data', 'sink', 'dimensions']),
+    measures: state.getIn(['data', 'sink', 'measures']),
+    columns: state.getIn(['data', 'sink', 'columns']),
+    rows: state.getIn(['data', 'sink', 'rows']),
+    vizExts: state.getIn(['viz', 'available']),
+    vizSelected: state.getIn(['viz', 'selected']),
+    bucketMapping: state.getIn(['viz', 'selected', 'bucketMapping']),
+  };
 }
 
 export const WorkspaceContainer = connect(

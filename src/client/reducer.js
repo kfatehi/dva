@@ -22,8 +22,16 @@ function draggedToBucket(state, action) {
   let col = state.getIn(['data', 'sink', 'columns']).get(columnIndex);
   return state
     .updateIn(['viz', 'selected', 'bucketMapping'], bktMapping => {
-      return bktMapping.update(bucketKey, list => {
-        return list.push(col)
+      // remove it from any existing list
+      return bktMapping.map((list, key) => {
+        let index = list.findIndex(() => col);
+        let included = index >= 0;
+        if (key === bucketKey)
+          return included ? list : list.push(col);
+        else if (key !== bucketKey && included)
+          return list.remove(index);
+        else
+          return list;
       })
     })
 }

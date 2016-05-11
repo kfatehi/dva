@@ -128,5 +128,35 @@ describe("client-side reducer", () => {
         'value': []
       }));
     });
+
+    it("prevents the same dimension twice in the same bucket", () => {
+      let actions = [
+        setSourceData(), setVizSchema(barchartSchema),
+        draggedToBucket(0, 'group'),
+        draggedToBucket(0, 'group')
+      ];
+      let state = actions.reduce(reducer, Map());
+      expect(
+        state.getIn(['viz', 'selected', 'bucketMapping'])
+      ).to.equal(fromJS({
+        'group': ['Category'],
+        'value': []
+      }));
+    });
+
+    it("moves the dimension when mapped twice in different buckets", () => {
+      let actions = [
+        setSourceData(), setVizSchema(barchartSchema),
+        draggedToBucket(0, 'group'),
+        draggedToBucket(0, 'value')
+      ];
+      let state = actions.reduce(reducer, Map());
+      expect(
+        state.getIn(['viz', 'selected', 'bucketMapping'])
+      ).to.equal(fromJS({
+        'group': [],
+        'value': ['Category']
+      }));
+    });
   });
 });
