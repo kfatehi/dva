@@ -7,6 +7,7 @@ import { List } from 'immutable';
 import {Datatable} from './Datatable';
 import {DraggableDimension} from './Dimension';
 import {BucketMapper} from './BucketMapper';
+import {Visualization} from './Visualization';
 
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -25,6 +26,22 @@ export const Workspace = React.createClass({
   },
   getExtensions: function(callback) {
     return (this.props.vizExts || List())
+  },
+  genVizConfig: function() {
+    return {
+      height: 500,
+      width: 200,
+      data: [{
+        group: 'stuff',
+        value: .9
+      },{
+        group: 'moar',
+        value: .5
+      },{
+        group: 'mo22ar',
+        value: .7
+      }]
+    }
   },
   render: function() {
     return (
@@ -58,6 +75,9 @@ export const Workspace = React.createClass({
           />
           : null }
         <Datatable rows={this.props.rows} columns={this.props.columns} />
+        { this.props.vizConfig ? 
+          <Visualization config={this.props.vizConfig} />
+          : null }
       </div>
     );
   }
@@ -72,6 +92,7 @@ function mapStateToProps(state) {
     vizExts: state.getIn(['viz', 'available']),
     vizSelected: state.getIn(['viz', 'selected']),
     bucketMap: state.getIn(['viz', 'selected', 'bucketMapping', 'bucketMap']),
+    vizConfig: state.getIn(['viz', 'selected', 'config'])
   };
 }
 

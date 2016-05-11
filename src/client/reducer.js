@@ -2,6 +2,8 @@ import { List, Map, fromJS } from 'immutable';
 
 import { setSourceData } from './set-source-data';
 
+import applyBucketMapping from '../apply-bucket-mapping';
+
 function setVisualizationExtensions(state, action) {
   return state.updateIn(["viz", "available"], () => {
     return List(action.extensions.map(ext => Map(ext)));
@@ -27,13 +29,34 @@ function draggedToBucket(state, action) {
   let columns = state.getIn(['data', 'sink', 'columns']);
   let schemaBuckets = state.getIn(['viz','selected','buckets'])
   let name = columns.get(columnIndex);
-  return state
-    .updateIn(['viz', 'selected', 'bucketMapping'], old => {
+  return state.updateIn(['viz', 'selected'], tmp => {
+    let vizSelected = tmp.update('bucketMapping', old => {
       let bucketMapping = old.updateIn(['columnMap', columnKey], () => bucketKey)
       let colMap = bucketMapping.get('columnMap')
       return bucketMapping
         .update('bucketMap', () => genBucketMap(colMap, schemaBuckets, columns));
     })
+    
+    return vizSelected.update('config', () => {
+      let rows = state.getIn(['data', 'sink', 'rows']);
+      let bucketMap = vizSelected.getIn(['bucketMapping','bucketMap']);
+      return genVizConfig(columns, rows, bucketMap)
+    })
+  })
+}
+
+function combineColumnsRows(columns, rows) {
+  return rows.map(row => {
+    return columns
+      .zip(row)
+      .map(pair => Map([pair]))
+      .reduce((a, b) => a.merge(b))
+  })
+}
+
+function genVizConfig(columns, rows, bucketMapping) {
+  let data = combineColumnsRows(columns, rows).toJS();
+  return fromJS(applyBucketMapping(data, bucketMapping.toJS()))
 }
 
 function genBucketMap(columnMap, schemaBuckets, columns) {

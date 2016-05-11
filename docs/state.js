@@ -43,7 +43,9 @@
       buckets: {} // from the schema
 
       bucketMapping: {},
-      props: {}
+      props: {},
+
+      config: {} // passed into render
     }
   }
 }

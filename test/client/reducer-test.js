@@ -219,5 +219,23 @@ describe("client-side reducer", () => {
         }
       }));
     });
+
+    it("sets a visualization config object with bucket mapping applied", () => {
+      let actions = [
+        setSourceData(), setVizSchema(barchartSchema),
+        draggedToBucket(0, 'group'),
+        draggedToBucket(1, 'value')
+      ];
+      let state = actions.reduce(reducer, Map());
+      expect(
+        state.getIn(['viz', 'selected', 'config'])
+      ).to.equal(fromJS([{
+        group: ['A'],
+        value: ['95']
+      },{
+        group: ['B'],
+        value: ['88']
+      }]))
+    });
   });
 });
