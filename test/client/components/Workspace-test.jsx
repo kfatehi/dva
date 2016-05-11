@@ -4,7 +4,7 @@ import {List} from 'immutable';
 import {Workspace} from '../../../src/client/components/Workspace';
 
 describe("Workspace", () => {
-  it("renders entries with vote counts or zero", () => {
+  it("renders lists of dimensions and measures", () => {
     const wrapper = mount(
       <Workspace
         columns={List.of('Category', 'Grade')}
