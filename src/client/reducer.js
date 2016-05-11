@@ -10,28 +10,39 @@ function setVisualizationExtensions(state, action) {
 
 function setVisualizationSchema(state, action) {
   let buckets = fromJS(action.schema.buckets);
-  let bktMapping = Map(buckets.map(bkt => [bkt.get('key'), List()]));
   return state
     .updateIn(['viz', 'selected', 'id'], () => action.schema.info.id)
     .updateIn(['viz', 'selected', 'buckets'], () => buckets)
-    .updateIn(['viz', 'selected', 'bucketMapping'], () => bktMapping)
+    .updateIn(['viz', 'selected', 'bucketMapping'], () => {
+      return Map({
+        columnMap: Map({}),
+        bucketMap: Map(buckets.map(bkt => [bkt.get('key'), List()]))
+      })
+    })
 }
 
 function draggedToBucket(state, action) {
   let { columnIndex, bucketKey } = action;
-  let col = state.getIn(['data', 'sink', 'columns']).get(columnIndex);
+  let columnKey = String(columnIndex);
+  let name = state.getIn(['data', 'sink', 'columns']).get(columnIndex);
   return state
-    .updateIn(['viz', 'selected', 'bucketMapping'], bktMapping => {
-      return bktMapping.map((list, key) => {
-        let index = list.findIndex(() => col);
-        let included = index >= 0;
-        if (key === bucketKey)
-          return included ? list : list.push(col);
-        else if (key !== bucketKey && included)
-          return list.remove(index);
-        else
-          return list;
-      })
+    .updateIn(['viz', 'selected', 'bucketMapping'], bucketMapping => {
+      let currentBucket = bucketMapping.getIn(['columnMap', columnKey]);
+      if (currentBucket) {
+        if (currentBucket === bucketKey) {
+          return bucketMapping;
+        } else {
+          return bucketMapping
+            .updateIn(['columnMap', columnKey], () => bucketKey)
+            .updateIn(['bucketMap', currentBucket], list =>
+              list.remove(list.findIndex(() => name)))
+            .updateIn(['bucketMap', bucketKey], list => list.push(name))
+        }
+      } else {
+        return bucketMapping
+          .updateIn(['columnMap', columnKey], () => bucketKey)
+          .updateIn(['bucketMap', bucketKey], list => list.push(name))
+      }
     })
 }
 

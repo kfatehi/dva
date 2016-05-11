@@ -111,8 +111,11 @@ describe("client-side reducer", () => {
 
       let bucketMapping = nextState.getIn(['viz', 'selected', 'bucketMapping']);
       expect(bucketMapping).to.equal(fromJS({
-        'group': [],
-        'value': []
+        columnMap: {},
+        bucketMap: {
+          'group': [],
+          'value': []
+        }
       }));
     });
   });
@@ -124,8 +127,13 @@ describe("client-side reducer", () => {
       let nextState = reducer(currentState, draggedToBucket(0, 'group'))
       let bucketMapping = nextState.getIn(['viz', 'selected', 'bucketMapping']);
       expect(bucketMapping).to.equal(fromJS({
-        'group': ['Category'],
-        'value': []
+        columnMap: {
+          '0': 'group'
+        },
+        bucketMap: {
+          'group': ['Category'],
+          'value': []
+        }
       }));
     });
 
@@ -139,8 +147,13 @@ describe("client-side reducer", () => {
       expect(
         state.getIn(['viz', 'selected', 'bucketMapping'])
       ).to.equal(fromJS({
-        'group': ['Category'],
-        'value': []
+        columnMap: {
+          '0': 'group'
+        },
+        bucketMap: {
+          'group': ['Category'],
+          'value': []
+        }
       }));
     });
 
@@ -154,8 +167,34 @@ describe("client-side reducer", () => {
       expect(
         state.getIn(['viz', 'selected', 'bucketMapping'])
       ).to.equal(fromJS({
-        'group': [],
-        'value': ['Category']
+        columnMap: {
+          '0': 'value'
+        },
+        bucketMap: {
+          'group': [],
+          'value': ['Category']
+        }
+      }));
+    });
+
+    it("can map another dimension to a different bucket", () => {
+      let actions = [
+        setSourceData(), setVizSchema(barchartSchema),
+        draggedToBucket(0, 'group'),
+        draggedToBucket(1, 'value')
+      ];
+      let state = actions.reduce(reducer, Map());
+      expect(
+        state.getIn(['viz', 'selected', 'bucketMapping'])
+      ).to.equal(fromJS({
+        columnMap: {
+          '0': 'group',
+          '1': 'value'
+        },
+        bucketMap: {
+          'group': ['Category'],
+          'value': ['Grade']
+        }
       }));
     });
   });

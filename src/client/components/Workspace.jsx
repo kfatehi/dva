@@ -14,13 +14,13 @@ import HTML5Backend from 'react-dnd-html5-backend';
 export const Workspace = React.createClass({
   mixins: [PureRenderMixin],
   getDimensions: function() {
-    return (this.props.dimensions || List()).map(i => {
-      return this.props.columns.get(i)
+    return (this.props.dimensions || List()).map(columnIndex => {
+      return {columnIndex, name:this.props.columns.get(columnIndex)}
     });
   },
   getMeasures: function(callback) {
-    return (this.props.measures || List()).map(i => {
-      return this.props.columns.get(i)
+    return (this.props.measures || List()).map(columnIndex => {
+      return {columnIndex, name:this.props.columns.get(columnIndex)}
     });
   },
   getExtensions: function(callback) {
@@ -30,14 +30,16 @@ export const Workspace = React.createClass({
     return (
       <div>
         <h3>Dimensions</h3>
-        <ul>{this.getDimensions().map((name, i) =>
-          <li className="dimension" key={i}>
-            <DraggableDimension columnIndex={i} name={name} />
+        <ul>{this.getDimensions().map(item =>
+          <li className="dimension" key={item.columnIndex}>
+            <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
           </li>)}
         </ul>
         <h3>Measures</h3>
-        <ul>{this.getMeasures().map((name, i) =>
-          <li className="measure" key={i}>{name}</li>)}
+        <ul>{this.getMeasures().map(item =>
+          <li className="measure" key={item.columnIndex}>
+            <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
+          </li>)}
         </ul>
         <h3>Visualization Extensions</h3>
         <ul>{this.getExtensions().map(ext =>
