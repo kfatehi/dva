@@ -24,26 +24,26 @@ function setVisualizationSchema(state, action) {
 function draggedToBucket(state, action) {
   let { columnIndex, bucketKey } = action;
   let columnKey = String(columnIndex);
-  let name = state.getIn(['data', 'sink', 'columns']).get(columnIndex);
+  let columns = state.getIn(['data', 'sink', 'columns']);
+  let schemaBuckets = state.getIn(['viz','selected','buckets'])
+  let name = columns.get(columnIndex);
   return state
-    .updateIn(['viz', 'selected', 'bucketMapping'], bucketMapping => {
-      let currentBucket = bucketMapping.getIn(['columnMap', columnKey]);
-      if (currentBucket) {
-        if (currentBucket === bucketKey) {
-          return bucketMapping;
-        } else {
-          return bucketMapping
-            .updateIn(['columnMap', columnKey], () => bucketKey)
-            .updateIn(['bucketMap', currentBucket], list =>
-              list.remove(list.findIndex(() => name)))
-            .updateIn(['bucketMap', bucketKey], list => list.push(name))
-        }
-      } else {
-        return bucketMapping
-          .updateIn(['columnMap', columnKey], () => bucketKey)
-          .updateIn(['bucketMap', bucketKey], list => list.push(name))
-      }
+    .updateIn(['viz', 'selected', 'bucketMapping'], old => {
+      let bucketMapping = old.updateIn(['columnMap', columnKey], () => bucketKey)
+      let colMap = bucketMapping.get('columnMap')
+      return bucketMapping
+        .update('bucketMap', () => genBucketMap(colMap, schemaBuckets, columns));
     })
+}
+
+function genBucketMap(columnMap, schemaBuckets, columns) {
+  return Map(schemaBuckets.map(bucket => {
+    let bucketKey = bucket.get('key');
+    let list = columns.filter((colName, i) => {
+      return columnMap.get(String(i)) === bucketKey;
+    })
+    return [bucketKey, list]
+  }))
 }
 
 export default function (state = Map(), action) {

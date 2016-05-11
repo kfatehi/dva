@@ -53,7 +53,7 @@ export const Workspace = React.createClass({
           <BucketMapper
             dragCallback={this.props.draggedToBucket}
             buckets={this.props.vizSelected.get('buckets')}
-            bucketMapping={this.props.bucketMapping}
+            bucketMapping={this.props.bucketMap}
           />
           : null }
         <Datatable rows={this.props.rows} columns={this.props.columns} />
@@ -70,7 +70,7 @@ function mapStateToProps(state) {
     rows: state.getIn(['data', 'sink', 'rows']),
     vizExts: state.getIn(['viz', 'available']),
     vizSelected: state.getIn(['viz', 'selected']),
-    bucketMapping: state.getIn(['viz', 'selected', 'bucketMapping']),
+    bucketMap: state.getIn(['viz', 'selected', 'bucketMapping', 'bucketMap']),
   };
 }
 

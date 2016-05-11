@@ -197,5 +197,27 @@ describe("client-side reducer", () => {
         }
       }));
     });
+
+    it("does not bug out after a few drags", () => {
+      let actions = [
+        setSourceData(), setVizSchema(barchartSchema),
+        draggedToBucket(1, 'group'),
+        draggedToBucket(0, 'group'),
+        draggedToBucket(0, 'value')
+      ];
+      let state = actions.reduce(reducer, Map());
+      expect(
+        state.getIn(['viz', 'selected', 'bucketMapping'])
+      ).to.equal(fromJS({
+        columnMap: {
+          '1': 'group',
+          '0': 'value'
+        },
+        bucketMap: {
+          'group': ['Grade'],
+          'value': ['Category']
+        }
+      }));
+    });
   });
 });
