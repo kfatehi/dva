@@ -11,7 +11,13 @@ module.exports = {
       'react-dom',
       'react-redux',
       'react-router',
-      'socket.io-client'
+      'react-dnd',
+      'react-dnd-html5-backend',
+      'react-addons-pure-render-mixin',
+      'react-faux-dom',
+      'd3',
+      'socket.io-client',
+      'immutable',
     ]
   },
   output: {
