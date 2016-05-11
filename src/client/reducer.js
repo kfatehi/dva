@@ -22,7 +22,6 @@ function draggedToBucket(state, action) {
   let col = state.getIn(['data', 'sink', 'columns']).get(columnIndex);
   return state
     .updateIn(['viz', 'selected', 'bucketMapping'], bktMapping => {
-      // remove it from any existing list
       return bktMapping.map((list, key) => {
         let index = list.findIndex(() => col);
         let included = index >= 0;
