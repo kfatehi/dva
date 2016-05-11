@@ -27,22 +27,6 @@ export const Workspace = React.createClass({
   getExtensions: function(callback) {
     return (this.props.vizExts || List())
   },
-  genVizConfig: function() {
-    return {
-      height: 500,
-      width: 200,
-      data: [{
-        group: 'stuff',
-        value: .9
-      },{
-        group: 'moar',
-        value: .5
-      },{
-        group: 'mo22ar',
-        value: .7
-      }]
-    }
-  },
   render: function() {
     return (
       <div>
