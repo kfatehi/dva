@@ -8,7 +8,7 @@ import remoteActionMiddleware from './remote-action-middleware';
 
 import reducer from './reducer';
 import App from './components/App';
-import { WorkspaceContainer } from './components/Workspace';
+import { DragDropWorkspaceContainer } from './components/Workspace';
 
 const socket = io();
 
@@ -23,7 +23,7 @@ socket.on('action', action => {
 });
 
 const routes = <Route component={App}>
-  <Route path="/" component={WorkspaceContainer} />
+  <Route path="/" component={DragDropWorkspaceContainer} />
 </Route>;
 
 ReactDOM.render(

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { DragSource } from 'react-dnd';
+import { ItemTypes } from '../item-types';
 
 export const Dimension = React.createClass({
   mixins: [PureRenderMixin],
@@ -12,13 +13,15 @@ export const Dimension = React.createClass({
   }
 })
 
-const ItemTypes = {
-  DIMENSION: 'dimension'
-}
-
 const dimensionSource = {
   beginDrag(props) {
     return {};
+  },
+  endDrag(props, monitor, component) {
+    let result = monitor.getDropResult();
+    if (result) {
+      result.dragCallback(props.columnIndex, result.bucketKey)
+    }
   }
 };
 
