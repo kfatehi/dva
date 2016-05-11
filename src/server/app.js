@@ -11,6 +11,7 @@ const layout = require('express-layout');
 const path = require('path');
 const debug = require('debug')('dva:src/server/app');
 const io = require('socket.io').listen(server);
+import * as extensions from '../extensions';
 
 module.exports.app = app
 module.exports.server = server;
@@ -134,13 +135,37 @@ app.use('/ext', express.static('extensions'));
 
 app.use(express.static('public'));
 
+function setVisualizationExtensions(socket, action) {
+  socket.emit('action', {
+    type: 'SET_VISUALIZATION_SCHEMA',
+    schema: extensions.getSchema(action.id)
+  })
+}
+
 io.on('connection', function(socket) {
   const user = socket.request.user;
   debug(`${user.email} connected, sending a document`);
+
+  socket.on('action', function(action) {
+    switch (action.type) {
+      case 'SELECT_VISUALIZATION_EXTENSION':
+        return setVisualizationExtensions(socket, action);
+    }
+  })
 
   socket.emit('action', {
     type: 'SET_SOURCE_DATA',
     columns: ['Category', 'Grade'],
     rows: [['A', '95'], ['B', '88']],
   })
+
+  socket.emit('action', {
+    type: 'SET_VISUALIZATION_EXTENSIONS',
+    extensions: extensions.getIds().map( id => {
+      return {
+        id: id
+      }
+    })
+  })
+
 });

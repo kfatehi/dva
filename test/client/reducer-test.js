@@ -1,6 +1,8 @@
 import reducer from '../../src/client/reducer';
 import { Map, fromJS } from 'immutable';
 
+import { getSchema } from '../../src/extensions';
+
 let data = [{
   "Category": "A",
   "Grade": "95"
@@ -31,5 +33,60 @@ describe("client-side reducer", () => {
         }
       }
     }))
+  });
+
+  it("handles SET_VISUALIZATION_EXTENSIONS with one extension", () => {
+    let nextState = reducer(undefined, {
+      type: 'SET_VISUALIZATION_EXTENSIONS',
+      extensions: [{
+        "id": "barchart",
+        "description": "Simple barchart"
+      }]
+    });
+
+    expect(nextState).to.equal(fromJS({
+      viz: {
+        available: [{
+          "id": "barchart",
+          "description": "Simple barchart"
+        }],
+      }
+    }))
+  });
+
+  it("handles SET_VISUALIZATION_EXTENSIONS with multiple extensions", () => {
+    let nextState = reducer(undefined, {
+      type: 'SET_VISUALIZATION_EXTENSIONS',
+      extensions: [{
+        "id": "barchart",
+        "description": "Simple barchart"
+      },{
+        "id": "sankey",
+        "description": "simply sankey"
+      }]
+    });
+
+    expect(nextState).to.equal(fromJS({
+      viz: {
+        available: [{
+          "id": "barchart",
+          "description": "Simple barchart"
+        },{
+          "id": "sankey",
+          "description": "simply sankey"
+        }],
+      }
+    }))
+  });
+
+  describe("handling of SET_VISUALIZATION_SCHEMA", () => {
+    it("sets the actual selected viz extension by id", () => {
+      let nextState = reducer(undefined, {
+        type: 'SET_VISUALIZATION_SCHEMA',
+        schema: getSchema('com.keyvan.barchart')
+      });
+
+      expect(nextState.getIn(['viz', 'selected', 'id'])).to.equal('com.keyvan.barchart');
+    });
   });
 });

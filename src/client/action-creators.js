@@ -1,5 +1,7 @@
-export function chooseExtension() {
+export function selectExtension(id) {
   return {
-    type: "CHOOSE_EXTENSION"
-  };
+    meta: { remote: true },
+    type: "SELECT_VISUALIZATION_EXTENSION",
+    id: id
+  }
 }

@@ -4,6 +4,28 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';
 
+  /*
+import * as barchart from '../../extensions/com.keyvan.barchart';
+
+const renderTable = (container, columns, rows) => {
+let container = ReactFauxDOM.createElement('svg');
+  barchart.render(container, {
+    height: 500,
+    width: 200,
+    data: [{
+      group: 'stuff',
+      value: .9
+    },{
+      group: 'moar',
+      value: .5
+    },{
+      group: 'mo22ar',
+      value: .7
+    }]
+  })
+}
+*/
+
 const renderTable = (container, columns, rows) => {
   var table = d3.select(container)
     .append("table")
