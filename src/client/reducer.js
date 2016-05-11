@@ -9,9 +9,23 @@ function setVisualizationExtensions(state, action) {
 }
 
 function setVisualizationSchema(state, action) {
+  let buckets = fromJS(action.schema.buckets);
+  let bktMapping = Map(buckets.map(bkt => [bkt.get('key'), List()]));
   return state
     .updateIn(['viz', 'selected', 'id'], () => action.schema.info.id)
-    .updateIn(['viz', 'selected', 'buckets'], () => fromJS(action.schema.buckets))
+    .updateIn(['viz', 'selected', 'buckets'], () => buckets)
+    .updateIn(['viz', 'selected', 'bucketMapping'], () => bktMapping)
+}
+
+function draggedToBucket(state, action) {
+  let { columnIndex, bucketKey } = action;
+  let col = state.getIn(['data', 'sink', 'columns']).get(columnIndex);
+  return state
+    .updateIn(['viz', 'selected', 'bucketMapping'], bktMapping => {
+      return bktMapping.update(bucketKey, list => {
+        return list.push(col)
+      })
+    })
 }
 
 export default function (state = Map(), action) {
@@ -22,6 +36,8 @@ export default function (state = Map(), action) {
       return setVisualizationExtensions(state, action);
     case 'SET_VISUALIZATION_SCHEMA':
       return setVisualizationSchema(state, action);
+    case 'DRAGGED_TO_BUCKET':
+      return draggedToBucket(state, action);
   }
   return state;
 }

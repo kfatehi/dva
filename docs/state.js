@@ -37,11 +37,11 @@
       schema: {}
     }],
 
-    // { type: "SELECT_VIZ", id: 'my.barchart' }
+    // { type: "SET_VISUALIZATION_SCHEMA", id: 'my.barchart' }
     selected: {
       id: 'my.barchart',
+      buckets: {} // from the schema
 
-      // Actions TBD
       bucketMapping: {},
       props: {}
     }
