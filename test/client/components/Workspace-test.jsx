@@ -2,9 +2,10 @@ import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 import {List} from 'immutable';
 import {Workspace} from '../../../src/client/components/Workspace';
+import {Dimension} from '../../../src/client/components/Workspace';
 
 describe("Workspace", () => {
-  it("renders lists of dimensions and measures", () => {
+  it.skip("renders lists of dimensions and measures", () => {
     const wrapper = mount(
       <Workspace
         columns={List.of('Category', 'Grade')}

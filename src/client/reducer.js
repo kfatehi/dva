@@ -1,4 +1,4 @@
-import { List, Map } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
 
 import { setSourceData } from './set-source-data';
 
@@ -11,6 +11,7 @@ function setVisualizationExtensions(state, action) {
 function setVisualizationSchema(state, action) {
   return state
     .updateIn(['viz', 'selected', 'id'], () => action.schema.info.id)
+    .updateIn(['viz', 'selected', 'buckets'], () => fromJS(action.schema.buckets))
 }
 
 export default function (state = Map(), action) {

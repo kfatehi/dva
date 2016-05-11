@@ -5,7 +5,11 @@ import * as actionCreators from '../action-creators';
 
 import { List } from 'immutable';
 import {Datatable} from './Datatable';
+import {Dimension} from './Dimension';
 import {BucketMapper} from './BucketMapper';
+        
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 export const Workspace = React.createClass({
   mixins: [PureRenderMixin],
@@ -27,7 +31,9 @@ export const Workspace = React.createClass({
       <div>
         <h3>Dimensions</h3>
         <ul>{this.getDimensions().map((name, i) =>
-          <li className="dimension" key={i}>{name}</li>)}
+          <li className="dimension" key={i}>
+            <Dimension name={name} />
+          </li>)}
         </ul>
         <h3>Measures</h3>
         <ul>{this.getMeasures().map((name, i) =>
@@ -41,7 +47,9 @@ export const Workspace = React.createClass({
             </button>
           </li>)}
         </ul>
-        { this.props.vizSelected ? <BucketMapper /> : null }
+        { this.props.vizSelected ?
+          <BucketMapper buckets={this.props.vizSelected.get('buckets')} />
+          : null }
         <Datatable rows={this.props.rows} columns={this.props.columns} />
       </div>
     );
@@ -58,7 +66,9 @@ function mapStateToProps(state) {
   return { rows, columns, dimensions, measures, vizExts, vizSelected };
 }
 
-export const WorkspaceContainer = connect(
+export const MappedWorkspaceContainer = connect(
   mapStateToProps,
   actionCreators
 )(Workspace);
+
+export const WorkspaceContainer = DragDropContext(HTML5Backend)(MappedWorkspaceContainer);
