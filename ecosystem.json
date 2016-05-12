@@ -28,7 +28,7 @@
       ref  : "origin/master",
       repo : "https://github.com/kfatehi/dva",
       path : "/home/keyvan/dva/production",
-      "post-deploy" : "npm install && npm run db:migrate && npm run webpack && npm run es5:compile && pm2 startOrRestart ecosystem.json --env production",
+      "post-deploy" : "npm install && npm run db:migrate && npm run es5:compile && pm2 startOrRestart ecosystem.json --env production",
       env  : {
         NODE_ENV: "production"
       }
