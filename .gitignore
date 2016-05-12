@@ -4,3 +4,4 @@
 /var/sessions.*.json
 /public/js/bundle.js
 /public/js/vendor.bundle.js
+/es5
