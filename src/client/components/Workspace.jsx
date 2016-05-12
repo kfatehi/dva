@@ -30,6 +30,8 @@ export const Workspace = React.createClass({
   render: function() {
     return (
       <div>
+        <h3>Data</h3>
+        <Datatable rows={this.props.rows} columns={this.props.columns} />
         <h3>Dimensions</h3>
         <ul>{this.getDimensions().map(item =>
           <li className="dimension" key={item.columnIndex}>
@@ -50,18 +52,16 @@ export const Workspace = React.createClass({
             </button>
           </li>)}
         </ul>
-        { this.props.vizSelected ?
-          <BucketMapper
-            dragCallback={this.props.draggedToBucket}
-            columns={this.props.columns}
-            buckets={this.props.vizSelected.get('buckets')}
-            bucketMapping={this.props.bucketMap}
-          />
-          : null }
-        <Datatable rows={this.props.rows} columns={this.props.columns} />
-        { this.props.vizConfig ? 
-          <Visualization config={this.props.vizConfig} />
-          : null }
+        { this.props.vizSelected ? <BucketMapper
+          dragCallback={this.props.draggedToBucket}
+          columns={this.props.columns}
+          buckets={this.props.vizSelected.get('buckets')}
+          bucketMapping={this.props.bucketMap}
+        /> : null }
+        { this.props.vizConfig ? <Visualization
+          extension={this.props.extension}
+          config={this.props.vizConfig}
+        /> : null }
       </div>
     );
   }
@@ -76,7 +76,8 @@ function mapStateToProps(state) {
     vizExts: state.getIn(['viz', 'available']),
     vizSelected: state.getIn(['viz', 'selected']),
     bucketMap: state.getIn(['viz', 'selected', 'bucketMapping', 'bucketMap']),
-    vizConfig: state.getIn(['viz', 'selected', 'config'])
+    vizConfig: state.getIn(['viz', 'selected', 'config']),
+    extension: state.getIn(['viz', 'selected', 'module'])
   };
 }
 

@@ -4,6 +4,8 @@ import { setSourceData } from './set-source-data';
 
 import applyBucketMapping from '../apply-bucket-mapping';
 
+import { getModule } from '../extensions';
+
 function setVisualizationExtensions(state, action) {
   return state.updateIn(["viz", "available"], () => {
     return List(action.extensions.map(ext => Map(ext)));
@@ -77,6 +79,17 @@ function genBucketMap(columnMap, schemaBuckets, columns) {
   }))
 }
 
+function loadVisualizationBundle(state, action) {
+  let mod = getModule(action.id);
+  return state
+    .deleteIn(['viz', 'selected', 'config'])
+    .updateIn(['viz', 'selected', 'module'], prev => {
+      if (prev) prev.style.unuse();
+      mod.style.use();
+      return mod;
+    })
+}
+
 export default function (state = Map(), action) {
   switch (action.type) {
     case 'SET_SOURCE_DATA':
@@ -85,6 +98,8 @@ export default function (state = Map(), action) {
       return setVisualizationExtensions(state, action);
     case 'SET_VISUALIZATION_SCHEMA':
       return setVisualizationSchema(state, action);
+    case 'LOAD_VISUALIZATION_BUNDLE':
+      return loadVisualizationBundle(state, action);
     case 'DRAGGED_TO_BUCKET':
       return draggedToBucket(state, action);
   }

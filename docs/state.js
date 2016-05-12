@@ -45,7 +45,8 @@
       bucketMapping: {},
       props: {},
 
-      config: {} // passed into render
+      config: {}, // passed into render
+      module: {} // actual extension object -- should have a render function
     }
   }
 }

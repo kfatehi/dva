@@ -1,11 +1,11 @@
 import reducer from '../../src/client/reducer';
 import { Map, fromJS } from 'immutable';
 
-import { getSchema } from '../../src/extensions';
+import * as extensions from '../../src/extensions';
 
 import { draggedToBucket } from '../../src/client/action-creators';
 
-let barchartSchema = getSchema('com.keyvan.barchart');
+let barchartSchema = extensions.getSchema('com.keyvan.barchart');
 
 let data = [{
   "Category": "A",
@@ -117,6 +117,57 @@ describe("client-side reducer", () => {
           'value': []
         }
       }));
+    });
+  });
+
+  describe("handling of LOAD_VISUALIZATION_BUNDLE", () => {
+    it("sets the render function", () => {
+      let nextState = reducer(undefined, {
+        type: 'LOAD_VISUALIZATION_BUNDLE',
+        id: barchartSchema.info.id
+      })
+      expect(nextState.getIn(['viz', 'selected', 'module']).render).to.be.ok;
+    });
+
+    it("removes the config", () => {
+      let initialState = fromJS({ viz: { selected: { config: Map({}) } } })
+      let nextState = reducer(initialState, {
+        type: 'LOAD_VISUALIZATION_BUNDLE',
+        id: barchartSchema.info.id
+      })
+      expect(
+        nextState.getIn(['viz', 'selected', 'config'])
+      ).not.to.be.ok;
+    });
+
+    it("unloads the previous module style", () => {
+      let unuse = sinon.spy();
+      let initialState = Map({
+        viz: Map({
+          selected: Map({
+            module: { style: { unuse } }
+          })
+        })
+      })
+      let nextState = reducer(initialState, {
+        type: 'LOAD_VISUALIZATION_BUNDLE',
+        id: barchartSchema.info.id
+      })
+      expect(unuse.calledOnce).to.equal(true)
+    });
+
+    // cant stub the extensions module for some reason
+    it.skip("loads the module style", () => {
+      let use = sinon.spy()
+      sinon.stub(extensions, 'getModule').returns({
+        style: { use, ehh:'steve' }
+      })
+      extensions.getModule.restore()
+      let nextState = reducer(undefined, {
+        type: 'LOAD_VISUALIZATION_BUNDLE',
+        id: barchartSchema.info.id
+      })
+      expect(use.calledOnce).to.equal(true)
     });
   });
 

@@ -16,20 +16,6 @@ import * as extensions from '../extensions';
 module.exports.app = app
 module.exports.server = server;
 
-if (app.get('env') === 'development') {
-  const webpackMiddleware = require("webpack-dev-middleware");
-  const webpackConfig = require('../../webpack.config');
-  const webpack = require('webpack');
-  const compiler = webpack(webpackConfig);
-  const webpackDevMiddleware = webpackMiddleware(compiler, {
-    noInfo: true
-  })
-  app.use(webpackDevMiddleware);
-  compiler.plugin('done', function() {
-    debug('Webpack bundle is in a valid state');
-  })
-}
-
 app.set('port', process.env.PORT || 3000);
 
 // Configure view engine to render EJS templates.
@@ -135,10 +121,14 @@ app.use('/ext', express.static('extensions'));
 
 app.use(express.static('public'));
 
-function setVisualizationExtensions(socket, action) {
+function loadVisualizationExtension(socket, action) {
   socket.emit('action', {
     type: 'SET_VISUALIZATION_SCHEMA',
     schema: extensions.getSchema(action.id)
+  })
+  socket.emit('action', {
+    type: 'LOAD_VISUALIZATION_BUNDLE',
+    id: action.id
   })
 }
 
@@ -149,7 +139,7 @@ io.on('connection', function(socket) {
   socket.on('action', function(action) {
     switch (action.type) {
       case 'SELECT_VISUALIZATION_EXTENSION':
-        return setVisualizationExtensions(socket, action);
+        return loadVisualizationExtension(socket, action);
     }
   })
 

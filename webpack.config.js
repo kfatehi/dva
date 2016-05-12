@@ -1,5 +1,6 @@
+const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+//const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'eval-source-map',
@@ -29,17 +30,13 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loader: 'babel'
-    },{
-      test: /\.css$/i,
-      loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-    }]
+    loaders: [
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.css$/, loader: "style/useable!css" },
+    ]
   },
   plugins: [
-    new ExtractTextPlugin('style.css'),
+    //new ExtractTextPlugin('style.css'),
     new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
   ]
 };
