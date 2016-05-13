@@ -18,18 +18,17 @@ var jsonString = JSON.stringify([{
   cellType: "DATA",
   contentType: "application/json"
   data: jsonString
+  position: 0
 }
 
-/*
- DATA   DATA
-    \ /
-    JOIN <-- new node
-   
-   
-    JOIN
-   /    \
-DATA   DATA
-*/
+{
+  type: "APPEND_CELL",
+  name: "Gradebook",
+  cellType: "DATA",
+  contentType: "application/json"
+  data: jsonString
+  position: 0
+}
 
 
 render () {
@@ -44,6 +43,7 @@ render () {
   notebook: {
     cellMap: {
       'c64e714b-798a-465f-ad2d-827995da9087':{
+        position: 0,
         name: "Math Gradebook",
         cellType: "DATA",
         data: [{
@@ -54,8 +54,8 @@ render () {
           "Grade": "65"
         }]
       },
-
       '24066b02-a089-47cf-a15a-4aa34db7ef81': {
+        position: 1,
         name: "Science Gradebook",
         cellType: "DATA",
         data: [{
@@ -66,22 +66,33 @@ render () {
           "Grade": "95"
         }]
       },
-
-      'ac41f073-d928-40e1-9495-029c900fa32a':{
-        type: "JOIN",
-        name: "Gradebook",
-        dataSources: ['c64e714b-798a-465f-ad2d-827995da9087', '24066b02-a089-47cf-a15a-4aa34db7ef81'],
-        func: `return a.map((row, i) => Map({ "Student": row.get('Student'), "Math Grade": row.get('Grade'), "Science Grade": b.get(i).get('Grade') }))`
-      },
-
       '81ff74ac-bba6-4f33-beec-63ebfb021c9d':{
+        position: 2,
         active: true,
         type: "TRANSFORM",
-        name: "Grades to decimal",
+        name: "Math Grades to decimal",
         parentId: 'c64e714b-798a-465f-ad2d-827995da9087',
         func: `return data.map( row => row.update('Grade', grade => parseInt(grade) / 100 ) )`
       },
+
+      '76f3bf01-b4f9-44e8-8848-e907cd7a3e77': { 
+        position: 3,
+        active: true,
+        type: "TRANSFORM",
+        name: "Science Grades to decimal",
+        parentId: '24066b02-a089-47cf-a15a-4aa34db7ef81',
+        func: `return data.map( row => row.update('Grade', grade => parseInt(grade) / 100 ) )`
+      },
+
+      'ac41f073-d928-40e1-9495-029c900fa32a':{
+        position: 3,
+        type: "JOIN",
+        name: "Gradebook",
+        dataSources: ['81ff74ac-bba6-4f33-beec-63ebfb021c9d', '76f3bf01-b4f9-44e8-8848-e907cd7a3e77']
+        func: `return a.map((row, i) => Map({ "Student": row.get('Student'), "Math Grade": row.get('Grade'), "Science Grade": b.get(i).get('Grade') }))`
+      },
       'cfb8e701-c1a1-4a3c-91fb-094fc863eaba':{
+        position: 4,
         active: true,
         type: "TRANSFORM",
         name: "Add Dimension: Pass/Fail",
@@ -89,6 +100,7 @@ render () {
         func: `return data.map( row => row.update('Letter', () => row.get('Grade') > .7 ? 'PASS' : 'FAIL' ) )`
       },
       'c522c2ae-b24b-4bbd-8633-3311c6b78c8d':{
+        position: 5,
         active: true,
         type: "TRANSFORM",
         name: "Filter Rows: Only Failures",
@@ -96,6 +108,7 @@ render () {
         func: `return data.filter( row => row.get('Letter') === 'FAIL' )`
       },
       'e5374b05-61ae-41eb-a090-f24b2cdfd194': {
+        position: 6,
         active: true,
         type: "TRANSFORM",
         name: "Filter Rows: Only Passes",
@@ -103,6 +116,7 @@ render () {
         func: `return data.filter( row => row.get('Letter') === 'PASS' )`
       },
       '31a4dc9e-ea97-44b2-8095-bb42d2458ce5': {
+        position: 7,
         type: "VISUALIZATION",
         name: "The shitty students",
         parentId: 'c522c2ae-b24b-4bbd-8633-3311c6b78c8d',
@@ -110,6 +124,7 @@ render () {
         vizConfig: {}
       },
       'dc18fc21-78c4-4131-84a6-86f8340b87cf': {
+        position: 8,
         type: "VISUALIZATION",
         name: "The good students",
         parentId: 'e5374b05-61ae-41eb-a090-f24b2cdfd194',
@@ -122,7 +137,7 @@ render () {
 
 cellToDelID
 
-hasDeps = cells.find((cell ) => cell.parentId === celltoDelId)
+hasDeps = cells.find((cell ) => cell.parentId === cellToDelId)
 
 
 
