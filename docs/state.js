@@ -20,11 +20,31 @@ var jsonString = JSON.stringify([{
   data: jsonString
 }
 
+/*
+ DATA   DATA
+    \ /
+    JOIN <-- new node
+   
+   
+    JOIN
+   /    \
+DATA   DATA
+*/
+
+
+render () {
+  <ul>{ this.props.cellMap.sort(this.props.cellOrderComparator).forEach(cell =>
+    <li>{cell.get('name')}</li>)}
+  </ul>
+}
+
+// https://facebook.github.io/immutable-js/docs/#/Iterable/sort
+
 {
   notebook: {
-    cells: {
-      'c64e714b-798a-465f-ad2d-827995da9087': {
-        name: "Gradebook",
+    cellMap: {
+      'c64e714b-798a-465f-ad2d-827995da9087':{
+        name: "Math Gradebook",
         cellType: "DATA",
         data: [{
           "Student": "Alice",
@@ -33,7 +53,27 @@ var jsonString = JSON.stringify([{
           "Student": "Bob",
           "Grade": "65"
         }]
-      },{
+      },
+
+      '24066b02-a089-47cf-a15a-4aa34db7ef81': {
+        name: "Science Gradebook",
+        cellType: "DATA",
+        data: [{
+          "Student": "Alice",
+          "Grade": "56"
+        },{
+          "Student": "Bob",
+          "Grade": "95"
+        }]
+      },
+
+      'ac41f073-d928-40e1-9495-029c900fa32a':{
+        type: "JOIN",
+        name: "Gradebook",
+        dataSources: ['c64e714b-798a-465f-ad2d-827995da9087', '24066b02-a089-47cf-a15a-4aa34db7ef81'],
+        func: `return a.map((row, i) => Map({ "Student": row.get('Student'), "Math Grade": row.get('Grade'), "Science Grade": b.get(i).get('Grade') }))`
+      },
+
       '81ff74ac-bba6-4f33-beec-63ebfb021c9d':{
         active: true,
         type: "TRANSFORM",
