@@ -13,3 +13,7 @@ export function draggedToBucket(columnIndex, bucketKey) {
     bucketKey
   }
 }
+
+export function appendCell(indexPath) {
+  return { type: 'APPEND_CELL' };
+}

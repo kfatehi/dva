@@ -158,4 +158,9 @@ io.on('connection', function(socket) {
     })
   })
 
+  socket.emit('action', {
+    type: 'OPEN_NOTEBOOK',
+    title: "My Notebook",
+    cells: [{ type: "UNSPECIFIED" }]
+  })
 });

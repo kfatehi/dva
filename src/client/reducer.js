@@ -6,6 +6,8 @@ import applyBucketMapping from '../apply-bucket-mapping';
 
 import { getModule } from '../extensions';
 
+import { combineReducers } from 'redux-immutable';
+
 function setVisualizationExtensions(state, action) {
   return state.updateIn(["viz", "available"], () => {
     return List(action.extensions.map(ext => Map(ext)));
@@ -90,10 +92,29 @@ function loadVisualizationBundle(state, action) {
     })
 }
 
-export default function (state = Map(), action) {
+function openNotebook(state, action) {
+  return state.update('notebook', () => Map({
+    title: action.title,
+    cells: fromJS(action.cells)
+  }));
+}
+
+function appendCell(state, action) {
+  return state.updateIn(['notebook', 'cells'], cells => {
+    return cells.push(Map({ type: 'UNSPECIFIED' }));
+  })
+}
+
+function dataReducer(state = Map(), action) {
   switch (action.type) {
     case 'SET_SOURCE_DATA':
       return setSourceData(state, action);
+  }
+  return state;
+}
+
+function appReducer(state = Map(), action) {
+  switch (action.type) {
     case 'SET_VISUALIZATION_EXTENSIONS':
       return setVisualizationExtensions(state, action);
     case 'SET_VISUALIZATION_SCHEMA':
@@ -102,6 +123,14 @@ export default function (state = Map(), action) {
       return loadVisualizationBundle(state, action);
     case 'DRAGGED_TO_BUCKET':
       return draggedToBucket(state, action);
+    case 'OPEN_NOTEBOOK':
+      return openNotebook(state, action);
+    case 'APPEND_CELL':
+      return appendCell(state, action);
   }
   return state;
 }
+
+export default combineReducers({
+  data: dataReducer
+});

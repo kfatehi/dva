@@ -28,8 +28,9 @@ let setVizSchema = function(schema) {
 }
 
 describe("client-side reducer", () => {
-  it("handles SET_SOURCE_DATA", () => {
+  it.only("handles SET_SOURCE_DATA", () => {
     let nextState = reducer(undefined, setSourceData())
+
     expect(nextState).to.equal(fromJS({
       data: {
         source: {
@@ -287,6 +288,41 @@ describe("client-side reducer", () => {
           group: ['B'],
           value: ['88']
       }]))
+    });
+  });
+
+  describe("handles OPEN_NOTEBOOK", () => {
+    it("sets up an empty notebook", () => {
+      let nextState = reducer(undefined, {
+        type: 'OPEN_NOTEBOOK',
+        title: "My Notebook",
+        cells: []
+      })
+      expect(nextState.get('notebook')).to.equal(fromJS({
+        title: "My Notebook",
+        cells: []
+      }))
+    });
+  });
+
+  describe("handles APPEND_CELL", () => {
+    it("no cells, appends a cell of UNSPECIFIED type", () => {
+      let initialState = fromJS({ notebook: { cells: [] } })
+      let nextState = reducer(initialState, { type: 'APPEND_CELL' });
+      expect(nextState.getIn(['notebook', 'cells'])).to.equal(fromJS([
+        { type: 'UNSPECIFIED' }
+      ]))
+    });
+
+    it("existing cells, append a cell", () => {
+      let cells = [{ type: 'foo' },{ type: 'bar' }];
+      let initialState = fromJS({ notebook: { cells } });
+      let nextState = reducer(initialState, { type: 'APPEND_CELL' });
+      expect(nextState.getIn(['notebook', 'cells'])).to.equal(fromJS([
+        { type: 'foo' },
+        { type: 'bar' },
+        { type: 'UNSPECIFIED' }
+      ]))
     });
   });
 });

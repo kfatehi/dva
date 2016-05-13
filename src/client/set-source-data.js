@@ -1,4 +1,4 @@
-import {List, Map } from 'immutable';
+import { List, Map } from 'immutable';
 
 function applyTransforms(columns, rows, transforms) {
   // TBD
@@ -38,7 +38,7 @@ export function setSourceData(state, action) {
   const transforms = List();
   const sink = computeSink(columns, rows, transforms);
   return state
-    .updateIn(['data', 'source'], data => sourceData)
-    .updateIn(['data', 'transforms'], () => transforms)
-    .updateIn(['data', 'sink'], () => sink)
+    .updateIn(['source'], data => sourceData)
+    .updateIn(['transforms'], () => transforms)
+    .updateIn(['sink'], () => sink)
 }

@@ -1,52 +1,88 @@
+var jsonString = JSON.stringify([{
+  "Student": "Alice",
+  "Grade": "95"
+},{
+  "Student": "Bob",
+  "Grade": "89"
+}])
+
 {
-  data: {
-    // { type: "SET_SOURCE_DATA", info: {}, columns: [], rows: [] }
-    source: {
-      columns: ['Student ID', 'Grade'],
-      rows: [['1234567', '95'], ['4556788', '88']],
-      info: {} // data set metadata, e.g. it's CSV, or MySQL, a timestamp; show or not show a refresh button
-    },
+  notebook: {
+    cells: {}
+  }
+}
 
-    // { type: "SET_TRANSFORMS", mutators: [{ func: '[stringified function body]', type: 'filter' }] }
-    transforms: [{
-      func: '[stringified function body]',
-      type: 'filter' // user can reduce the number of rows with this array of functions
-      errors: [], // debugging purposes
-    },{
-      func: '[stringified function body]',
-      type: 'calculation' // user can create, remove, manipulate columns with this array of functions
-      errors: [], // debugging purposes
-    }],
+{
+  type: "APPEND_CELL",
+  name: "Gradebook",
+  cellType: "DATA",
+  contentType: "application/json"
+  data: jsonString
+}
 
-    sink: {
-      // { type: "COMPUTE_SINK_DATA" }
-      // this applies all the transforms, resulting in a final, filtered and typed data set
-      columns: ['Student ID', 'Grade'],
-      rows: [['1234567', '95'], ['4556788', '88']],
-
-      // { type: "SET_COLUMN_TYPE", index: 0, columnType: 'dimension' }
-      // this action would allow user to correct/override/set if a column is a measure or dimension
-      measures: [], // a list of indices
-      dimensions: [], // a list of indices
-    }
-  },
-
-  viz: {
-    available: [{
-      id: 'my.barchart',
-      schema: {}
-    }],
-
-    // { type: "SET_VISUALIZATION_SCHEMA", id: 'my.barchart' }
-    selected: {
-      id: 'my.barchart',
-      buckets: {} // from the schema
-
-      bucketMapping: {},
-      props: {},
-
-      config: {}, // passed into render
-      module: {} // actual extension object -- should have a render function
+{
+  notebook: {
+    cells: {
+      'c64e714b-798a-465f-ad2d-827995da9087': {
+        name: "Gradebook",
+        cellType: "DATA",
+        data: [{
+          "Student": "Alice",
+          "Grade": "95"
+        },{
+          "Student": "Bob",
+          "Grade": "65"
+        }]
+      },{
+      '81ff74ac-bba6-4f33-beec-63ebfb021c9d':{
+        active: true,
+        type: "TRANSFORM",
+        name: "Grades to decimal",
+        parentId: 'c64e714b-798a-465f-ad2d-827995da9087',
+        func: `return data.map( row => row.update('Grade', grade => parseInt(grade) / 100 ) )`
+      },
+      'cfb8e701-c1a1-4a3c-91fb-094fc863eaba':{
+        active: true,
+        type: "TRANSFORM",
+        name: "Add Dimension: Pass/Fail",
+        parentId: '81ff74ac-bba6-4f33-beec-63ebfb021c9d',
+        func: `return data.map( row => row.update('Letter', () => row.get('Grade') > .7 ? 'PASS' : 'FAIL' ) )`
+      },
+      'c522c2ae-b24b-4bbd-8633-3311c6b78c8d':{
+        active: true,
+        type: "TRANSFORM",
+        name: "Filter Rows: Only Failures",
+        parentId: 'cfb8e701-c1a1-4a3c-91fb-094fc863eaba',
+        func: `return data.filter( row => row.get('Letter') === 'FAIL' )`
+      },
+      'e5374b05-61ae-41eb-a090-f24b2cdfd194': {
+        active: true,
+        type: "TRANSFORM",
+        name: "Filter Rows: Only Passes",
+        parentId: 'cfb8e701-c1a1-4a3c-91fb-094fc863eaba',
+        func: `return data.filter( row => row.get('Letter') === 'PASS' )`
+      },
+      '31a4dc9e-ea97-44b2-8095-bb42d2458ce5': {
+        type: "VISUALIZATION",
+        name: "The shitty students",
+        parentId: 'c522c2ae-b24b-4bbd-8633-3311c6b78c8d',
+        vizExtId: 'my.barchart',
+        vizConfig: {}
+      },
+      'dc18fc21-78c4-4131-84a6-86f8340b87cf': {
+        type: "VISUALIZATION",
+        name: "The good students",
+        parentId: 'e5374b05-61ae-41eb-a090-f24b2cdfd194',
+        vizExtId: 'my.barchart',
+        vizConfig: {}
+      }
     }
   }
 }
+
+cellToDelID
+
+hasDeps = cells.find((cell ) => cell.parentId === celltoDelId)
+
+
+

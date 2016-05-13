@@ -8,6 +8,8 @@ module.exports = {
     bundle: `${__dirname}/src/client/index.jsx`,
     vendor: [
       'redux',
+      'redux-immutable',
+      'redux-form',
       'react',
       'react-dom',
       'react-redux',
@@ -32,12 +34,13 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
-      { test: /\.css$/, loader: "style/useable!css" },
+      { test: /\.css$/, exclude: /\.useable\.css$/, loader: "style!css" },
+      { test: /\.useable\.css$/, loader: "style/useable!css" },
       { test: /\.json/, loader: "json" },
     ]
   },
   plugins: [
     //new ExtractTextPlugin('style.css'),
-    new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
+    new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js"),
   ]
 };
