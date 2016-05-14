@@ -8,10 +8,9 @@
     "db:migrate": "sequelize db:migrate",
     "start": "npm run db:migrate && DEBUG=dva:* babel-node bin/www",
     "test": "mocha --compilers js:babel-core/register --require ./test/test-helper.js \"test/**/*@(.js|.jsx)\"",
-    "tdd": "tmuxtdd run --watch={src,test}/**/*.{js,jsx} --cmd='npm test' --fmt='tests S{#[bg=yellow]ON,#[bg=green]OK,#[bg=red]FAIL}'",
-    "dev": "tmuxtdd run --watch={bin/www,src/server/**/*.js} --kill --cmd='DEBUG=dva:* babel-node bin/www' --fmt='server S{#[bg=green]ON,#[bg=red]OFF,#[bg=red]ERR}'",
-    "autobundle": "tmuxtdd run --watch={bin/www,src/server/**/*.js} --kill --cmd='DEBUG=dva:* babel-node bin/build-ext-bundles' --fmt='bundler S{#[bg=green]ON,#[bg=red]OFF,#[bg=red]ERR}'",
-    "webpack:watch": "tmuxtdd run --watch={*.js,{src,test}/**/*.{js,jsx}} --kill --cmd='webpack --bail' --fmt='webpack S{#[bg=yellow]...,#[bg=green]OK,#[bg=red]ERR}'",
+    "test:watch": "mocha -w --compilers js:babel-core/register --require ./test/test-helper.js \"test/**/*@(.js|.jsx)\"",
+    "webpack": "webpack",
+    "webpack:watch": "webpack --watch",
     "deploy": "pm2 deploy ecosystem.json production",
     "postinstall": "webpack"
   },

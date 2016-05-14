@@ -28,11 +28,12 @@ export const NotebookCell = React.createClass({
     </div>;
   },
   renderTransformCell: function() {
-    return <div>
-      <h1>{this.props.cell.get('name')}</h1>
+    return <div>{ this.props.cellBeingEdited ? null :
+      <div>
+        <h1>{this.props.cell.get('name')}</h1>
+        <pre>{this.getCellDataAsPrettyJSON()}</pre>
+      </div>}
       <CellEditor {...this.props} />
-      { this.props.cellBeingEdited ? null :
-        <pre>{this.getCellDataAsPrettyJSON()}</pre> }
     </div>;
   }
 })
