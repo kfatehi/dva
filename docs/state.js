@@ -16,6 +16,7 @@ var jsonString = JSON.stringify([{
 
 {
   notebook: {
+    editingCell: null, // id of cell in edit mode
     cells: [
       'c64e714b-798a-465f-ad2d-827995da9087',
       '24066b02-a089-47cf-a15a-4aa34db7ef81',

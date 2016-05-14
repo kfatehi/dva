@@ -22,9 +22,10 @@ export const CellEditor = React.createClass({
       },
       onChange: (newValue) => value = newValue, 
     }
+
     let toggleEdit = () => {
-      this.props.editingCell(this.props.cellId, !editing)
-      getEditor().focus()
+      this.props.editingCell(this.props.cellId, !editing);
+      getEditor().focus();
     }
 
     let save = () => {
@@ -38,6 +39,7 @@ export const CellEditor = React.createClass({
 
     let edit = () => {
       return this.props.editingCell(this.props.cellId, true);
+      getEditor().focus();
     }
 
     if (editing) {

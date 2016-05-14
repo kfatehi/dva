@@ -31,7 +31,8 @@ export const NotebookCell = React.createClass({
     return <div>
       <h1>{this.props.cell.get('name')}</h1>
       <CellEditor {...this.props} />
-      <pre>{this.getCellDataAsPrettyJSON()}</pre>
+      { this.props.cellBeingEdited ? null :
+        <pre>{this.getCellDataAsPrettyJSON()}</pre> }
     </div>;
   }
 })
