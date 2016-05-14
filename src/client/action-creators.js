@@ -1,3 +1,5 @@
+import genUUID from '../uuid';
+
 export function selectExtension(id) {
   return {
     meta: { remote: true },
@@ -14,6 +16,9 @@ export function draggedToBucket(columnIndex, bucketKey) {
   }
 }
 
-export function appendCell(indexPath) {
-  return { type: 'APPEND_CELL' };
+export function appendCell(cellType, props) {
+  return Object.assign({}, {
+    type: "APPEND_CELL", cellType,
+    uuid: genUUID()
+  }, props);
 }

@@ -8,7 +8,7 @@ module.exports = {
     bundle: `${__dirname}/src/client/index.jsx`,
     vendor: [
       'redux',
-      'redux-immutable',
+      'redux-immutablejs',
       'redux-form',
       'react',
       'react-dom',

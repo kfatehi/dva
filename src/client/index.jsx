@@ -7,7 +7,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Router, Route, hashHistory } from 'react-router';
 import remoteActionMiddleware from './remote-action-middleware';
 
-import reducer from './reducer';
+import * as reducers from './reducers';
 import App from './components/App';
 import { DragDropWorkspaceContainer } from './components/Workspace';
 import { NotebookContainer } from './components/Notebook';
