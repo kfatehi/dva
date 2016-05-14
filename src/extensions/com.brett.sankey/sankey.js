@@ -1,10 +1,10 @@
 export default function() {
-  var sankey = {},
-      nodeWidth = 24,
-      nodePadding = 8,
-      size = [1, 1],
-      nodes = [],
-      links = [];
+  var sankey = {};
+  var nodeWidth = 24;
+  var  nodePadding = 8;
+  var size = [1, 1];
+  var nodes = [];
+  var links = [];
 
   sankey.nodeWidth = function(_) {
     if (!arguments.length) return nodeWidth;
@@ -37,11 +37,11 @@ export default function() {
   };
 
   sankey.layout = function(iterations) {
-    computeNodeLinks();
-    computeNodeValues();
-    computeNodeBreadths();
-    computeNodeDepths(iterations);
-    computeLinkDepths();
+      computeNodeLinks();
+  //  computeNodeValues();
+  //  computeNodeBreadths();
+  // computeNodeDepths(iterations);
+  //  computeLinkDepths();
     return sankey;
   };
 
@@ -83,14 +83,21 @@ export default function() {
       node.sourceLinks = [];
       node.targetLinks = [];
     });
+
+
+
     links.forEach(function(link) {
       var source = link.source,
           target = link.target;
       if (typeof source === "number") source = link.source = nodes[link.source];
       if (typeof target === "number") target = link.target = nodes[link.target];
-      source.sourceLinks.push(link);
-      target.targetLinks.push(link);
+      
+console.log(sankey);
+//console.log(links);
+	source.sourceLinks.push(link);
+     	target.targetLinks.push(link);
     });
+
   }
 
   // Compute the value (size) of each node by summing the associated links.

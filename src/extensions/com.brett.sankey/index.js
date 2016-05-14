@@ -28,13 +28,13 @@ var formatNumber = d3.format(",.0f"),    // zero decimal places
     color = d3.scale.category20();
 
 // append the svg canvas to the page
-var svg = d3.select(container)
+var svg = d3.select(container).append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
-/*
+
 // Set the sankey diagram properties
 var sankey = sankeyLib()
     .nodeWidth(36)
@@ -44,7 +44,8 @@ var sankey = sankeyLib()
 var path = sankey.link();
 
   //set up graph in same style as original example but empty
-  graph = {"nodes" : [], "links" : []};
+  var graph = {"nodes" : [],
+	   "links" : []};
 
     data.forEach(function (d) {
       graph.nodes.push({ "name": d['source']});
@@ -76,6 +77,7 @@ var path = sankey.link();
     .nodes(graph.nodes)
     .links(graph.links)
     .layout(32);
+
 
 // add in the links
   var link = svg.append("g").selectAll(".link")
@@ -113,7 +115,7 @@ var path = sankey.link();
       .attr("height", function(d) { return d.dy; })
       .attr("width", sankey.nodeWidth())
       .style("fill", function(d) { 
---->fix		  return d.color = color(d.name.replace(/ .*//*, "")); })
+		  return d.color = color(d.name.replace(/ .*/, "")); })
       .style("stroke", function(d) { 
 		  return d3.rgb(d.color).darker(2); })
     .append("title")
@@ -141,7 +143,4 @@ var path = sankey.link();
     sankey.relayout();
     link.attr("d", path);
   }
-
-
-*/
 }
