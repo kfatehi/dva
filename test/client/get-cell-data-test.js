@@ -33,6 +33,12 @@ describe("getCellData", () => {
       parentId: 'cfb8e701-c1a1-4a3c-91fb-094fc863eaba',
       func: `return data.filter( row => row.get('PF') === 'PASS' )`
     },
+    '62e87ecd-1ea9-4c2c-bc2d-9eb47e528346': {
+      cellType: "TRANSFORM",
+      name: "Just a Lib Test",
+      parentId: 'cfb8e701-c1a1-4a3c-91fb-094fc863eaba',
+      func: `return data.map( row => List.of(1) )`
+    }
   });
 
   it("can get data from a DATA cell", () => {
@@ -77,5 +83,10 @@ describe("getCellData", () => {
       "Grade": 0.95,
       "PF": "PASS"
     }]))
+  });
+
+  it("can use immutable", () => {
+    let data = getCellData(cellsById, '62e87ecd-1ea9-4c2c-bc2d-9eb47e528346');
+    expect(data).to.equal(fromJS([ [1], [1] ]))
   });
 });
