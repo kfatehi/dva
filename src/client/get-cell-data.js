@@ -17,18 +17,19 @@ function parentGetter(cellsById) {
   }
 }
 
-function transformTo(getCellParent, cell) {
+function transformTo(getCellParent, cell, _chain = List()) {
   const parentId = cell.get('parentId');
-
-  let funcChain = List.of(Function("data", cell.get('func')));
-
-  // go through parents until you find a DATA
+  const chain = _chain.push(Function("data", cell.get('func')))
   const parentCell = getCellParent(cell)
 
-  if (parentCell.get('cellType') === 'DATA') {
-    // get the data and run the func chain
-    return funcChain.reduce((data,fn) => fn(data), parentCell.get('data'))
-  } else {
-    return null;
+  switch (parentCell.get('cellType')) {
+    case 'DATA':
+      return applyChain(chain, parentCell.get('data'))
+    case 'TRANSFORM':
+      return transformTo(getCellParent, parentCell, chain);
   }
+}
+
+function applyChain(chain, data) {
+  return chain.reverse().reduce((data,fn) => fn(data), data)
 }
