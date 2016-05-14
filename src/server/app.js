@@ -121,46 +121,7 @@ app.use('/ext', express.static('extensions'));
 
 app.use(express.static('public'));
 
-function loadVisualizationExtension(socket, action) {
-  socket.emit('action', {
-    type: 'SET_VISUALIZATION_SCHEMA',
-    schema: extensions.getSchema(action.id)
-  })
-  socket.emit('action', {
-    type: 'LOAD_VISUALIZATION_BUNDLE',
-    id: action.id
-  })
-}
-
 io.on('connection', function(socket) {
   const user = socket.request.user;
-  debug(`${user.email} connected, sending a document`);
-
-  socket.on('action', function(action) {
-    switch (action.type) {
-      case 'SELECT_VISUALIZATION_EXTENSION':
-        return loadVisualizationExtension(socket, action);
-    }
-  })
-
-  socket.emit('action', {
-    type: 'SET_SOURCE_DATA',
-    columns: ['Category', 'Grade'],
-    rows: [['A', '95'], ['B', '88']],
-  })
-
-  socket.emit('action', {
-    type: 'SET_VISUALIZATION_EXTENSIONS',
-    extensions: extensions.getIds().map( id => {
-      return {
-        id: id
-      }
-    })
-  })
-
-  socket.emit('action', {
-    type: 'OPEN_NOTEBOOK',
-    title: "My Notebook",
-    cells: [{ type: "UNSPECIFIED" }]
-  })
+  debug(`${user.email} connected`);
 });
