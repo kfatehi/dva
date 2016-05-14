@@ -4,15 +4,14 @@ import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';
 
 const renderTable = (container, columns, rows) => {
-  console.log(columns, rows);
   var table = d3.select(container)
     .append("table")
 
   table.append('thead').append("tr")
-    .selectAll("td").data(columns).enter().append('td').text(d=>d)
+    .selectAll("td").data(columns.toJS()).enter().append('td').text(d=>d)
 
   table.append('tbody')
-    .selectAll("tr").data(rows).enter().append("tr")
+    .selectAll("tr").data(rows.toJS()).enter().append("tr")
     .selectAll("td").data(d=>d).enter().append("td").text(d=>d)
 }
 

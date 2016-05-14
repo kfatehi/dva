@@ -2,12 +2,14 @@ import { List, Map } from 'immutable';
 
 export default function getCellData(cellsById, cellId, options) {
   let root = cellsById.get(cellId);
-  let parentGetter = cell => cellsById.get(cell.get('parentId'));
+  let getParent = cell => cellsById.get(cell.get('parentId'));
   switch (root.get('cellType')) {
     case 'DATA':
       return root.get('data');
     case 'TRANSFORM':
-      return transformTo(parentGetter, root, List(), options);
+      return transformTo(getParent, root, List(), options);
+    case 'VISUALIZATION':
+      return transformTo(getParent, getParent(root), List(), options);
   }
   return List();
 }

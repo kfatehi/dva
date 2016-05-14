@@ -69,10 +69,6 @@ export const Workspace = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    dimensions: state.getIn(['data', 'sink', 'dimensions']),
-    measures: state.getIn(['data', 'sink', 'measures']),
-    columns: state.getIn(['data', 'sink', 'columns']),
-    rows: state.getIn(['data', 'sink', 'rows']),
     vizExts: state.getIn(['viz', 'available']),
     vizSelected: state.getIn(['viz', 'selected']),
     bucketMap: state.getIn(['viz', 'selected', 'bucketMapping', 'bucketMap']),

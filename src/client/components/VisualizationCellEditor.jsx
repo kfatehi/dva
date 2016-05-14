@@ -1,8 +1,9 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { fromJS } from 'immutable';
+import { List, fromJS } from 'immutable';
 import { DragDropWorkspaceContainer } from './Workspace';
 import { toRowColImmutable as toRowCol } from '../data-converter';
+import parseDimensionsMeasures from '../parse-dimensions-measures';
 
 export const VisualizationCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -38,7 +39,8 @@ export const VisualizationCellEditor = React.createClass({
     }
 
     if (editing) {
-      let { rows, columns } = toRowCol(getData())
+      let { rows, columns } = toRowCol(this.props.getData())
+      let { dimensions, measures } = parseDimensionsMeasures(rows.first());
       return (
         <div>
           <label>Data Source</label>
@@ -52,7 +54,12 @@ export const VisualizationCellEditor = React.createClass({
           <input type="text"
             onChange={ev=>fields.name=ev.target.value}
             defaultValue={fields.name} />
-          <DragDropWorkspaceContainer />
+          <DragDropWorkspaceContainer
+            dimensions={dimensions}
+            measures={measures}
+            columns={columns}
+            rows={rows}
+          />
           <button onClick={save}>Save</button>
           <button onClick={cancel}>Cancel</button>
         </div>

@@ -38,6 +38,11 @@ describe("getCellData", () => {
       name: "Just a Lib Test",
       parentId: 'cfb8e701-c1a1-4a3c-91fb-094fc863eaba',
       func: `return data.map( row => List.of(1) )`
+    },
+    'fbab120b-a409-4dc4-b8c2-dc1fdf65a1a1': {
+      cellType: "VISUALIZATION",
+      name: "Good Students",
+      parentId: 'e5374b05-61ae-41eb-a090-f24b2cdfd194',
     }
   });
 
@@ -95,5 +100,14 @@ describe("getCellData", () => {
       funcOverride: 'return "hi"'
     });
     expect(data).to.equal('hi');
+  });
+
+  it("can get data from a VISUALIZATION cell 4 levels deep", () => {
+    let data = getCellData(cellsById, 'fbab120b-a409-4dc4-b8c2-dc1fdf65a1a1');
+    expect(data).to.equal(fromJS([{
+      "Student": "Alice",
+      "Grade": 0.95,
+      "PF": "PASS"
+    }]))
   });
 });
