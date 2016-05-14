@@ -26,7 +26,19 @@ export const CellEditor = React.createClass({
         lineNumbers: true,
         mode: 'javascript',
       },
-      onChange: (newValue) => fields.func = newValue, 
+      onChange: (newValue) => {
+        fields.func = newValue
+        this.refs.preview.textContent = getDataPreview()
+      }
+    }
+
+    let getDataPreview = () => {
+      try {
+        let data = this.props.getData({funcOverride:fields.func})
+        return JSON.stringify(data, null, 2);
+      } catch (e) {
+        return e.stack;
+      }
     }
 
     let toggleEdit = () => {
@@ -65,6 +77,7 @@ export const CellEditor = React.createClass({
             onChange={ev=>fields.name=ev.target.value}
             defaultValue={fields.name} />
           <Codemirror {...editorProps} />
+          <pre ref="preview">{getDataPreview()}</pre>
           <button onClick={save}>Save</button>
           <button onClick={cancel}>Cancel</button>
         </div>

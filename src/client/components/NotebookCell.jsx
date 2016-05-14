@@ -44,7 +44,7 @@ function mapStateToProps(state, props) {
   let cell = cellsById.get(props.cellId);
   let cellsBefore = notebook.get('cells').takeUntil(id=>id === props.cellId);
   let cellBeingEdited = notebook.get('editingCell') === props.cellId;
-  let getData = () => getCellData(cellsById, props.cellId);
+  let getData = (opts) => getCellData(cellsById, props.cellId, opts);
   return { cellBeingEdited, cell, cellsById, cellsBefore, getData };
 }
 
