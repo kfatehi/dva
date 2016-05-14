@@ -41,9 +41,13 @@ export const NotebookCell = React.createClass({
 function mapStateToProps(state, props) {
   let notebook = state.get('notebook');
   let cellsById = notebook.get('cellsById');
+  let thisCell = cellsById.get(props.cellId);
+  let cellsBefore = notebook.get('cells').takeUntil(id=>id === props.cellId);
   return {
     cellBeingEdited: notebook.get('editingCell') === props.cellId,
-    cell: cellsById.get(props.cellId),
+    cell: thisCell,
+    cellsById: notebook.get('cellsById'),
+    cellsBefore: cellsBefore,
     getData: () => getCellData(cellsById, props.cellId)
   };
 }

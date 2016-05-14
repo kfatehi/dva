@@ -12,7 +12,8 @@ export const CellEditor = React.createClass({
   render: function() {
     let fields = {
       func: this.props.cell.get('func'),
-      name: this.props.cell.get('name')
+      name: this.props.cell.get('name'),
+      parentId: this.props.cell.get('parentId')
     }
 
     let editing = this.props.cellBeingEdited;
@@ -52,6 +53,13 @@ export const CellEditor = React.createClass({
     if (editing) {
       return (
         <div>
+          <label>Data Source</label>
+          <select
+            defaultValue={fields.parentId}
+            onChange={ev=>fields.parentId=ev.target.value}
+          >{this.props.cellsBefore.map(id =>
+            <option value={id}>{this.props.cellsById.get(id).get('name')}</option>)}
+          </select>
           <label>Name</label>
           <input type="text"
             onChange={ev=>fields.name=ev.target.value}
