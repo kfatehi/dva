@@ -58,7 +58,7 @@ export const CellEditor = React.createClass({
             defaultValue={fields.parentId}
             onChange={ev=>fields.parentId=ev.target.value}
           >{this.props.cellsBefore.map(id =>
-            <option value={id}>{this.props.cellsById.get(id).get('name')}</option>)}
+            <option key={id} value={id}>{this.props.cellsById.get(id).get('name')}</option>)}
           </select>
           <label>Name</label>
           <input type="text"
