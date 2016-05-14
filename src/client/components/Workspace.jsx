@@ -8,6 +8,7 @@ import {Datatable} from './Datatable';
 import {DraggableDimension} from './Dimension';
 import {BucketMapper} from './BucketMapper';
 import {Visualization} from './Visualization';
+import { getExtensions } from '../../extensions';
 
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -15,13 +16,13 @@ import HTML5Backend from 'react-dnd-html5-backend';
 export const Workspace = React.createClass({
   mixins: [PureRenderMixin],
   getDimensions: function() {
-    return (this.props.dimensions || List()).map(columnIndex => {
-      return {columnIndex, name:this.props.columns.get(columnIndex)}
+    return this.props.dimensions.map(columnIndex => {
+      return {columnIndex, name: this.props.columns.get(columnIndex)}
     });
   },
   getMeasures: function(callback) {
-    return (this.props.measures || List()).map(columnIndex => {
-      return {columnIndex, name:this.props.columns.get(columnIndex)}
+    return this.props.measures.map(columnIndex => {
+      return {columnIndex, name: this.props.columns.get(columnIndex)}
     });
   },
   getExtensions: function(callback) {
@@ -45,11 +46,10 @@ export const Workspace = React.createClass({
           </li>)}
         </ul>
         <h3>Visualization Extensions</h3>
-        <ul>{this.getExtensions().map(ext =>
-          <li key={ext.get('id')}>
-            <button onClick={() => this.props.selectExtension(ext.get('id'))}>
-              {ext.get('id')}
-            </button>
+        <ul>{getExtensions().map(ext =>
+          <li key={ext.info.id}
+            className={this.props.visExtId === ext.info.id ? 'selected' : null}>
+            <button onClick={this.props.setVisExtId}>{ext.info.id}</button>
           </li>)}
         </ul>
         { this.props.vizSelected ? <BucketMapper
@@ -69,11 +69,11 @@ export const Workspace = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    vizExts: state.getIn(['viz', 'available']),
-    vizSelected: state.getIn(['viz', 'selected']),
-    bucketMap: state.getIn(['viz', 'selected', 'bucketMapping', 'bucketMap']),
-    vizConfig: state.getIn(['viz', 'selected', 'config']),
-    extension: state.getIn(['viz', 'selected', 'module'])
+    //vizExts: state.getIn(['viz', 'available']),
+    //vizSelected: state.getIn(['viz', 'selected']),
+    //bucketMap: state.getIn(['viz', 'selected', 'bucketMapping', 'bucketMap']),
+    //vizConfig: state.getIn(['viz', 'selected', 'config']),
+    //extension: state.getIn(['viz', 'selected', 'module'])
   };
 }
 

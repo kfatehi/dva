@@ -83,7 +83,6 @@ let d = actionCreators.appendCell('TRANSFORM', {
 let e = actionCreators.appendCell('VISUALIZATION', {
   name: "Good Students",
   parentId: d.uuid,
-  //vizExtId: 'com.keyvan.barchart',
 })
 
 store.dispatch(a)

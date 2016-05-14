@@ -5,6 +5,10 @@ export function getIds() {
   ]
 }
 
+export function getExtensions() {
+  return getIds().map(id => getSchema(id));
+}
+
 export function getSchema(id) {
   return require(`../extensions/${id}/schema.json`)
 }

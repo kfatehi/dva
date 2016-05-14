@@ -3,9 +3,13 @@ ul.notebook {
   margin:0;
 }
 
-ul.notebook li {
+ul.notebook > li {
   border: 1px solid #ccc;
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+li.selected {
+  border: 3px solid #ccc;
 }

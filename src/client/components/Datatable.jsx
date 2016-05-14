@@ -18,7 +18,6 @@ const renderTable = (container, columns, rows) => {
 export const Datatable = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    console.log(this.props);
     if (this.props.columns && this.props.rows) {
       let el = ReactFauxDOM.createElement('div');
       renderTable(el, this.props.columns, this.props.rows);
