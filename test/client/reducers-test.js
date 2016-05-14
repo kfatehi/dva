@@ -11,17 +11,17 @@ let gradebookData = [{
   "Grade": "65"
 }]
 
+let appendDataCellAction = (data) =>
+  actionCreators
+    .appendCell('DATA', {
+      name: "Math Gradebook",
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      uuid: genUUID()
+    })
+
 describe("notebook reducer", () => {
   describe("action APPEND_CELL", () => {
-
-    let appendDataCellAction = (data) =>
-      actionCreators
-        .appendCell('DATA', {
-          name: "Math Gradebook",
-          contentType: "application/json",
-          data: JSON.stringify(data),
-          uuid: genUUID()
-        })
 
     it("creates first DATA cell", () => {
       let action = appendDataCellAction(gradebookData)
@@ -64,5 +64,24 @@ describe("notebook reducer", () => {
         func: action2.func
       }));
     });
+  });
+
+  describe("action FLAG_CELL", () => {
+    let initialState = null;
+
+    beforeEach(function() {
+      let a = appendDataCellAction(gradebookData);
+      let b = actionCreators.appendCell('TRANSFORM', {
+        name: '', parentId: a.uuid, func: '', uuid: 'b'
+      });
+      initialState = [a,b].reduce(reducers.notebook, Map({}));
+    })
+
+    it("can set a transform cell's editing boolean to true", () => {
+      let action = actionCreators.editingCell('b', true);
+      let nextState = reducers.notebook(initialState, action);
+      expect(nextState.getIn(['cellsById', 'b', 'editing'])).to.equal(true);
+    });
+    
   });
 });

@@ -22,3 +22,12 @@ export function appendCell(cellType, props) {
     uuid: genUUID()
   }, props);
 }
+
+export function editingCell(cellId, editingBool) {
+  return {
+    type: "FLAG_CELL",
+    key: 'editing',
+    value: editingBool,
+    uuid: cellId,
+  }
+}

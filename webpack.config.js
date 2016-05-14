@@ -9,7 +9,7 @@ module.exports = {
     vendor: [
       'redux',
       'redux-immutablejs',
-      'redux-form',
+      'react-codemirror',
       'react',
       'react-dom',
       'react-redux',

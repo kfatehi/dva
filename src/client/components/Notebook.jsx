@@ -5,7 +5,6 @@ import * as actionCreators from '../action-creators';
 import { List, Map, fromJS } from 'immutable';
 
 import { Datatable } from './Datatable';
-import { NewCellForm } from './NewCellForm';
 import { NotebookCell } from './NotebookCell';
 
 
