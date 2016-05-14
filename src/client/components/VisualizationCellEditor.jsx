@@ -1,6 +1,8 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { fromJS } from 'immutable';
+import { DragDropWorkspaceContainer } from './Workspace';
+import { toRowColImmutable as toRowCol } from '../data-converter';
 
 export const VisualizationCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -36,6 +38,7 @@ export const VisualizationCellEditor = React.createClass({
     }
 
     if (editing) {
+      let { rows, columns } = toRowCol(getData())
       return (
         <div>
           <label>Data Source</label>
@@ -49,7 +52,7 @@ export const VisualizationCellEditor = React.createClass({
           <input type="text"
             onChange={ev=>fields.name=ev.target.value}
             defaultValue={fields.name} />
-          <div>viz goes here still</div>
+          <DragDropWorkspaceContainer />
           <button onClick={save}>Save</button>
           <button onClick={cancel}>Cancel</button>
         </div>
