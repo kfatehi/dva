@@ -63,7 +63,7 @@ let action1 = actionCreators.appendCell('DATA', {
 
 let action2 = actionCreators.appendCell('TRANSFORM', {
   name: "Math Grades to decimal",
-  parentId: newCell.uuid,
+  parentId: action1.uuid,
   func: `return data.map( row => row.update('Grade', grade => parseInt(grade) / 100 ) )`
 })
 

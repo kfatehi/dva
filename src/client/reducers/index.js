@@ -1,6 +1,5 @@
 import { Map, List, fromJS } from 'immutable';
 
-
 export function notebook(state = Map(), action) {
   function createCell(action) {
     function createDataCell(action) {
