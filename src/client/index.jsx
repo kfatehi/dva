@@ -55,19 +55,33 @@ let data = [{
   "Grade": "65"
 }]
 
-let action1 = actionCreators.appendCell('DATA', {
+let a = actionCreators.appendCell('DATA', {
   name: "Math Gradebook",
   contentType: "application/json",
   data: JSON.stringify(data)
 })
 
-let action2 = actionCreators.appendCell('TRANSFORM', {
+let b = actionCreators.appendCell('TRANSFORM', {
   name: "Math Grades to decimal",
-  parentId: action1.uuid,
+  parentId: a.uuid,
   func: `return data.map( row => row.update('Grade', grade => parseInt(grade) / 100 ) )`
 })
 
-store.dispatch(action1);
-store.dispatch(action2);
+let c = actionCreators.appendCell('TRANSFORM', {
+  name: "Add Dimension: Pass/Fail",
+  cellType: "TRANSFORM",
+  parentId: b.uuid,
+  func: `return data.map( row => row.update('PF', () => row.get('Grade') > .7 ? 'PASS' : 'FAIL' ) )`
+})
 
+let d = actionCreators.appendCell('TRANSFORM', {
+  cellType: "TRANSFORM",
+  name: "Filter Rows: Only Passes",
+  parentId: c.uuid,
+  func: `return data.filter( row => row.get('PF') === 'PASS' )`
+})
 
+store.dispatch(a)
+store.dispatch(b)
+store.dispatch(c)
+store.dispatch(d)
