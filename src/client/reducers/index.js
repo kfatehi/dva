@@ -37,4 +37,5 @@ export function notebook(state = Map(), action) {
     case 'APPEND_CELL':
       return appendCell(state, action.uuid, createCell(action));
   }
+  return state;
 }
