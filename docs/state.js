@@ -14,14 +14,6 @@ var jsonString = JSON.stringify([{
   data: jsonString
 }
 
-render () {
-  <ul>{ this.props.cellMap.sort(this.props.cellOrderComparator).forEach(cell =>
-    <li>{cell.get('name')}</li>)}
-  </ul>
-}
-
-// https://facebook.github.io/immutable-js/docs/#/Iterable/sort
-
 {
   notebook: {
     cells: [

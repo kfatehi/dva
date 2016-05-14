@@ -4,6 +4,7 @@ import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';
 
 const renderTable = (container, columns, rows) => {
+  console.log(columns, rows);
   var table = d3.select(container)
     .append("table")
 
@@ -18,9 +19,10 @@ const renderTable = (container, columns, rows) => {
 export const Datatable = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
+    console.log(this.props);
     if (this.props.columns && this.props.rows) {
       let el = ReactFauxDOM.createElement('div');
-      renderTable(el, this.props.columns.toJS(), this.props.rows.toJS());
+      renderTable(el, this.props.columns, this.props.rows);
       return el.toReact();
     } else {
       return null;

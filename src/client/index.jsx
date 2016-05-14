@@ -14,6 +14,8 @@ import App from './components/App';
 import { DragDropWorkspaceContainer } from './components/Workspace';
 import { NotebookContainer } from './components/Notebook';
 
+import * as actionCreators from './action-creators';
+
 import './index.css';
 
 const socket = io();
@@ -44,3 +46,28 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('mount')
 )
+
+let data = [{
+  "Student": "Alice",
+  "Grade": "95"
+},{
+  "Student": "Bob",
+  "Grade": "65"
+}]
+
+let action1 = actionCreators.appendCell('DATA', {
+  name: "Math Gradebook",
+  contentType: "application/json",
+  data: JSON.stringify(data)
+})
+
+let action2 = actionCreators.appendCell('TRANSFORM', {
+  name: "Math Grades to decimal",
+  parentId: newCell.uuid,
+  func: `return data.map( row => row.update('Grade', grade => parseInt(grade) / 100 ) )`
+})
+
+store.dispatch(action1);
+store.dispatch(action2);
+
+

@@ -1,11 +1,11 @@
-.notebook li {
+ul.notebook {
+  padding:0;
+  margin:0;
+}
+
+ul.notebook li {
   border: 1px solid #ccc;
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-.notebook ul {
-  padding:0;
-  margin:0;
 }
