@@ -5,6 +5,7 @@ import * as actionCreators from '../action-creators';
 import getCellData from '../get-cell-data';
 
 import { TransformCellEditor } from './TransformCellEditor';
+import { VisualizationCellEditor } from './VisualizationCellEditor';
 
 export const NotebookCell = React.createClass({
   mixins: [PureRenderMixin],
@@ -43,6 +44,7 @@ export const NotebookCell = React.createClass({
         <h1>{this.props.cell.get('name')}</h1>
         a viz goes here
       </div>}
+      <VisualizationCellEditor {...this.props} />
     </div>;
   }
 })
