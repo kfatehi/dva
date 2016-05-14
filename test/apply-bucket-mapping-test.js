@@ -1,6 +1,4 @@
-"use strict";
-const expect = require('chai').expect;
-const applyBucketMapping = require('../src/apply-bucket-mapping');
+import applyBucketMapping from '../src/apply-bucket-mapping';
 
 const bucketMappingTestMapping = {
   "series":["name"],

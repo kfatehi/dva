@@ -1,7 +1,7 @@
 /**
  * apply a bucket mapping to a dataset
  */
-module.exports = (data, mapping) => {
+export default function applyBucketMapping(data, mapping) {
 
   //array of the compilation of all the mappings
   var returnObj = [];
