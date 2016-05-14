@@ -16,13 +16,13 @@ describe("action creators", () => {
     it("sets the editing flag true", () => {
       let action = actionCreators.editingCell('hi', true)
       expect(action.uuid).to.equal('hi');
-      expect(action.key).to.equal('editing');
+      expect(action.key).to.equal('editingCell');
       expect(action.value).to.equal(true);
     })
     it("sets the editing flag false", () => {
       var action = actionCreators.editingCell('hi', false)
       expect(action.uuid).to.equal('hi');
-      expect(action.key).to.equal('editing');
+      expect(action.key).to.equal('editingCell');
       expect(action.value).to.equal(false);
     });
   });

@@ -1,18 +1,15 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {connect} from 'react-redux';
+import * as actionCreators from '../action-creators';
 import getCellData from '../get-cell-data';
-import Codemirror from 'react-codemirror';
 
-require('codemirror/mode/javascript/javascript');
-require('codemirror/mode/markdown/markdown');
-
-require('codemirror/lib/codemirror.css');
-
+import { CellEditor } from './CellEditor';
 
 export const NotebookCell = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    let cell = this.props.cellsById.get(this.props.cellId);
+    let cell = this.props.cell;
     switch (cell.get('cellType')) {
       case 'DATA':
         return this.renderDataCell(cell);
@@ -22,36 +19,34 @@ export const NotebookCell = React.createClass({
     return null;
   },
   getCellDataAsPrettyJSON: function(cell) {
-    const data = getCellData(this.props.cellsById, this.props.cellId);
-    return JSON.stringify(data, null, 2)
+    return JSON.stringify(this.props.getData(), null, 2)
   },
-  renderDataCell: function(cell) {
+  renderDataCell: function() {
     return <div>
-      <h1>{cell.get('name')}</h1>
+      <h1>{this.props.cell.get('name')}</h1>
       <pre>{this.getCellDataAsPrettyJSON()}</pre>
     </div>;
   },
-  renderTransformCell: function(cell) {
-    let editing = cell.get('editing');
-    let editorProps = {
-      value: cell.get('func'),
-      options: {
-        lineNumbers: true,
-        mode: 'javascript',
-        readOnly: !editing
-      },
-      onChange: (newCode) => {
-
-      }
-    }
+  renderTransformCell: function() {
     return <div>
-      <button onClick={() => this.props.editingCell(this.props.cellId, !editing)}>
-        { editing ? 'Save' : 'Edit' }
-      </button>
-      <h1>{cell.get('name')}</h1>
-      <Codemirror {...editorProps} />
+      <h1>{this.props.cell.get('name')}</h1>
+      <CellEditor {...this.props} />
       <pre>{this.getCellDataAsPrettyJSON()}</pre>
     </div>;
   }
 })
 
+function mapStateToProps(state, props) {
+  let notebook = state.get('notebook');
+  let cellsById = notebook.get('cellsById');
+  return {
+    cellBeingEdited: notebook.get('editingCell') === props.cellId,
+    cell: cellsById.get(props.cellId),
+    getData: () => getCellData(cellsById, props.cellId)
+  };
+}
+
+export const NotebookCellContainer = connect(
+  mapStateToProps,
+  actionCreators
+)(NotebookCell);

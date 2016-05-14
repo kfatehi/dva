@@ -5,7 +5,7 @@ import * as actionCreators from '../action-creators';
 import { List, Map, fromJS } from 'immutable';
 
 import { Datatable } from './Datatable';
-import { NotebookCell } from './NotebookCell';
+import { NotebookCellContainer } from './NotebookCell';
 
 
 import './Notebook.css';
@@ -15,10 +15,8 @@ export const Notebook = React.createClass({
   render: function() {
     return <ul className="notebook">{ this.props.cells.map(id =>
       <li key={id}>
-        <NotebookCell
-          cellsById={this.props.cellsById}
-          cellId={id}
-        />
+        <NotebookCellContainer cellId={id} />
+        
       </li>)}
     </ul>;
   }
@@ -27,7 +25,6 @@ export const Notebook = React.createClass({
 function mapStateToProps(state) {
   return {
     cells: state.getIn(['notebook', 'cells']) || List(),
-    cellsById: state.getIn(['notebook', 'cellsById']) || Map()
   };
 }
 

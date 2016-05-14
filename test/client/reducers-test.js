@@ -66,7 +66,7 @@ describe("notebook reducer", () => {
     });
   });
 
-  describe("action FLAG_CELL", () => {
+  describe("action FLAG_NOTEBOOK", () => {
     let initialState = null;
 
     beforeEach(function() {
@@ -77,11 +77,10 @@ describe("notebook reducer", () => {
       initialState = [a,b].reduce(reducers.notebook, Map({}));
     })
 
-    it("can set a transform cell's editing boolean to true", () => {
+    it("can indicate that a cell is being edited", () => {
       let action = actionCreators.editingCell('b', true);
       let nextState = reducers.notebook(initialState, action);
-      expect(nextState.getIn(['cellsById', 'b', 'editing'])).to.equal(true);
+      expect(nextState.get('editingCell')).to.equal('b');
     });
-    
   });
 });

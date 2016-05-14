@@ -25,8 +25,8 @@ export function appendCell(cellType, props) {
 
 export function editingCell(cellId, editingBool) {
   return {
-    type: "FLAG_CELL",
-    key: 'editing',
+    type: "FLAG_NOTEBOOK",
+    key: 'editingCell',
     value: editingBool,
     uuid: cellId,
   }

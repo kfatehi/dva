@@ -42,15 +42,15 @@ export function notebook(state = Map(), action) {
       })
   }
 
-  function flagCell(state, uuid, key, value) {
-    return state.updateIn(['cellsById', uuid, key], () => value);
+  function flagNotebook(state, uuid, key, value) {
+    return state.update(key, () => value ? uuid : false);
   }
 
   switch (action.type) {
     case 'APPEND_CELL':
       return appendCell(state, action.uuid, createCell(action));
-    case 'FLAG_CELL':
-      return flagCell(state, action.uuid, action.key, action.value);
+    case 'FLAG_NOTEBOOK':
+      return flagNotebook(state, action.uuid, action.key, action.value);
   }
   return state;
 }
