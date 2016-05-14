@@ -31,3 +31,11 @@ export function editingCell(cellId, editingBool) {
     uuid: cellId,
   }
 }
+
+export function updateCell(cellId, key, value) {
+  return {
+    type: "UPDATE_CELL",
+    uuid: cellId,
+    key, value
+  }
+}

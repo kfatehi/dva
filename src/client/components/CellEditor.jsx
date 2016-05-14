@@ -9,26 +9,27 @@ require('codemirror/lib/codemirror.css');
 export const CellEditor = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
+    let value = this.props.cell.get('func');
     let editing = this.props.cellBeingEdited;
     let ref = `editor-${this.props.cellId}`;
+    let getEditor = () => this.refs[ref];
     let editorProps = {
       ref,
-      value: this.props.cell.get('func'),
+      value,
       options: {
         lineNumbers: true,
         mode: 'javascript',
       },
-      onChange: (newCode) => {
-
-      }
+      onChange: (newValue) => value = newValue, 
     }
     let toggleEdit = () => {
       this.props.editingCell(this.props.cellId, !editing)
-      this.refs[ref].focus()
+      getEditor().focus()
     }
 
-    let save =  () => {
-      return this.props.editingCell(this.props.cellId, false);
+    let save = () => {
+      this.props.updateCell(this.props.cellId, 'func', value);
+      this.props.editingCell(this.props.cellId, false);
     }
 
     let cancel =  () => {

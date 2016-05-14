@@ -83,4 +83,22 @@ describe("notebook reducer", () => {
       expect(nextState.get('editingCell')).to.equal('b');
     });
   });
+
+  describe("action UPDATE_CELL", () => {
+    let initialState = null;
+
+    beforeEach(function() {
+      let a = appendDataCellAction(gradebookData);
+      let b = actionCreators.appendCell('TRANSFORM', {
+        name: '', parentId: a.uuid, func: '', uuid: 'b'
+      });
+      initialState = [a,b].reduce(reducers.notebook, Map({}));
+    })
+
+    it("updates a field on a cell", () => {
+      let action = actionCreators.updateCell('b', 'func', 'hi');
+      let nextState = reducers.notebook(initialState, action);
+      expect(nextState.getIn(['cellsById', 'b', 'func'])).to.equal('hi');
+    });
+  });
 });
