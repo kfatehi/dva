@@ -25,11 +25,21 @@ export function notebook(state = Map(), action) {
       })
     }
 
+    function createVisualizationCell(action) {
+      return Map({
+        cellType: 'VISUALIZATION',
+        name: action.name,
+        parentId: action.parentId
+      })
+    }
+
     switch (action.cellType) {
       case 'DATA':
         return createDataCell(action);
       case 'TRANSFORM':
         return createTransformCell(action);
+      case 'VISUALIZATION':
+        return createVisualizationCell(action);
     }
   }
 

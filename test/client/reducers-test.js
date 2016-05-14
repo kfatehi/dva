@@ -64,6 +64,24 @@ describe("notebook reducer", () => {
         func: action2.func
       }));
     });
+
+    it("creates a VISUALIZATION cell with parent DATA cell", () => {
+      let action1 = appendDataCellAction(gradebookData);
+      let initialState = reducers.notebook(undefined, action1);
+      let action2 = actionCreators.appendCell('VISUALIZATION', {
+        name: 'Gradebook Plot',
+        parentId: action1.uuid
+      })
+      let nextState = reducers.notebook(initialState, action2);
+      let cells = nextState.get('cells');
+      expect(cells.size).to.equal(2);
+      expect(cells.get(1)).to.equal(action2.uuid);
+
+      let cellsById = nextState.get('cellsById');
+      expect(cellsById.size === 2);
+      let cell = cellsById.get(action2.uuid);
+      expect(cell.get('cellType')).to.equal('VISUALIZATION');
+    });
   });
 
   describe("action FLAG_NOTEBOOK", () => {

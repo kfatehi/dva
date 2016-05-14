@@ -1,13 +1,10 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import Codemirror from 'react-codemirror';
 import { fromJS } from 'immutable';
+import Codemirror from 'react-codemirror';
+import 'codemirror/mode/javascript/javascript';
 
-require('codemirror/mode/javascript/javascript');
-require('codemirror/mode/markdown/markdown');
-require('codemirror/lib/codemirror.css');
-
-export const CellEditor = React.createClass({
+export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
     let fields = {

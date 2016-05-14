@@ -4,21 +4,22 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../action-creators';
 import getCellData from '../get-cell-data';
 
-import { CellEditor } from './CellEditor';
+import { TransformCellEditor } from './TransformCellEditor';
 
 export const NotebookCell = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    let cell = this.props.cell;
-    switch (cell.get('cellType')) {
+    switch (this.props.cell.get('cellType')) {
       case 'DATA':
-        return this.renderDataCell(cell);
+        return this.renderDataCell();
       case 'TRANSFORM':
-        return this.renderTransformCell(cell);
+        return this.renderTransformCell();
+      case 'VISUALIZATION':
+        return this.renderVisualizationCell();
     }
     return null;
   },
-  getCellDataAsPrettyJSON: function(cell) {
+  getCellDataAsPrettyJSON: function() {
     return JSON.stringify(this.props.getData(), null, 2)
   },
   renderDataCell: function() {
@@ -33,7 +34,15 @@ export const NotebookCell = React.createClass({
         <h1>{this.props.cell.get('name')}</h1>
         <pre>{this.getCellDataAsPrettyJSON()}</pre>
       </div>}
-      <CellEditor {...this.props} />
+      <TransformCellEditor {...this.props} />
+    </div>;
+  },
+  renderVisualizationCell: function() {
+    return <div>{ this.props.cellBeingEdited ? null :
+      <div>
+        <h1>{this.props.cell.get('name')}</h1>
+        a viz goes here
+      </div>}
     </div>;
   }
 })

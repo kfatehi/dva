@@ -15,6 +15,9 @@ import { NotebookContainer } from './components/Notebook';
 
 import * as actionCreators from './action-creators';
 
+//import 'codemirror/mode/markdown/markdown';
+import 'codemirror/lib/codemirror.css';
+
 import './index.css';
 
 const socket = io();
@@ -67,19 +70,24 @@ let b = actionCreators.appendCell('TRANSFORM', {
 
 let c = actionCreators.appendCell('TRANSFORM', {
   name: "Add Dimension: Pass/Fail",
-  cellType: "TRANSFORM",
   parentId: b.uuid,
   func: `return data.map( row => row.update('PF', () => row.get('Grade') > .7 ? 'PASS' : 'FAIL' ) )`
 })
 
 let d = actionCreators.appendCell('TRANSFORM', {
-  cellType: "TRANSFORM",
   name: "Filter Rows: Only Passes",
   parentId: c.uuid,
   func: `return data.filter( row => row.get('PF') === 'PASS' )`
+})
+
+let e = actionCreators.appendCell('VISUALIZATION', {
+  name: "Good Students",
+  parentId: d.uuid,
+  //vizExtId: 'com.keyvan.barchart',
 })
 
 store.dispatch(a)
 store.dispatch(b)
 store.dispatch(c)
 store.dispatch(d)
+store.dispatch(e)
