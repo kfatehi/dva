@@ -2,6 +2,6 @@
 /extensions/*/node_modules/
 /var/db.*.sqlite3
 /var/sessions.*.json
-/public/js/bundle.js
-/public/js/vendor.bundle.js
+/public/bundle.js
+/public/vendor.bundle.js
 /es5
