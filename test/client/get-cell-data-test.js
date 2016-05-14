@@ -89,4 +89,11 @@ describe("getCellData", () => {
     let data = getCellData(cellsById, '62e87ecd-1ea9-4c2c-bc2d-9eb47e528346');
     expect(data).to.equal(fromJS([ [1], [1] ]))
   });
+
+  it("can override the function", () => {
+    let data = getCellData(cellsById, 'e5374b05-61ae-41eb-a090-f24b2cdfd194', {
+      funcOverride: 'return "hi"'
+    });
+    expect(data).to.equal('hi');
+  });
 });

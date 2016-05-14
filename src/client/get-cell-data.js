@@ -7,7 +7,7 @@ export default function getCellData(cellsById, cellId, options) {
     case 'DATA':
       return root.get('data');
     case 'TRANSFORM':
-      return transformTo(parentGetter, root, options);
+      return transformTo(parentGetter, root, List(), options);
   }
   return List();
 }
