@@ -1,3 +1,6 @@
+import { List } from 'immutable';
+
+
 function parsesAsNumber(val) {
   return !isNaN(+val)
 }
@@ -15,10 +18,17 @@ function parseDimensions(values) {
 }
 
 export function parse(row) {
-  return {
-    measures: parseMeasures(row),
-    dimensions: parseDimensions(row)
-  };
+  try {
+    return {
+      measures: parseMeasures(row),
+      dimensions: parseDimensions(row)
+    };
+  } catch (e) {
+    return {
+      measures: List([]),
+      dimensions: List([])
+    }
+  }
 }
 
 export function getDimensions(dimensions, columns) {

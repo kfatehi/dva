@@ -10,11 +10,11 @@ export const Visualization = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
     const { visExtId, visConfigJSON, getData } = this.props;
-    const data = getData();
-    const { rows, columns } = toRowCol(getData())
-    const config = generateVisConfig(visConfigJSON, rows, columns);
-    const container = ReactFauxDOM.createElement('svg');
     try {
+      const data = getData();
+      const { rows, columns } = toRowCol(getData())
+      const config = generateVisConfig(visConfigJSON, rows, columns);
+      const container = ReactFauxDOM.createElement('svg');
       getModule(visExtId).render(container, config.toJS())
       return <div className="visualization">
         {container.toReact()}

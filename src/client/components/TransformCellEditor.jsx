@@ -9,16 +9,6 @@ import 'codemirror/mode/javascript/javascript';
 
 export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
-  getDataPreview: function (parentId, funcValue) {
-    try {
-      return JSON.stringify(this.props.getData({
-        parentOverride: parentId,
-        funcOverride: funcValue
-      }), null, 2);
-    } catch (e) {
-      return e.stack;
-    }
-  },
   render: function() {
     const {
       fields: {
@@ -26,11 +16,27 @@ export const TransformCellEditor = React.createClass({
         name,
         func
       },
+      getData,
       cellsBefore,
       getCellName,
       handleSubmit,
       handleCancel
     } = this.props
+
+    let broken = false;
+
+    function getDataPreview(parentId, funcValue) {
+      try {
+        broken = false;
+        return JSON.stringify(getData({
+          parentOverride: parentId,
+          funcOverride: funcValue
+        }), null, 2);
+      } catch (e) {
+        broken = true;
+        return e.stack;
+      }
+    }
 
     let editorProps = {
       onChange: func.onChange,
@@ -40,6 +46,7 @@ export const TransformCellEditor = React.createClass({
         mode: 'javascript',
       },
     }
+
     return (
       <form onSubmit={handleSubmit}>
         <label>Data Source</label>
@@ -49,8 +56,8 @@ export const TransformCellEditor = React.createClass({
         <label>Name</label>
         <input type="text" {...name} />
         <Codemirror {...editorProps} />
-        <pre ref="preview">{this.getDataPreview(parentId.value, func.value)}</pre>
-        <button type="submit">Save</button>
+        <pre ref="preview">{getDataPreview(parentId.value, func.value)}</pre>
+        <button disabled={broken} type="submit">Save</button>
         <button onClick={handleCancel}>Cancel</button>
       </form>
     );
