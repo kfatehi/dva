@@ -102,6 +102,20 @@ describe("getCellData", () => {
     expect(data).to.equal('hi');
   });
 
+  it("can override the parent", () => {
+    let data = getCellData(cellsById, 'fbab120b-a409-4dc4-b8c2-dc1fdf65a1a1', {
+      parentOverride: '81ff74ac-bba6-4f33-beec-63ebfb021c9d'
+    });
+    expect(data).to.equal(fromJS([{
+      "Student": "Alice",
+      "Grade": 0.95,
+    },{
+      "Student": "Bob",
+      "Grade": 0.65,
+    }]))
+  });
+
+
   it("can get data from a VISUALIZATION cell 4 levels deep", () => {
     let data = getCellData(cellsById, 'fbab120b-a409-4dc4-b8c2-dc1fdf65a1a1');
     expect(data).to.equal(fromJS([{

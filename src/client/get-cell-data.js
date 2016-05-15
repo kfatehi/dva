@@ -1,7 +1,10 @@
 import { List, Map } from 'immutable';
 
-export default function getCellData(cellsById, cellId, options) {
-  let root = cellsById.get(cellId);
+export default function getCellData(cellsById, cellId, options = {}) {
+  let root = cellsById.get(cellId).update('parentId', parentId => {
+    if (options.parentOverride) return options.parentOverride;
+    else return parentId;
+  })
   let getParent = cell => cellsById.get(cell.get('parentId'));
   switch (root.get('cellType')) {
     case 'DATA':
