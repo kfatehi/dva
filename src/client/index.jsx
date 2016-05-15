@@ -10,7 +10,6 @@ import remoteActionMiddleware from './remote-action-middleware';
 import {reducer as formReducer} from 'redux-form';
 import * as reducers from './reducers';
 import App from './components/App';
-import { DragDropWorkspaceContainer } from './components/Workspace';
 import { NotebookContainer } from './components/Notebook';
 import { fromJS } from 'immutable';
 import * as demos from './demo';
@@ -18,6 +17,7 @@ import * as demos from './demo';
 //import 'codemirror/mode/markdown/markdown';
 import 'codemirror/lib/codemirror.css';
 
+import 'font-awesome/less/font-awesome.less';
 import 'bootstrap/less/bootstrap.less';
 
 const socket = io();

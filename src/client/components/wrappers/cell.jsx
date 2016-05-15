@@ -5,6 +5,7 @@ import * as actionCreators from '../../action-creators';
 import getCellData from '../../get-cell-data';
 
 import { Button } from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
 
 export default function(Component){
   const Cell = React.createClass({
@@ -25,7 +26,9 @@ export default function(Component){
     renderCell: function(states) {
       const {editing, editingOther} = this.props;
       const {view, edit} = states;
-      const btn = <Button onClick={this.editCell} bsStyle="primary">Edit</Button>;
+      const btn = <Button onClick={this.editCell} bsStyle="primary">
+        <FontAwesome name='pencil'/> Edit
+      </Button>;
       return <div>
         { editing ? edit : view }
         { editing || editingOther ? null : (edit ? btn : null) }

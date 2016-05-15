@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-//const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'eval-source-map',
@@ -20,9 +19,15 @@ module.exports = {
       'react-addons-pure-render-mixin',
       'react-faux-dom',
       'react-bootstrap',
+      'react-fontawesome',
       'd3',
       'socket.io-client',
       'immutable',
+      'font-awesome/less/font-awesome.less',
+      'bootstrap/less/bootstrap.less',
+      'codemirror/lib/codemirror.css',
+      'codemirror/mode/markdown/markdown',
+      'codemirror/mode/javascript/javascript',
     ]
   },
   output: {
@@ -47,7 +52,6 @@ module.exports = {
     ]
   },
   plugins: [
-    //new ExtractTextPlugin('style.css'),
     new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js"),
   ]
 };
