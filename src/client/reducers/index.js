@@ -56,8 +56,8 @@ export function notebook(state = Map(), action) {
     return state.update('editingCell', () => uuid);
   }
 
-  function updateCell(state, uuid, key, value) {
-    return state.updateIn(['cellsById', uuid, key], () => value);
+  function updateCell(state, uuid, params) {
+    return state.mergeIn(['cellsById', uuid], params);
   }
 
   switch (action.type) {
@@ -66,7 +66,7 @@ export function notebook(state = Map(), action) {
     case 'EDIT_CELL':
       return editCell(state, action.uuid);
     case 'UPDATE_CELL':
-      return updateCell(state, action.uuid, action.key, action.value);
+      return updateCell(state, action.uuid, action.params);
   }
   return state;
 }

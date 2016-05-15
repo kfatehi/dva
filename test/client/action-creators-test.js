@@ -29,14 +29,15 @@ describe("action creators", () => {
 
   describe("updateCell", () => {
     it("is type UPDATE_CELL", () => {
-      var action = actionCreators.updateCell('hi', 'func', 'value')
+      var action = actionCreators.updateCell('hi', {});
       expect(action.type).to.equal('UPDATE_CELL');
     });
-    it("updates a field on the cell", () => {
-      var action = actionCreators.updateCell('hi', 'func', 'value')
+    it("stores all params", () => {
+      var action = actionCreators.updateCell('hi', {a:'b',c:'d'})
+      console.log(action);
       expect(action.uuid).to.equal('hi');
-      expect(action.key).to.equal('func');
-      expect(action.value).to.equal('value');
+      expect(action.params.a).to.equal('b');
+      expect(action.params.c).to.equal('d');
     });
   });
 });

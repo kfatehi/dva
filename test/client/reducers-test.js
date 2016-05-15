@@ -100,14 +100,8 @@ describe("notebook reducer", () => {
       let nextState = reducers.notebook(initialState, action);
       expect(nextState.get('editingCell')).to.equal('b');
     });
-
-    it.skip("creates a copy of the fields for editing by a form", () => {
-      let action = actionCreators.editCell('b');
-      let nextState = reducers.notebook(initialState, action);
-    });
   });
 
-  // should be APPLY_CELL_EDITS
   describe("action UPDATE_CELL", () => {
     let initialState = null;
 
@@ -119,10 +113,11 @@ describe("notebook reducer", () => {
       initialState = [a,b].reduce(reducers.notebook, Map({}));
     })
 
-    it("updates a field on a cell", () => {
-      let action = actionCreators.updateCell('b', 'func', 'hi');
+    it("updates multiple fields on a cell", () => {
+      let action = actionCreators.updateCell('x', {a:1,b:2});
       let nextState = reducers.notebook(initialState, action);
-      expect(nextState.getIn(['cellsById', 'b', 'func'])).to.equal('hi');
+      expect(nextState.getIn(['cellsById', 'x', 'a'])).to.equal(1);
+      expect(nextState.getIn(['cellsById', 'x', 'b'])).to.equal(2);
     });
   });
 });

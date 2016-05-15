@@ -30,10 +30,10 @@ export function editCell(cellId) {
   }
 }
 
-export function updateCell(cellId, key, value) {
+export function updateCell(cellId, params) {
   return {
     type: "UPDATE_CELL",
     uuid: cellId,
-    key, value
-  }
+    params
+  };
 }
