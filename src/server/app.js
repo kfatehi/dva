@@ -142,20 +142,22 @@ io.on('connection', function(socket) {
         return loadVisualizationExtension(socket, action);
     }
   })
-
+/*
   socket.emit('action', {
     type: 'SET_SOURCE_DATA',
     columns: ['Category', 'Grade'],
     rows: [['A', '95'], ['B', '88']],
-  })
+  })*/
 
   socket.emit('action', {
-    type: 'SET_VISUALIZATION_EXTENSIONS',
-    extensions: extensions.getIds().map( id => {
-      return {
-        id: id
-      }
-    })
-  })
-
+    type: 'SET_SOURCE_DATA',
+    columns: ['source', 'target', 'value'],
+    rows: [['Barry', 'Elvis', '2'], 
+		['Frodo', 'Elvis', '2'],
+		['Frodo', 'Sarah', '2'],
+		['Barry', 'Alice', '2'],
+		['Elvis', 'Sarah', '2'],
+		['Elvis', 'Alice', '2'],
+		['Sarah', 'Alice', '4']] 
+	})
 });
