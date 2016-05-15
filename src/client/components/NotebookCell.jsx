@@ -6,6 +6,7 @@ import getCellData from '../get-cell-data';
 
 import { TransformCellEditorForm } from './TransformCellEditor';
 import { VisualizationCellEditorForm } from './VisualizationCellEditor';
+import { Visualization } from './Visualization';
 
 export const NotebookCell = React.createClass({
   mixins: [PureRenderMixin],
@@ -59,7 +60,11 @@ export const NotebookCell = React.createClass({
     return <div>{ this.props.editing ? null :
       <div>
         <h1>{this.props.cell.get('name')}</h1>
-        a viz goes here
+        <Visualization
+          visExtId={this.props.cell.get('visExtId')}
+          visConfigJSON={this.props.cell.get('visConfigJSON')}
+          getData={this.props.getData}
+        />
       </div>}
       { this.props.editing ? 
         <VisualizationCellEditorForm {...this.props}

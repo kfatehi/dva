@@ -9,6 +9,7 @@
     "start": "npm run db:migrate && DEBUG=dva:* babel-node bin/www",
     "test": "mocha --compilers js:babel-core/register --require ./test/test-helper.js \"test/**/*@(.js|.jsx)\"",
     "test:watch": "mocha -w --compilers js:babel-core/register --require ./test/test-helper.js \"test/**/*@(.js|.jsx)\"",
+    "dev": "tmuxtdd run --watch={bin/www,src/server/**/*.js} --kill --cmd='DEBUG=dva:* babel-node bin/www' --fmt='server S{#[bg=green]ON,#[bg=red]OFF,#[bg=red]ERR}'",
     "webpack": "webpack",
     "webpack:watch": "webpack --watch",
     "deploy": "pm2 deploy ecosystem.json production",

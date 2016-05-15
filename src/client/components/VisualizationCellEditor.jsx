@@ -11,20 +11,11 @@ import {Datatable} from './Datatable';
 import {DraggableDimension} from './Dimension';
 import {BucketMapper} from './BucketMapper';
 import {Visualization} from './Visualization';
-import { getSchema, getExtensions } from '../../extensions';
+import { getModule, getSchema, getExtensions } from '../../extensions';
 import { draggedToBucket } from '../../bucket-mapping';
+import { mkVisConfigFromJSON } from '../../vis';
 
 import './VisualizationCellEditor.css';
-
-function newVisConfig() {
-  return Map({
-    config: Map({}),
-    bucketMapping: Map({
-      bucketMap: Map({}),
-      columnMap: Map({})
-    })
-  });
-}
 
 export const VisualizationCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -51,17 +42,16 @@ export const VisualizationCellEditor = React.createClass({
       handleCancel,
     } = this.props;
 
-    const { rows, columns } = toRowCol(getData({
+    let dataGetter = () => getData({
       parentOverride: parentId.value
-    }))
+    })
+
+    const { rows, columns } = toRowCol(dataGetter())
     const { dimensions, measures } = parse(rows.first());
 
-    let visConfig = null;
-    if (visConfigJSON.value.length > 0) {
-      visConfig = fromJS(JSON.parse(visConfigJSON.value))
-    } else {
-      visConfig = newVisConfig()
-    }
+    let visConfig = mkVisConfigFromJSON(visConfigJSON.value);
+
+    let bucketMap = visConfig.get('bucketMapping').get('bucketMap')
 
     let handleDrag = (columnIndex, bucketKey) => {
       let schemaBuckets = getSchema(visExtId.value).buckets;
@@ -72,6 +62,23 @@ export const VisualizationCellEditor = React.createClass({
     let handleParentChange = (e) => {
       visConfigJSON.onChange('');
       parentId.onChange(e);
+    }
+
+
+    let bucketsFilled = (schemaBuckets, bucketMap) => {
+      return fromJS(schemaBuckets).reduce((yes, bucket) => {
+        let list = bucketMap.get(bucket.get('key'))
+        if (!list) return false;
+        let size = list.size;
+        let min = bucket.get('min');
+        let max = bucket.get('max');
+        return yes && size >= min && size <= max;
+      }, true)
+    }
+
+    let schema = null
+    if (visExtId.value.length > 0) {
+      schema = getSchema(visExtId.value)
     }
 
     return (
@@ -110,12 +117,21 @@ export const VisualizationCellEditor = React.createClass({
           </li>)}
         </ul>
 
-        { visExtId.value.length > 0 ? <BucketMapper
-          dragCallback={handleDrag}
-          columns={columns}
-          buckets={getSchema(visExtId.value).buckets}
-          bucketMapping={visConfig.get('bucketMapping').get('bucketMap')}
-        /> : null }
+        { schema ?
+          <div>
+            <BucketMapper
+              dragCallback={handleDrag}
+              columns={columns}
+              buckets={schema.buckets}
+              bucketMapping={bucketMap}
+            />
+            { bucketsFilled(schema.buckets, bucketMap) ? 
+              <Visualization
+                visExtId={visExtId.value}
+                visConfigJSON={visConfigJSON.value}
+                getData={dataGetter}
+              /> : null }
+          </div> : null }
 
         <button type="submit">Save</button>
         <button onClick={handleCancel}>Cancel</button>

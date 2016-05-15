@@ -94,3 +94,8 @@ store.dispatch(d)
 store.dispatch(e)
 
 store.dispatch(actionCreators.editCell(e.uuid));
+
+store.dispatch(actionCreators.updateCell(e.uuid, {
+  "visExtId": "com.keyvan.barchart",
+  "visConfigJSON": "{\"config\":{},\"bucketMapping\":{\"bucketMap\":{\"group\":[\"Student\"],\"value\":[\"Grade\"]},\"columnMap\":{\"0\":\"group\",\"1\":\"value\"}}}"
+}));

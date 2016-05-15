@@ -10,6 +10,7 @@ module.exports = {
       'redux',
       'redux-immutablejs',
       'react-codemirror',
+      'redux-form',
       'react',
       'react-dom',
       'react-redux',
