@@ -16,11 +16,25 @@ import { draggedToBucket } from '../../bucket-mapping';
 
 import './VisualizationCellEditor.css';
 
+function newVisConfig() {
+  return Map({
+    config: Map({}),
+    bucketMapping: Map({
+      bucketMap: Map({}),
+      columnMap: Map({})
+    })
+  });
+}
+
 export const VisualizationCellEditor = React.createClass({
   mixins: [PureRenderMixin],
   setVisExt: function(e, id) {
     e.preventDefault()
-    this.props.fields.visExtId.onChange(id);
+    if (this.props.fields.visExtId.value !== id) {
+      const { fields: { visExtId, visConfigJSON  } } = this.props;
+      visConfigJSON.onChange('');
+      visExtId.onChange(id);
+    }
   },
   render: function() {
     const {
@@ -44,13 +58,7 @@ export const VisualizationCellEditor = React.createClass({
     if (visConfigJSON.value.length > 0) {
       visConfig = fromJS(JSON.parse(visConfigJSON.value))
     } else {
-      visConfig = Map({
-        config: Map({}),
-        bucketMapping: Map({
-          bucketMap: Map({}),
-          columnMap: Map({})
-        })
-      });
+      visConfig = newVisConfig()
     }
 
     let handleDrag = (columnIndex, bucketKey) => {
