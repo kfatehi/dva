@@ -9,9 +9,10 @@ import 'codemirror/mode/javascript/javascript';
 
 export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
-  getDataPreview: function (funcValue) {
+  getDataPreview: function (parentId, funcValue) {
     try {
       return JSON.stringify(this.props.getData({
+        parentOverride: parentId,
         funcOverride: funcValue
       }), null, 2);
     } catch (e) {
@@ -33,7 +34,7 @@ export const TransformCellEditor = React.createClass({
 
     let editorProps = {
       onChange: func.onChange,
-      value:func.value,
+      value: func.value,
       options: {
         lineNumbers: true,
         mode: 'javascript',
@@ -48,7 +49,7 @@ export const TransformCellEditor = React.createClass({
         <label>Name</label>
         <input type="text" {...name} />
         <Codemirror {...editorProps} />
-        <pre ref="preview">{this.getDataPreview(func.value)}</pre>
+        <pre ref="preview">{this.getDataPreview(parentId.value, func.value)}</pre>
         <button type="submit">Save</button>
         <button onClick={handleCancel}>Cancel</button>
       </form>

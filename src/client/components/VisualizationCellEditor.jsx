@@ -51,7 +51,9 @@ export const VisualizationCellEditor = React.createClass({
       handleCancel,
     } = this.props;
 
-    const { rows, columns } = toRowCol(getData())
+    const { rows, columns } = toRowCol(getData({
+      parentOverride: parentId.value
+    }))
     const { dimensions, measures } = parse(rows.first());
 
     let visConfig = null;
@@ -67,10 +69,15 @@ export const VisualizationCellEditor = React.createClass({
       visConfigJSON.onChange(JSON.stringify(out.toJS()))
     }
 
+    let handleParentChange = (e) => {
+      visConfigJSON.onChange('');
+      parentId.onChange(e);
+    }
+
     return (
       <form onSubmit={handleSubmit}>
         <label>Data Source</label>
-        <select {...parentId}>{cellsBefore.map(id =>
+        <select {...parentId} onChange={handleParentChange}>{cellsBefore.map(id =>
           <option key={id} value={id}>{getCellName(id)}</option>)}
         </select>
         <label>Name</label>
