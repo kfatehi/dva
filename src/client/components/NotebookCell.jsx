@@ -27,6 +27,7 @@ export const NotebookCell = React.createClass({
     return this.props.editCell(this.props.cellId)
   },
   updateCell: function(params) {
+    console.log('updatecell', params);
     return this.props.updateCell(this.props.cellId, params)
   },
   renderDataCell: function() {

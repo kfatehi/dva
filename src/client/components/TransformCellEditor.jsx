@@ -1,6 +1,6 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { reduxForm } from 'redux-form';
+import { reduxForm, change } from 'redux-form';
 import { fromJS } from 'immutable';
 import {connect} from 'react-redux';
 import * as actionCreators from '../action-creators';
@@ -32,18 +32,15 @@ export const TransformCellEditor = React.createClass({
         func
       },
       handleSubmit,
-      editing
     } = this.props
 
     let editorProps = {
-      value:func.initialValue,
+      onChange: func.onChange,
+      value:func.value,
       options: {
         lineNumbers: true,
         mode: 'javascript',
       },
-      onChange: (newValue) => {
-        this.refs.preview.textContent = this.getDataPreview(newValue)
-      }
     }
     return (
       <form onSubmit={handleSubmit}>
