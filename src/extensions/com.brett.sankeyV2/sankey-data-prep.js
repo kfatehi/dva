@@ -1,3 +1,8 @@
-export default function (){}
+export default function (){
+
+  return { "nodes": [{"names": "bad names"}]}
+
+
+}
 
 
