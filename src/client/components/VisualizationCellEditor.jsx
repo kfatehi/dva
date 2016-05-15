@@ -11,7 +11,7 @@ import {Datatable} from './Datatable';
 import {DraggableDimension} from './Dimension';
 import {BucketMapper} from './BucketMapper';
 import {Visualization} from './Visualization';
-import { getExtensions } from '../../extensions';
+import { getSchema, getExtensions } from '../../extensions';
 
 import './VisualizationCellEditor.css';
 
@@ -26,7 +26,8 @@ export const VisualizationCellEditor = React.createClass({
       fields: {
         parentId,
         name,
-        visExtId
+        visExtId,
+        bucketMapping
       },
       getCellName,
       getData,
@@ -34,6 +35,11 @@ export const VisualizationCellEditor = React.createClass({
       handleSubmit,
       handleCancel,
     } = this.props;
+
+
+    let deserialize = (value) => {
+      return value.length > 0 ? JSON.parse(value) : {}
+    }
     const { rows, columns } = toRowCol(getData())
     const { dimensions, measures } = parse(rows.first());
     return (
@@ -74,9 +80,9 @@ export const VisualizationCellEditor = React.createClass({
 
         { visExtId.value.length > 0 ? <BucketMapper
           dragCallback={this.props.draggedToBucket}
-          columns={this.props.columns}
-          buckets={this.props.vizSelected.get('buckets')}
-          bucketMapping={this.props.bucketMap}
+          columns={columns}
+          buckets={getSchema(visExtId.value).buckets}
+          bucketMapping={deserialize(bucketMapping.value)}
         /> : null }
 
         <button type="submit">Save</button>
@@ -88,6 +94,6 @@ export const VisualizationCellEditor = React.createClass({
 
 export const VisualizationCellEditorForm = reduxForm({
   form: 'cell',
-  fields: ['parentId', 'name', 'visExtId'],
+  fields: ['parentId', 'name', 'visExtId', 'bucketMapping'],
   getFormState: (state, reduxMountPoint) => state.get(reduxMountPoint).toJS()
 })(DragDropContext(HTML5Backend)(VisualizationCellEditor));

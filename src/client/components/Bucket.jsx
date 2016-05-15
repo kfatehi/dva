@@ -8,7 +8,7 @@ const bucketTarget = {
   drop(props) {
     return {
       dragCallback: props.dragCallback,
-      bucketKey: props.bucket.get('key')
+      bucketKey: props.bucket.key
     }
   }
 };
@@ -26,7 +26,7 @@ export const Bucket = React.createClass({
     const { connectDropTarget, isOver } = this.props;
     return connectDropTarget(
       <div>
-        <label>{this.props.bucket.get('label')}</label>
+        <label>{this.props.bucket.label}</label>
         <ul>{this.props.items.map(item =>
           <li key={item.columnIndex}>
             <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
