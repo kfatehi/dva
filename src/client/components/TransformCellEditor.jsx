@@ -9,9 +9,6 @@ import 'codemirror/mode/javascript/javascript';
 
 export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
-  edit: function() {
-    return this.props.editCell(this.props.cellId)
-  },
   save: function(e) {
     e.preventDefault();
     return this.props.editCellSave(this.props.cellId)
@@ -21,6 +18,15 @@ export const TransformCellEditor = React.createClass({
   },
   getCellName: function(id) {
     return this.props.cellsById.get(id).get('name');
+  },
+  getDataPreview: function (funcValue) {
+    try {
+      return JSON.stringify(this.props.getData({
+        funcOverride: funcValue
+      }), null, 2);
+    } catch (e) {
+      return e.stack;
+    }
   },
   render: function() {
     const {
@@ -33,52 +39,30 @@ export const TransformCellEditor = React.createClass({
       editing
     } = this.props
 
-    let ref = `editor-${this.props.cellId}`;
-
-    let getEditor = () => this.refs[ref];
-
     let editorProps = {
-      ref,
       value:func.initialValue,
       options: {
         lineNumbers: true,
         mode: 'javascript',
       },
       onChange: (newValue) => {
-        this.refs.preview.textContent = getDataPreview(newValue)
+        this.refs.preview.textContent = this.getDataPreview(newValue)
       }
     }
-
-    let getDataPreview = (funcValue) => {
-      try {
-        let data = this.props.getData({funcOverride:funcValue})
-        return JSON.stringify(data, null, 2);
-      } catch (e) {
-        return e.stack;
-      }
-    }
-
-
-    if (editing) {
-      return (
-        <form onSubmit={this.save}>
-          <label>Data Source</label>
-          <select {...parentId}>{this.props.cellsBefore.map(id =>
-            <option key={id} value={id}>{this.getCellName(id)}</option>)}
-          </select>
-          <label>Name</label>
-          <input type="text" {...name} />
-          <Codemirror {...editorProps} />
-          <pre ref="preview">{getDataPreview(func.value)}</pre>
-          <button type="submit">Save</button>
-          <button onClick={this.cancel}>Cancel</button>
-        </form>
-      );
-    } else {
-      return (
-        <button onClick={this.edit}>Edit</button>
-      );
-    }
+    return (
+      <form onSubmit={this.save}>
+        <label>Data Source</label>
+        <select {...parentId}>{this.props.cellsBefore.map(id =>
+          <option key={id} value={id}>{this.getCellName(id)}</option>)}
+        </select>
+        <label>Name</label>
+        <input type="text" {...name} />
+        <Codemirror {...editorProps} />
+        <pre ref="preview">{this.getDataPreview(func.value)}</pre>
+        <button type="submit">Save</button>
+        <button onClick={this.cancel}>Cancel</button>
+      </form>
+    );
   }
 });
 

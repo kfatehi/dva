@@ -23,6 +23,9 @@ export const NotebookCell = React.createClass({
   getCellDataAsPrettyJSON: function() {
     return JSON.stringify(this.props.getData(), null, 2)
   },
+  editCell: function() {
+    return this.props.editCell(this.props.cellId)
+  },
   renderDataCell: function() {
     return <div>
       <h1>{this.props.cell.get('name')}</h1>
@@ -35,7 +38,10 @@ export const NotebookCell = React.createClass({
         <h1>{this.props.cell.get('name')}</h1>
         <pre>{this.getCellDataAsPrettyJSON()}</pre>
       </div>}
-      <TransformCellEditorForm {...this.props} />
+      { this.props.editing ? 
+        <TransformCellEditorForm {...this.props} />
+        :
+      <button onClick={this.editCell}>Edit</button> }
     </div>;
   },
   renderVisualizationCell: function() {
