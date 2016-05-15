@@ -30,14 +30,22 @@ describe("action creators", () => {
   describe("updateCell", () => {
     it("is type UPDATE_CELL", () => {
       var action = actionCreators.updateCell('hi', {});
+      expect(action.uuid).to.equal('hi');
       expect(action.type).to.equal('UPDATE_CELL');
     });
     it("stores all params", () => {
       var action = actionCreators.updateCell('hi', {a:'b',c:'d'})
-      console.log(action);
       expect(action.uuid).to.equal('hi');
       expect(action.params.a).to.equal('b');
       expect(action.params.c).to.equal('d');
+    });
+  });
+
+  describe("cancelEditCell", () => {
+    it("is type CANCEL_EDIT_CELL", () => {
+      var action = actionCreators.cancelEditCell('hi');
+      expect(action.type).to.equal('CANCEL_EDIT_CELL');
+      expect(action.uuid).to.equal('hi');
     });
   });
 });

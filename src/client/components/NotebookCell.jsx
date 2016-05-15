@@ -26,9 +26,12 @@ export const NotebookCell = React.createClass({
   editCell: function() {
     return this.props.editCell(this.props.cellId)
   },
-  updateCell: function(params) {
-    console.log('updatecell', params);
+  updateCell: function(params, dispatch) {
     return this.props.updateCell(this.props.cellId, params)
+  },
+  cancelEditCell: function(e) {
+    e.preventDefault();
+    return this.props.cancelEditCell(this.props.cellId)
   },
   renderDataCell: function() {
     return <div>
@@ -43,7 +46,10 @@ export const NotebookCell = React.createClass({
         <pre>{this.getCellDataAsPrettyJSON()}</pre>
       </div>}
       { this.props.editing ? 
-        <TransformCellEditorForm onSubmit={this.updateCell} {...this.props} />
+        <TransformCellEditorForm {...this.props}
+          onSubmit={this.updateCell}
+          handleCancel={this.cancelEditCell}
+           />
         :
       <button onClick={this.editCell}>Edit</button> }
     </div>;
@@ -72,7 +78,7 @@ function mapStateToProps(state, props) {
     cellsById,
     cellsBefore,
     initialValues: cell.toJS(),
-    getData
+    getData,
   };
 }
 

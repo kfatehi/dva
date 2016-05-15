@@ -84,7 +84,7 @@ describe("notebook reducer", () => {
     });
   });
 
-  describe("action EDIT_CELL", () => {
+  describe("cell mutation", () => {
     let initialState = null;
 
     beforeEach(function() {
@@ -95,29 +95,35 @@ describe("notebook reducer", () => {
       initialState = [a,b].reduce(reducers.notebook, Map({}));
     })
 
-    it("flags a field on the notebook to indicate this cell is under edit", () => {
-      let action = actionCreators.editCell('b');
-      let nextState = reducers.notebook(initialState, action);
-      expect(nextState.get('editingCell')).to.equal('b');
+    describe("action EDIT_CELL", () => {
+      it("flags a field on the notebook to indicate this cell is under edit", () => {
+        let action = actionCreators.editCell('b');
+        let nextState = reducers.notebook(initialState, action);
+        expect(nextState.get('editingCell')).to.equal('b');
+      });
     });
-  });
 
-  describe("action UPDATE_CELL", () => {
-    let initialState = null;
-
-    beforeEach(function() {
-      let a = appendDataCellAction(gradebookData);
-      let b = actionCreators.appendCell('TRANSFORM', {
-        name: '', parentId: a.uuid, func: '', uuid: 'b'
+    describe("action CANCEL_EDIT_CELL", () => {
+      it("unsets flag indicating the cell is no longer under edit", () => {
+        let action = actionCreators.cancelEditCell('x');
+        let nextState = reducers.notebook(initialState, action);
+        expect(nextState.get('editingCell')).to.equal(undefined);
       });
-      initialState = [a,b].reduce(reducers.notebook, Map({}));
-    })
+    });
 
-    it("updates multiple fields on a cell", () => {
-      let action = actionCreators.updateCell('x', {a:1,b:2});
-      let nextState = reducers.notebook(initialState, action);
-      expect(nextState.getIn(['cellsById', 'x', 'a'])).to.equal(1);
-      expect(nextState.getIn(['cellsById', 'x', 'b'])).to.equal(2);
+    describe("action UPDATE_CELL", () => {
+      it("updates multiple fields on a cell", () => {
+        let action = actionCreators.updateCell('x', {a:1,b:2});
+        let nextState = reducers.notebook(initialState, action);
+        expect(nextState.getIn(['cellsById', 'x', 'a'])).to.equal(1);
+        expect(nextState.getIn(['cellsById', 'x', 'b'])).to.equal(2);
+      });
+
+      it("unsets flag indicating the cell is no longer under edit", () => {
+        let action = actionCreators.updateCell('x', {a:1,b:2});
+        let nextState = reducers.notebook(initialState, action);
+        expect(nextState.get('editingCell')).to.equal(undefined);
+      });
     });
   });
 });

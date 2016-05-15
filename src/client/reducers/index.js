@@ -57,7 +57,11 @@ export function notebook(state = Map(), action) {
   }
 
   function updateCell(state, uuid, params) {
-    return state.mergeIn(['cellsById', uuid], params);
+    return state.mergeIn(['cellsById', uuid], params).remove('editingCell');
+  }
+
+  function cancelEditCell(state, uuid) {
+    return state.remove('editingCell');
   }
 
   switch (action.type) {
@@ -67,6 +71,8 @@ export function notebook(state = Map(), action) {
       return editCell(state, action.uuid);
     case 'UPDATE_CELL':
       return updateCell(state, action.uuid, action.params);
+    case 'CANCEL_EDIT_CELL':
+      return cancelEditCell(state, action.uuid);
   }
   return state;
 }

@@ -37,3 +37,10 @@ export function updateCell(cellId, params) {
     params
   };
 }
+
+export function cancelEditCell(cellId) {
+  return {
+    type: "CANCEL_EDIT_CELL",
+    uuid: cellId
+  };
+}
