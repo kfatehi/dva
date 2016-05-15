@@ -3,20 +3,25 @@ import sankeyDataPrep from "../../../src/extensions/com.brett.sankeyV2/sankey-da
 describe("Sankey Data Preparation", function() {
   //no input test
   it("empty dataset returns empty preped dataset", function(){
-    let result = sankeyDataPrep({"nodes" : [], "links" :[]});
+    let result = sankeyDataPrep([]);
      expect(result).to.deep.eq({"nodes" : [], "links" :[]});  
   })
   
   //small input test
   it.skip("small dataset returns correct result", function(){
-    let result = sankeyDataPrep({"nodes" : [], "links" :[]});
-    expect(prepedJsonObject).to.equal("");  
+    let result = sankeyDataPrep(
+      [{
+      "source": "Barry",
+      "target": "Elvis",
+      "value" : 2
+      }]);
 
-  })
+    expect(result).to.equal({ 
+      "nodes" : [{"name" : "Barry"}], 
+      "links" :[{"source" : 0, "target":1, "value": 2}]}
+    );
   
   it.skip("default behavior", function(){
-    
-    
     
   })
 })
