@@ -1,6 +1,6 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { reduxForm, change } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { fromJS } from 'immutable';
 import {connect} from 'react-redux';
 import * as actionCreators from '../action-creators';
@@ -9,9 +9,6 @@ import 'codemirror/mode/javascript/javascript';
 
 export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
-  getCellName: function(id) {
-    return this.props.cellsById.get(id).get('name');
-  },
   getDataPreview: function (funcValue) {
     try {
       return JSON.stringify(this.props.getData({
@@ -29,6 +26,7 @@ export const TransformCellEditor = React.createClass({
         func
       },
       cellsBefore,
+      getCellName,
       handleSubmit,
       handleCancel
     } = this.props
@@ -45,7 +43,7 @@ export const TransformCellEditor = React.createClass({
       <form onSubmit={handleSubmit}>
         <label>Data Source</label>
         <select {...parentId}>{cellsBefore.map(id =>
-          <option key={id} value={id}>{this.getCellName(id)}</option>)}
+          <option key={id} value={id}>{getCellName(id)}</option>)}
         </select>
         <label>Name</label>
         <input type="text" {...name} />

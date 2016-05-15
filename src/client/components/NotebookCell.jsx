@@ -5,7 +5,7 @@ import * as actionCreators from '../action-creators';
 import getCellData from '../get-cell-data';
 
 import { TransformCellEditorForm } from './TransformCellEditor';
-import { VisualizationCellEditor } from './VisualizationCellEditor';
+import { VisualizationCellEditorForm } from './VisualizationCellEditor';
 
 export const NotebookCell = React.createClass({
   mixins: [PureRenderMixin],
@@ -60,7 +60,13 @@ export const NotebookCell = React.createClass({
         <h1>{this.props.cell.get('name')}</h1>
         a viz goes here
       </div>}
-      <VisualizationCellEditor {...this.props} />
+      { this.props.editing ? 
+        <VisualizationCellEditorForm {...this.props}
+          onSubmit={this.updateCell}
+          handleCancel={this.cancelEditCell}
+           />
+        :
+      <button onClick={this.editCell}>Edit</button> }
     </div>;
   }
 })
@@ -72,12 +78,14 @@ function mapStateToProps(state, props) {
   let cellsBefore = notebook.get('cells').takeUntil(id=>id === props.cellId);
   let editing = notebook.get('editingCell') === props.cellId;
   let getData = (opts) => getCellData(cellsById, props.cellId, opts);
+  let getCellName = (id) => cellsById.get(id).get('name');
   return {
     editing,
     cell,
     cellsById,
     cellsBefore,
     initialValues: cell.toJS(),
+    getCellName,
     getData,
   };
 }

@@ -89,6 +89,6 @@ let e = actionCreators.appendCell('VISUALIZATION', {
 
 store.dispatch(a)
 store.dispatch(b)
-//store.dispatch(c)
-//store.dispatch(d)
-//store.dispatch(e)
+store.dispatch(c)
+store.dispatch(d)
+store.dispatch(e)
