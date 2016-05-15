@@ -4,4 +4,9 @@
 /var/sessions.*.json
 /public/bundle.js
 /public/vendor.bundle.js
+/public/*.woff2
+/public/*.woff
+/public/*.ttf
+/public/*.eot
+/public/*.svg
 /es5

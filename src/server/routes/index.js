@@ -7,7 +7,7 @@ const router = express.Router();
 const debug = require('debug')('dva:router')
 
 router.get('/', ensureLogin.ensureLoggedIn(), function(req, res) {
-  res.render('app', { layout: 'react' });
+  res.render('app');
 });
 
 router.get('/register', function(req, res) {

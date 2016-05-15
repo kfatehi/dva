@@ -8,6 +8,8 @@ import { TransformCellEditorForm } from './TransformCellEditor';
 import { VisualizationCellEditorForm } from './VisualizationCellEditor';
 import { Visualization } from './Visualization';
 
+import { Button } from 'react-bootstrap';
+
 export const NotebookCell = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
@@ -35,45 +37,48 @@ export const NotebookCell = React.createClass({
     return this.props.cancelEditCell(this.props.cellId)
   },
   renderDataCell: function() {
-    return <div>
-      <h1>{this.props.cell.get('name')}</h1>
-      <pre>{this.getCellDataAsPrettyJSON()}</pre>
-    </div>;
-  },
-  renderTransformCell: function() {
-    return <div>{ this.props.editing ? null :
-      <div>
+    return this.renderCell({
+      view: <div>
         <h1>{this.props.cell.get('name')}</h1>
         <pre>{this.getCellDataAsPrettyJSON()}</pre>
-      </div>}
-      { this.props.editing ? 
-        <TransformCellEditorForm {...this.props}
-          onSubmit={this.updateCell}
-          handleCancel={this.cancelEditCell}
-        />
-        : 
-      this.props.editingOther ? null :
-      <button onClick={this.editCell}>Edit</button> }
-    </div>;
+      </div>
+    });
+  },
+  renderTransformCell: function() {
+    return this.renderCell({
+      view: <div>
+        <h1>{this.props.cell.get('name')}</h1>
+        <pre>{this.getCellDataAsPrettyJSON()}</pre>
+      </div>,
+      edit: <TransformCellEditorForm {...this.props}
+        onSubmit={this.updateCell}
+        handleCancel={this.cancelEditCell}
+      />
+    });
   },
   renderVisualizationCell: function() {
-    return <div>{ this.props.editing ? null :
-      <div>
+    return this.renderCell({
+      view: <div>
         <h1>{this.props.cell.get('name')}</h1>
         <Visualization
           visExtId={this.props.cell.get('visExtId')}
           visConfigJSON={this.props.cell.get('visConfigJSON')}
           getData={this.props.getData}
         />
-      </div>}
-      { this.props.editing ? 
-        <VisualizationCellEditorForm {...this.props}
-          onSubmit={this.updateCell}
-          handleCancel={this.cancelEditCell}
-        />
-        :
-      this.props.editingOther ? null :
-      <button onClick={this.editCell}>Edit</button> }
+      </div>,
+      edit: <VisualizationCellEditorForm {...this.props}
+        onSubmit={this.updateCell}
+        handleCancel={this.cancelEditCell}
+      />
+    });
+  },
+  renderCell: function(states) {
+    const {editing, editingOther} = this.props;
+    const {view, edit} = states;
+    const btn = <Button onClick={this.editCell} bsStyle="primary">Edit</Button>;
+    return <div>
+      { editing ? edit : view }
+      { editing || editingOther ? null : btn }
     </div>;
   }
 })

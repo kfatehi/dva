@@ -19,6 +19,7 @@ module.exports = {
       'react-dnd-html5-backend',
       'react-addons-pure-render-mixin',
       'react-faux-dom',
+      'react-bootstrap',
       'd3',
       'socket.io-client',
       'immutable',
@@ -38,6 +39,11 @@ module.exports = {
       { test: /\.css$/, exclude: /\.useable\.css$/, loader: "style!css" },
       { test: /\.useable\.css$/, loader: "style/useable!css" },
       { test: /\.json/, loader: "json" },
+      { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
+      { test: /\.woff(2)?(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
     ]
   },
   plugins: [

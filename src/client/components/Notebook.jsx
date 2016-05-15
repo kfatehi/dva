@@ -8,7 +8,7 @@ import { Datatable } from './Datatable';
 import { NotebookCellContainer } from './NotebookCell';
 
 
-import './Notebook.css';
+import './Notebook.less';
 
 export const Notebook = React.createClass({
   mixins: [PureRenderMixin],
