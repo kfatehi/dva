@@ -9,7 +9,3 @@ ul.notebook > li {
   margin: 0;
   padding: 0;
 }
-
-li.selected {
-  border: 3px solid #ccc;
-}

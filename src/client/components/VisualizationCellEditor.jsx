@@ -13,13 +13,20 @@ import {BucketMapper} from './BucketMapper';
 import {Visualization} from './Visualization';
 import { getExtensions } from '../../extensions';
 
+import './VisualizationCellEditor.css';
+
 export const VisualizationCellEditor = React.createClass({
   mixins: [PureRenderMixin],
+  setVisExt: function(e, id) {
+    e.preventDefault()
+    this.props.fields.visExtId.onChange(id);
+  },
   render: function() {
     const {
       fields: {
         parentId,
-        name
+        name,
+        visExtId
       },
       getCellName,
       getData,
@@ -57,11 +64,20 @@ export const VisualizationCellEditor = React.createClass({
 
         <h3>Visualization Extensions</h3>
         <ul>{getExtensions().map(ext =>
-          <li key={ext.info.id}
-            className={this.props.visExtId === ext.info.id ? 'selected' : null}>
-            <button onClick={this.props.setVisExtId}>{ext.info.id}</button>
+          <li key={ext.info.id}>
+            <button onClick={(e) => this.setVisExt(e, ext.info.id)}
+              className={visExtId.value === ext.info.id ? 'vis-selected' : null}>
+              {ext.info.id}
+            </button>
           </li>)}
         </ul>
+
+        { visExtId.value.length > 0 ? <BucketMapper
+          dragCallback={this.props.draggedToBucket}
+          columns={this.props.columns}
+          buckets={this.props.vizSelected.get('buckets')}
+          bucketMapping={this.props.bucketMap}
+        /> : null }
 
         <button type="submit">Save</button>
         <button onClick={handleCancel}>Cancel</button>

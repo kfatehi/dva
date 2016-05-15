@@ -84,7 +84,7 @@ let d = actionCreators.appendCell('TRANSFORM', {
 
 let e = actionCreators.appendCell('VISUALIZATION', {
   name: "Good Students",
-  parentId: d.uuid,
+  parentId: d.uuid
 })
 
 store.dispatch(a)
