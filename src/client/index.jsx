@@ -92,3 +92,5 @@ store.dispatch(b)
 store.dispatch(c)
 store.dispatch(d)
 store.dispatch(e)
+
+store.dispatch(actionCreators.editCell(e.uuid));

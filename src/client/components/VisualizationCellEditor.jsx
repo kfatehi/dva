@@ -2,9 +2,16 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { reduxForm } from 'redux-form';
 import { List, fromJS } from 'immutable';
-import { DragDropWorkspaceContainer } from './Workspace';
 import { toRowColImmutable as toRowCol } from '../data-converter';
-import parseDimensionsMeasures from '../parse-dimensions-measures';
+import { parse, getDimensions, getMeasures } from '../dimensions-and-measures';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
+import {Datatable} from './Datatable';
+import {DraggableDimension} from './Dimension';
+import {BucketMapper} from './BucketMapper';
+import {Visualization} from './Visualization';
+import { getExtensions } from '../../extensions';
 
 export const VisualizationCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -21,8 +28,7 @@ export const VisualizationCellEditor = React.createClass({
       handleCancel,
     } = this.props;
     const { rows, columns } = toRowCol(getData())
-    const { dimensions, measures } = parseDimensionsMeasures(rows.first());
-    const workspaceProps = { dimensions, measures, rows, columns }
+    const { dimensions, measures } = parse(rows.first());
     return (
       <form onSubmit={handleSubmit}>
         <label>Data Source</label>
@@ -31,7 +37,32 @@ export const VisualizationCellEditor = React.createClass({
         </select>
         <label>Name</label>
         <input type="text" {...name} />
-        <DragDropWorkspaceContainer {...workspaceProps} />
+
+        <h3>Data</h3>
+        <Datatable rows={rows} columns={columns} />
+
+        <h3>Dimensions</h3>
+        <ul>{getDimensions(dimensions, columns).map(item =>
+          <li className="dimension" key={item.columnIndex}>
+            <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
+          </li>)}
+        </ul>
+
+        <h3>Measures</h3>
+        <ul>{getMeasures(measures, columns).map(item =>
+          <li className="measure" key={item.columnIndex}>
+            <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
+          </li>)}
+        </ul>
+
+        <h3>Visualization Extensions</h3>
+        <ul>{getExtensions().map(ext =>
+          <li key={ext.info.id}
+            className={this.props.visExtId === ext.info.id ? 'selected' : null}>
+            <button onClick={this.props.setVisExtId}>{ext.info.id}</button>
+          </li>)}
+        </ul>
+
         <button type="submit">Save</button>
         <button onClick={handleCancel}>Cancel</button>
       </form>
@@ -41,6 +72,6 @@ export const VisualizationCellEditor = React.createClass({
 
 export const VisualizationCellEditorForm = reduxForm({
   form: 'cell',
-  fields: ['parentId', 'name'],
+  fields: ['parentId', 'name', 'visExtId'],
   getFormState: (state, reduxMountPoint) => state.get(reduxMountPoint).toJS()
-})(VisualizationCellEditor);
+})(DragDropContext(HTML5Backend)(VisualizationCellEditor));

@@ -14,9 +14,21 @@ function parseDimensions(values) {
   }).filterNot(a => a === null);
 }
 
-export default function(row) {
+export function parse(row) {
   return {
     measures: parseMeasures(row),
     dimensions: parseDimensions(row)
   };
+}
+
+export function getDimensions(dimensions, columns) {
+  return dimensions.map(columnIndex => {
+    return {columnIndex, name: columns.get(columnIndex)}
+  });
+}
+
+export function getMeasures(measures, columns) {
+  return measures.map(columnIndex => {
+    return {columnIndex, name: columns.get(columnIndex)}
+  });
 }
