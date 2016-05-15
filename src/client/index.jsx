@@ -49,13 +49,45 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('mount')
 )
-
+/*
 let data = [{
   "Student": "Alice",
   "Grade": "95"
 },{
   "Student": "Bob",
   "Grade": "65"
+}]
+*/
+
+
+let data = [{
+  "source": "Barry",
+  "target": "Elvis",
+  "value": "2"
+},{
+  "source": "Frodo",
+  "target": "Elvis",
+  "value": "2"
+},{
+  "source": "Frodo",
+  "target": "Sarah",
+  "value": "2"
+},{
+  "source": "Barry",
+  "target": "Alice",
+  "value": "2"
+},{
+  "source": "Elvis",
+  "target": "Sarah",
+  "value": "2"
+},{
+  "source": "Elvis",
+  "target": "Alice",
+  "value": "2"
+},{
+  "source": "Sarah",
+  "target": "Alice",
+  "value": "2"
 }]
 
 let a = actionCreators.appendCell('DATA', {

@@ -1,7 +1,7 @@
 export function getIds() {
   return [
     'com.keyvan.barchart',
-    'com.keyvan.barchart2'
+    'com.brett.sankeyV2'
   ]
 }
 
