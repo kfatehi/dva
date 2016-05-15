@@ -4,8 +4,9 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../action-creators';
 import { List, Map, fromJS } from 'immutable';
 
-import { Datatable } from './Datatable';
-import { NotebookCellContainer } from './NotebookCell';
+import { DataCell } from './DataCell';
+import { TransformCell } from './TransformCell';
+import { VisualizationCell } from './VisualizationCell';
 
 
 import './Notebook.less';
@@ -13,11 +14,21 @@ import './Notebook.less';
 export const Notebook = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    return <ul className="notebook">{ this.props.cells.map(id =>
-      <li key={id}>
-        <NotebookCellContainer cellId={id} />
-        
-      </li>)}
+    const { cells, cellsById } = this.props;
+    const renderCell = (id) => {
+      switch (cellsById.getIn([id, 'cellType'])) {
+        case 'DATA':
+          return <DataCell cellId={id} />
+        case 'TRANSFORM':
+          return <TransformCell cellId={id} />
+        case 'VISUALIZATION':
+          return <VisualizationCell cellId={id} />
+        default:
+          return null;
+      }
+    }
+    return <ul className="notebook">{ cells.map(id =>
+      <li key={id}>{renderCell(id)}</li>)}
     </ul>;
   }
 })
@@ -25,6 +36,7 @@ export const Notebook = React.createClass({
 function mapStateToProps(state) {
   return {
     cells: state.getIn(['notebook', 'cells']) || List(),
+    cellsById: state.getIn(['notebook', 'cellsById']) || Map()
   };
 }
 
