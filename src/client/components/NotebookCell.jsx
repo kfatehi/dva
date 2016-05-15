@@ -78,7 +78,7 @@ export const NotebookCell = React.createClass({
     const btn = <Button onClick={this.editCell} bsStyle="primary">Edit</Button>;
     return <div>
       { editing ? edit : view }
-      { editing || editingOther ? null : btn }
+      { editing || editingOther ? null : (edit ? btn : null) }
     </div>;
   }
 })
