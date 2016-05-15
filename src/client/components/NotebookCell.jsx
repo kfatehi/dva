@@ -49,8 +49,9 @@ export const NotebookCell = React.createClass({
         <TransformCellEditorForm {...this.props}
           onSubmit={this.updateCell}
           handleCancel={this.cancelEditCell}
-           />
-        :
+        />
+        : 
+      this.props.editingOther ? null :
       <button onClick={this.editCell}>Edit</button> }
     </div>;
   },
@@ -64,8 +65,9 @@ export const NotebookCell = React.createClass({
         <VisualizationCellEditorForm {...this.props}
           onSubmit={this.updateCell}
           handleCancel={this.cancelEditCell}
-           />
+        />
         :
+      this.props.editingOther ? null :
       <button onClick={this.editCell}>Edit</button> }
     </div>;
   }
@@ -77,10 +79,12 @@ function mapStateToProps(state, props) {
   let cell = cellsById.get(props.cellId);
   let cellsBefore = notebook.get('cells').takeUntil(id=>id === props.cellId);
   let editing = notebook.get('editingCell') === props.cellId;
+  let editingOther = notebook.get('editingCell') !== undefined;
   let getData = (opts) => getCellData(cellsById, props.cellId, opts);
   let getCellName = (id) => cellsById.get(id).get('name');
   return {
     editing,
+    editingOther,
     cell,
     cellsById,
     cellsBefore,
