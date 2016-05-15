@@ -7,6 +7,9 @@ import parseDimensionsMeasures from '../parse-dimensions-measures';
 
 export const VisualizationCellEditor = React.createClass({
   mixins: [PureRenderMixin],
+  onChangeDataSource: function(ev) {
+    ev=>fields.parentId=ev.target.value
+  },
   render: function() {
     let fields = {
       name: this.props.cell.get('name'),
@@ -46,7 +49,7 @@ export const VisualizationCellEditor = React.createClass({
           <label>Data Source</label>
           <select
             defaultValue={fields.parentId}
-            onChange={ev=>fields.parentId=ev.target.value}
+            onChange={this.onChangeDataSource}
           >{this.props.cellsBefore.map(id =>
             <option key={id} value={id}>{this.props.cellsById.get(id).get('name')}</option>)}
           </select>

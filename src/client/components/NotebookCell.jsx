@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../action-creators';
 import getCellData from '../get-cell-data';
 
-import { TransformCellEditor } from './TransformCellEditor';
+import { TransformCellEditorForm } from './TransformCellEditor';
 import { VisualizationCellEditor } from './VisualizationCellEditor';
 
 export const NotebookCell = React.createClass({
@@ -30,16 +30,16 @@ export const NotebookCell = React.createClass({
     </div>;
   },
   renderTransformCell: function() {
-    return <div>{ this.props.cellBeingEdited ? null :
+    return <div>{ this.props.editing ? null :
       <div>
         <h1>{this.props.cell.get('name')}</h1>
         <pre>{this.getCellDataAsPrettyJSON()}</pre>
       </div>}
-      <TransformCellEditor {...this.props} />
+      <TransformCellEditorForm {...this.props} />
     </div>;
   },
   renderVisualizationCell: function() {
-    return <div>{ this.props.cellBeingEdited ? null :
+    return <div>{ this.props.editing ? null :
       <div>
         <h1>{this.props.cell.get('name')}</h1>
         a viz goes here
@@ -54,9 +54,16 @@ function mapStateToProps(state, props) {
   let cellsById = notebook.get('cellsById');
   let cell = cellsById.get(props.cellId);
   let cellsBefore = notebook.get('cells').takeUntil(id=>id === props.cellId);
-  let cellBeingEdited = notebook.get('editingCell') === props.cellId;
+  let editing = notebook.get('editingCell') === props.cellId;
   let getData = (opts) => getCellData(cellsById, props.cellId, opts);
-  return { cellBeingEdited, cell, cellsById, cellsBefore, getData };
+  return {
+    editing,
+    cell,
+    cellsById,
+    cellsBefore,
+    initialValues: cell.toJS(),
+    getData
+  };
 }
 
 export const NotebookCellContainer = connect(

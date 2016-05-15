@@ -7,11 +7,12 @@ import Immutable from 'immutable';
 import { combineReducers } from 'redux-immutablejs';
 import { Router, Route, hashHistory } from 'react-router';
 import remoteActionMiddleware from './remote-action-middleware';
-
+import {reducer as formReducer} from 'redux-form';
 import * as reducers from './reducers';
 import App from './components/App';
 import { DragDropWorkspaceContainer } from './components/Workspace';
 import { NotebookContainer } from './components/Notebook';
+import { fromJS } from 'immutable';
 
 import * as actionCreators from './action-creators';
 
@@ -27,6 +28,7 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore);
 
 const reducer = combineReducers({
+  form: (state = fromJS({}), action) => fromJS(formReducer(state.toJS(), action)),
   notebook: reducers.notebook,
 });
 
@@ -87,6 +89,6 @@ let e = actionCreators.appendCell('VISUALIZATION', {
 
 store.dispatch(a)
 store.dispatch(b)
-store.dispatch(c)
-store.dispatch(d)
-store.dispatch(e)
+//store.dispatch(c)
+//store.dispatch(d)
+//store.dispatch(e)

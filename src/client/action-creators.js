@@ -23,11 +23,9 @@ export function appendCell(cellType, props) {
   }, props);
 }
 
-export function editingCell(cellId, editingBool) {
+export function editCell(cellId) {
   return {
-    type: "FLAG_NOTEBOOK",
-    key: 'editingCell',
-    value: editingBool,
+    type: "EDIT_CELL",
     uuid: cellId,
   }
 }

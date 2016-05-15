@@ -52,8 +52,8 @@ export function notebook(state = Map(), action) {
       })
   }
 
-  function flagNotebook(state, uuid, key, value) {
-    return state.update(key, () => value ? uuid : false);
+  function editCell(state, uuid) {
+    return state.update('editingCell', () => uuid);
   }
 
   function updateCell(state, uuid, key, value) {
@@ -63,8 +63,8 @@ export function notebook(state = Map(), action) {
   switch (action.type) {
     case 'APPEND_CELL':
       return appendCell(state, action.uuid, createCell(action));
-    case 'FLAG_NOTEBOOK':
-      return flagNotebook(state, action.uuid, action.key, action.value);
+    case 'EDIT_CELL':
+      return editCell(state, action.uuid);
     case 'UPDATE_CELL':
       return updateCell(state, action.uuid, action.key, action.value);
   }

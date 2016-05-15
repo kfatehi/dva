@@ -16,23 +16,15 @@ describe("action creators", () => {
     });
   });
 
-  describe("editingCell", () => {
-    it("is type FLAG_NOTEBOOK", () => {
-      let action = actionCreators.editingCell('hi', true)
-      expect(action.type).to.equal('FLAG_NOTEBOOK');
+  describe("edit", () => {
+    it("is type EDIT_CELL", () => {
+      let action = actionCreators.editCell('hi');
+      expect(action.type).to.equal('EDIT_CELL')
     });
-    it("sets the editing flag true", () => {
-      let action = actionCreators.editingCell('hi', true)
+    it("sets the correct uuid", () => {
+      let action = actionCreators.editCell('hi');
       expect(action.uuid).to.equal('hi');
-      expect(action.key).to.equal('editingCell');
-      expect(action.value).to.equal(true);
     })
-    it("sets the editing flag false", () => {
-      var action = actionCreators.editingCell('hi', false)
-      expect(action.uuid).to.equal('hi');
-      expect(action.key).to.equal('editingCell');
-      expect(action.value).to.equal(false);
-    });
   });
 
   describe("updateCell", () => {

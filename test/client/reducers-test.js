@@ -84,7 +84,7 @@ describe("notebook reducer", () => {
     });
   });
 
-  describe("action FLAG_NOTEBOOK", () => {
+  describe("action EDIT_CELL", () => {
     let initialState = null;
 
     beforeEach(function() {
@@ -95,13 +95,19 @@ describe("notebook reducer", () => {
       initialState = [a,b].reduce(reducers.notebook, Map({}));
     })
 
-    it("can indicate that a cell is being edited", () => {
-      let action = actionCreators.editingCell('b', true);
+    it("flags a field on the notebook to indicate this cell is under edit", () => {
+      let action = actionCreators.editCell('b');
       let nextState = reducers.notebook(initialState, action);
       expect(nextState.get('editingCell')).to.equal('b');
     });
+
+    it.skip("creates a copy of the fields for editing by a form", () => {
+      let action = actionCreators.editCell('b');
+      let nextState = reducers.notebook(initialState, action);
+    });
   });
 
+  // should be APPLY_CELL_EDITS
   describe("action UPDATE_CELL", () => {
     let initialState = null;
 
