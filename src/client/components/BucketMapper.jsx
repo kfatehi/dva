@@ -5,7 +5,7 @@ import { DropTargetBucket } from './Bucket';
 export const BucketMapper = React.createClass({
   mixins: [PureRenderMixin],
   getItems: function(b) {
-    return (this.props.bucketMapping[b.key] || []).map((name) => {
+    return (this.props.bucketMapping.get(b.key) || []).map((name) => {
       return {
         name,
         columnIndex: this.props.columns.findIndex(n => n===name)

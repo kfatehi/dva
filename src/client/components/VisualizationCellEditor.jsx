@@ -1,7 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { reduxForm } from 'redux-form';
-import { List, fromJS } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import { toRowColImmutable as toRowCol } from '../data-converter';
 import { parse, getDimensions, getMeasures } from '../dimensions-and-measures';
 import { DragDropContext } from 'react-dnd';
@@ -12,6 +12,7 @@ import {DraggableDimension} from './Dimension';
 import {BucketMapper} from './BucketMapper';
 import {Visualization} from './Visualization';
 import { getSchema, getExtensions } from '../../extensions';
+import { draggedToBucket } from '../../bucket-mapping';
 
 import './VisualizationCellEditor.css';
 
@@ -27,7 +28,7 @@ export const VisualizationCellEditor = React.createClass({
         parentId,
         name,
         visExtId,
-        bucketMapping
+        visConfigJSON
       },
       getCellName,
       getData,
@@ -36,12 +37,28 @@ export const VisualizationCellEditor = React.createClass({
       handleCancel,
     } = this.props;
 
-
-    let deserialize = (value) => {
-      return value.length > 0 ? JSON.parse(value) : {}
-    }
     const { rows, columns } = toRowCol(getData())
     const { dimensions, measures } = parse(rows.first());
+
+    let visConfig = null;
+    if (visConfigJSON.value.length > 0) {
+      visConfig = fromJS(JSON.parse(visConfigJSON.value))
+    } else {
+      visConfig = Map({
+        config: Map({}),
+        bucketMapping: Map({
+          bucketMap: Map({}),
+          columnMap: Map({})
+        })
+      });
+    }
+
+    let handleDrag = (columnIndex, bucketKey) => {
+      let schemaBuckets = getSchema(visExtId.value).buckets;
+      let out = draggedToBucket(visConfig, columnIndex, bucketKey, columns, schemaBuckets)
+      visConfigJSON.onChange(JSON.stringify(out.toJS()))
+    }
+
     return (
       <form onSubmit={handleSubmit}>
         <label>Data Source</label>
@@ -79,10 +96,10 @@ export const VisualizationCellEditor = React.createClass({
         </ul>
 
         { visExtId.value.length > 0 ? <BucketMapper
-          dragCallback={this.props.draggedToBucket}
+          dragCallback={handleDrag}
           columns={columns}
           buckets={getSchema(visExtId.value).buckets}
-          bucketMapping={deserialize(bucketMapping.value)}
+          bucketMapping={visConfig.get('bucketMapping').get('bucketMap')}
         /> : null }
 
         <button type="submit">Save</button>
@@ -94,6 +111,6 @@ export const VisualizationCellEditor = React.createClass({
 
 export const VisualizationCellEditorForm = reduxForm({
   form: 'cell',
-  fields: ['parentId', 'name', 'visExtId', 'bucketMapping'],
+  fields: ['parentId', 'name', 'visExtId', 'visConfigJSON'],
   getFormState: (state, reduxMountPoint) => state.get(reduxMountPoint).toJS()
 })(DragDropContext(HTML5Backend)(VisualizationCellEditor));
