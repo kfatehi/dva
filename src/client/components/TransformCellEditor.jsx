@@ -6,6 +6,7 @@ import * as actionCreators from '../action-creators';
 import Codemirror from 'react-codemirror';
 import 'codemirror/mode/javascript/javascript';
 import { Button, ButtonGroup } from 'react-bootstrap';
+import { Datatable } from './Datatable';
 import debounce from 'debounce';
 
 export const TransformCellEditor = React.createClass({
@@ -29,10 +30,10 @@ export const TransformCellEditor = React.createClass({
     function getDataPreview(parentId, funcValue) {
       try {
         broken = false;
-        return JSON.stringify(getData({
+        return getData({
           parentOverride: parentId,
           funcOverride: funcValue
-        }), null, 2);
+        });
       } catch (e) {
         broken = true;
         return e.stack;
@@ -58,7 +59,7 @@ export const TransformCellEditor = React.createClass({
         <label>Name</label>
         <input type="text" {...name} />
         <Codemirror {...editorProps} />
-        <pre ref="preview">{getDataPreview(parentId.value, func.value)}</pre>
+        <Datatable data={getDataPreview(parentId.value, func.value)} />
         <ButtonGroup>
           <Button bsStyle="success" disabled={broken} type="submit">Save</Button>
           <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>
