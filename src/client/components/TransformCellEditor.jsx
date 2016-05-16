@@ -5,6 +5,7 @@ import { fromJS } from 'immutable';
 import * as actionCreators from '../action-creators';
 import Codemirror from 'react-codemirror';
 import 'codemirror/mode/javascript/javascript';
+import { Button, ButtonGroup } from 'react-bootstrap';
 
 export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -56,8 +57,10 @@ export const TransformCellEditor = React.createClass({
         <input type="text" {...name} />
         <Codemirror {...editorProps} />
         <pre ref="preview">{getDataPreview(parentId.value, func.value)}</pre>
-        <button disabled={broken} type="submit">Save</button>
-        <button onClick={handleCancel}>Cancel</button>
+        <ButtonGroup>
+          <Button bsStyle="success" disabled={broken} type="submit">Save</Button>
+          <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>
+        </ButtonGroup>
       </form>
     );
   }

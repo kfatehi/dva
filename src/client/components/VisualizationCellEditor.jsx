@@ -14,6 +14,7 @@ import {Visualization} from './Visualization';
 import { getModule, getSchema, getExtensions } from '../../extensions';
 import { draggedToBucket } from '../../bucket-mapping';
 import { bucketsFilled, mkVisConfigFromJSON } from '../../vis';
+import { Button, ButtonGroup } from 'react-bootstrap';
 
 import './VisualizationCellEditor.css';
 
@@ -121,8 +122,10 @@ export const VisualizationCellEditor = React.createClass({
               /> : null }
           </div> : null }
 
-        <button type="submit">Save</button>
-        <button onClick={handleCancel}>Cancel</button>
+        <ButtonGroup>
+          <Button bsStyle="success" type="submit">Save</Button>
+          <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>
+        </ButtonGroup>
       </form>
     );
   }

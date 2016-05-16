@@ -54,3 +54,29 @@ export function isCircular(cellsById, cellId, seen=Map()) {
     return false;
   }
 }
+
+export function getParentCandidates(cells, cellsById, cellId) {
+  return cells.filter( id => {
+    // you cannot make a cell a parent of itself
+    if (id === cellId) return false;
+
+    const type = cellsById.getIn([id, 'cellType']);
+
+    // a DATA cell can always be a parent to other cells
+    if (type === 'DATA') return true;
+
+    // transforms can be parents
+    if (type === 'TRANSFORM') {
+      // but be wary of circular dependencies
+      const parentId = cellsById.getIn([id, 'parentId']);
+
+      return isCircular(
+        cellsById.updateIn([ cellId, 'parentId' ], () => id),
+        cellId
+      ) ? false : true
+    }
+
+    // otherwise do not show this cell as an option
+    return false;
+  })
+}

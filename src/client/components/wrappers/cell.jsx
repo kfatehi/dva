@@ -2,9 +2,9 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import * as actionCreators from '../../action-creators';
-import getCellData, { isCircular } from '../../get-cell-data';
+import getCellData, { getParentCandidates } from '../../get-cell-data';
 
-import { Button, Col } from 'react-bootstrap';
+import { Button, Col, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 export default function(Component){
@@ -24,14 +24,48 @@ export default function(Component){
       return this.props.cancelEditCell(this.props.cellId)
     },
     renderCell: function(states) {
-      const {editing, editingOther} = this.props;
+      const {
+        editing,
+        editingOther,
+        isFirstPosition,
+        isLastPosition,
+      } = this.props;
       const {view, edit} = states;
-      const btn = <Button onClick={this.editCell} bsStyle="primary">
-        <FontAwesome name='pencil'/> Edit
-      </Button>;
+
+      const buttonGroupInstance = (
+        <ButtonToolbar>
+          <ButtonGroup>
+            <Button disabled={!edit} onClick={this.editCell}>
+              <FontAwesome name='pencil'/>
+            </Button>
+            <Button disabled={isFirstPosition}><FontAwesome name="arrow-up" /></Button>
+            <Button disabled={isLastPosition}><FontAwesome name="arrow-down" /></Button>
+          </ButtonGroup>
+
+          <ButtonGroup>
+            <Button><FontAwesome name="database" /> Append Data</Button>
+            <Button><FontAwesome name="file-code-o" /> Append Transformation</Button>
+            <Button><FontAwesome name="file-text-o" /> Append Markdown</Button>
+            <Button><FontAwesome name="bar-chart" /> Append Visualization</Button>
+          </ButtonGroup>
+
+          <ButtonGroup>
+            <Button><FontAwesome name='remove'/></Button>
+          </ButtonGroup>
+        </ButtonToolbar>
+      );
+
+      function renderCellView(cellView) {
+        return (
+          <div>
+            {cellView}
+            { editingOther ? null : buttonGroupInstance }
+          </div>
+        );
+      }
+
       return <Col xs={12}>
-        { editing ? edit : view }
-        { editing || editingOther ? null : (edit ? btn : null) }
+        { editing ? edit : renderCellView(view) }
       </Col>;
     },
     render: function() {
@@ -51,33 +85,15 @@ export default function(Component){
     const notebook = state.get('notebook');
     const cellsById = notebook.get('cellsById');
     const cell = cellsById.get(cellId);
-    const otherCellsWithData = notebook.get('cells').filter( id => {
-      // you cannot make a cell a parent of itself
-      if (id === cellId) return false;
-
-      const type = cellsById.getIn([id, 'cellType']);
-
-      // a DATA cell can always be a parent to other cells
-      if (type === 'DATA') return true;
-
-      // transforms can be parents
-      if (type === 'TRANSFORM') {
-        // but be wary of circular dependencies
-        const parentId = cellsById.getIn([id, 'parentId']);
-        
-         return isCircular(
-          cellsById.updateIn([ cellId, 'parentId' ], () => id),
-          cellId
-        ) ? false : true
-      }
-
-      // otherwise do not show this cell as an option
-      return false;
-    })
+    const cells = notebook.get('cells');
+    const otherCellsWithData = getParentCandidates(cells, cellsById, cellId);
     const editing = notebook.get('editingCell') === cellId;
     const editingOther = notebook.get('editingCell') !== undefined;
     const getData = (opts) => getCellData(cellsById, cellId, opts);
     const getCellName = (id) => cellsById.get(id).get('name');
+    const cellPosition = cells.findIndex(i=>i===cellId);
+    const isFirstPosition = cellPosition === 0;
+    const isLastPosition = cellPosition === cells.size-1;
     return {
       editing,
       editingOther,
@@ -87,6 +103,8 @@ export default function(Component){
       initialValues: cell.toJS(),
       getCellName,
       getData,
+      isFirstPosition,
+      isLastPosition,
     };
   }
 
