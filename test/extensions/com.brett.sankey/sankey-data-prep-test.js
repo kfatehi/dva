@@ -16,8 +16,9 @@ describe("Sankey Data Preparation", function() {
       "value" : 2
       }]);
  
-    expect(result).to.equal({ 
-      "nodes" : [{"name" : "Barry"}], 
+    expect(result).to.deep.eq({ 
+      "nodes" : [{"name" : "Barry"},
+                 {"name" : "Elvis"}], 
       "links" :[{"source" : 0, "target":1, "value": 2}]});
   })
 
