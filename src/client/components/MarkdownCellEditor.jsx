@@ -6,7 +6,7 @@ import * as actionCreators from '../action-creators';
 import Codemirror from 'react-codemirror';
 import ReactMarkdown from 'react-markdown';
 import 'codemirror/mode/markdown/markdown';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col, ButtonGroup } from 'react-bootstrap';
 
 export const MarkdownCellEditor = React.createClass({
   mixins: [PureRenderMixin],
