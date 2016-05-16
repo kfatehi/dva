@@ -2,7 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';
-import { generateVisConfig } from '../../vis';
+import { genVisConfigFromJSON } from '../../vis';
 import { toRowColImmutable as toRowCol } from '../data-converter';
 import { getModule, getSchema, getExtensions } from '../../extensions';
 
@@ -13,7 +13,7 @@ export const Visualization = React.createClass({
     try {
       const data = getData();
       const { rows, columns } = toRowCol(getData())
-      const config = generateVisConfig(visConfigJSON, rows, columns);
+      const config = genVisConfigFromJSON(visConfigJSON, rows, columns);
       const container = ReactFauxDOM.createElement('svg');
       getModule(visExtId).render(container, config.toJS())
       return <div className="visualization">

@@ -50,8 +50,19 @@ export function mkVisConfigFromJSON(visConfigJSON) {
   return visConfig
 }
 
-export function generateVisConfig(visConfigJSON, rows, columns) {
+export function genVisConfigFromJSON(visConfigJSON, rows, columns) {
   let visConfig = mkVisConfigFromJSON(visConfigJSON);
   let bucketMap = visConfig.getIn(['bucketMapping', 'bucketMap']);
   return genVizConfig(columns, rows, bucketMap)
+}
+
+export function bucketsFilled(schemaBuckets, bucketMap) {
+  return fromJS(schemaBuckets).reduce((yes, bucket) => {
+    let list = bucketMap.get(bucket.get('key'))
+    if (!list) return false;
+    let size = list.size;
+    let min = bucket.get('min');
+    let max = bucket.get('max');
+    return yes && size >= min && size <= max;
+  }, true)
 }

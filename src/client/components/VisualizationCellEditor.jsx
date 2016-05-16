@@ -13,7 +13,7 @@ import {BucketMapper} from './BucketMapper';
 import {Visualization} from './Visualization';
 import { getModule, getSchema, getExtensions } from '../../extensions';
 import { draggedToBucket } from '../../bucket-mapping';
-import { mkVisConfigFromJSON } from '../../vis';
+import { bucketsFilled, mkVisConfigFromJSON } from '../../vis';
 
 import './VisualizationCellEditor.css';
 
@@ -62,18 +62,6 @@ export const VisualizationCellEditor = React.createClass({
     let handleParentChange = (e) => {
       visConfigJSON.onChange('');
       parentId.onChange(e);
-    }
-
-
-    let bucketsFilled = (schemaBuckets, bucketMap) => {
-      return fromJS(schemaBuckets).reduce((yes, bucket) => {
-        let list = bucketMap.get(bucket.get('key'))
-        if (!list) return false;
-        let size = list.size;
-        let min = bucket.get('min');
-        let max = bucket.get('max');
-        return yes && size >= min && size <= max;
-      }, true)
     }
 
     let schema = null
