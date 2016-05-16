@@ -18,19 +18,24 @@ export default function (data){
                                 "value"  : parseInt(d['value'])
                             });
   });
-  
+ 
+  //***Disclaimer: there are better ways to get non-duplicates, but this will work for what
+  //                we are doing
+     
   //used to temporarily store all of the unique names before being
   //  pushed back into the prepedFraph instance
-  var uniqueArr = [];
+  var nameArr = [];
 
-  //removes all duplicates and places just names into an array
+  //placing just the  names into an array
   prepedGraph['nodes'].forEach(function(d){
-    if(!uniqueArr[d['name']]){
-      uniqueArr.push(d['name']);
-    }
+    nameArr.push(d['name']);
   });
 
-  console.log(uniqueArr);
+  //determining the unique names
+  var uniqueArr = nameArr.filter(function(n, i){
+    return nameArr.indexOf(n) == i;
+  })
+
   //pushes the uniqes back into the preped graph notes as an array of names
   prepedGraph['nodes'] = uniqueArr;
 
@@ -46,7 +51,7 @@ export default function (data){
   prepedGraph['nodes'].forEach(function(d, i){
     prepedGraph['nodes'][i] = {"name" : d};   
   });
-console.log(prepedGraph);
+
   return prepedGraph;
 }
 
