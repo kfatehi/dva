@@ -30,6 +30,7 @@ export default function (data){
     }
   });
 
+  console.log(uniqueArr);
   //pushes the uniqes back into the preped graph notes as an array of names
   prepedGraph['nodes'] = uniqueArr;
 
@@ -45,7 +46,7 @@ export default function (data){
   prepedGraph['nodes'].forEach(function(d, i){
     prepedGraph['nodes'][i] = {"name" : d};   
   });
-
+console.log(prepedGraph);
   return prepedGraph;
 }
 
