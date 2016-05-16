@@ -126,7 +126,7 @@ describe("getCellData", () => {
   });
 
   describe("isCircular", () => {
-    it.only("can test if a parent change would cause a circular dependency", () => {
+    it("can test if a parent change would cause a circular dependency", () => {
       let cellId = '81ff74ac-bba6-4f33-beec-63ebfb021c9d';
       let badParent = 'e5374b05-61ae-41eb-a090-f24b2cdfd194';
       let circularCellsById = cellsById
