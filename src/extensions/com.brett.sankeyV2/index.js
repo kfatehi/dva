@@ -20,8 +20,8 @@ export function render(container, config) {
 var units = "Widgets";
 
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
-    width = 1000 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = config.width - margin.left - margin.right,
+    height = config.height - margin.top - margin.bottom;
 
 var formatNumber = d3.format(",.0f"),    // zero decimal places
     format = function(d) { return formatNumber(d) + " " + units; },
@@ -37,7 +37,6 @@ var svg = d3.select(container)
           "translate(" + margin.left + "," + margin.top + ")");
 
 
-
 var sankey = sankeyLib()
     .nodeWidth(15)
     .nodePadding(10)
@@ -46,7 +45,7 @@ var sankey = sankeyLib()
   var path = sankey.link();
 
   //parses the input file using our data prep tool
-  var convertedData = dataPrep(config); 
+  var convertedData = dataPrep(config.data); 
 
   sankey
       .nodes(convertedData['nodes'])
@@ -54,7 +53,7 @@ var sankey = sankeyLib()
       .layout(32);
 
   var link = svg.append("g").selectAll(".link")
-      .data(config['links'])
+      .data(convertedData['links'])
     .enter().append("path")
       .attr("class", "link")
       .attr("d", path)
@@ -65,14 +64,14 @@ var sankey = sankeyLib()
       .text(function(d) { return d.source.name + " → " + d.target.name + "\n" + format(d.value); });
 
   var node = svg.append("g").selectAll(".node")
-      .data(config['nodes'])
+      .data(convertedData['nodes'])
     .enter().append("g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-    .call(d3.behavior.drag()
-      .origin(function(d) { return d; })
-      .on("dragstart", function() { this.parentNode.appendChild(this); })
-      .on("drag", dragmove));
+    //.call(d3.behavior.drag()
+    //  .origin(function(d) { return d; })
+    //  .on("dragstart", function() { this.parentNode.appendChild(this); })
+    //  .on("drag", dragmove));
 
   node.append("rect")
       .attr("height", function(d) { return d.dy; })

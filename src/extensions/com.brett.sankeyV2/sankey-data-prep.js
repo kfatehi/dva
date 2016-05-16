@@ -1,5 +1,9 @@
 import d3 from "d3"
 
+function getValue(obj) {
+  return Array.isArray(obj) ? obj[0] : obj;
+}
+
 export default function (data){
   //creates the structure of our prepared data
   var prepedGraph = {"nodes" : [], "links" : []};
@@ -7,15 +11,15 @@ export default function (data){
   //cycles through the unprepared data to populate our new formatting
   data.forEach(function(d){
     //pushes the soure node of a data entry into our node list
-    prepedGraph['nodes'].push({"name" : d['source']});
+    prepedGraph['nodes'].push({"name" : getValue(d['source']) });
 
     //pushes the target node of a data entry into our node list
-    prepedGraph['nodes'].push({"name" : d['target']});
+    prepedGraph['nodes'].push({"name" : getValue(d['target'])});
 
     //populates all of the links
-    prepedGraph['links'].push({ "source" : d['source'],
-                                "target" : d['target'],
-                                "value"  : parseInt(d['value'])
+    prepedGraph['links'].push({ "source" : getValue(d['source']),
+                                "target" : getValue(d['target']),
+                                "value"  : parseInt(getValue(d['value']))
                             });
   });
  

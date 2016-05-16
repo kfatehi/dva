@@ -50,6 +50,6 @@ window.mountApplication = function(){
     document.getElementById('mount')
   )
 
-  demos.goodStudents(store.dispatch)
-  //demos.sankey(store.dispatch)
+  //demos.goodStudents(store.dispatch)
+  demos.sankey(store.dispatch)
 }
