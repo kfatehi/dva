@@ -1,4 +1,4 @@
-import getCellData from '../../src/client/get-cell-data';
+import getCellData, { isCircular } from '../../src/client/get-cell-data';
 
 import { fromJS } from 'immutable';
 
@@ -123,5 +123,15 @@ describe("getCellData", () => {
       "Grade": 0.95,
       "PF": "PASS"
     }]))
+  });
+
+  describe("isCircular", () => {
+    it.only("can test if a parent change would cause a circular dependency", () => {
+      let cellId = '81ff74ac-bba6-4f33-beec-63ebfb021c9d';
+      let badParent = 'e5374b05-61ae-41eb-a090-f24b2cdfd194';
+      let circularCellsById = cellsById
+        .updateIn([cellId, 'parentId'], () => badParent);
+      expect(isCircular(circularCellsById, cellId)).to.equal(true);
+    });
   });
 });

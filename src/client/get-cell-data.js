@@ -41,3 +41,16 @@ function transformTo(getCellParent, cell, _chain = List(), options = {}) {
       return transformTo(getCellParent, parentCell, chain);
   }
 }
+
+export function isCircular(cellsById, cellId, seen=Map()) {
+  if (seen.get(cellId)) return true;
+  if (cellId) {
+    return isCircular(
+      cellsById,
+      cellsById.getIn([cellId, 'parentId']),
+      seen.update(cellId, () => true)
+    );
+  } else {
+    return false;
+  }
+}
