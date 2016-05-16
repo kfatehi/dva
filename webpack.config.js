@@ -24,6 +24,7 @@ module.exports = {
       'd3',
       'socket.io-client',
       'immutable',
+      'debounce',
       'font-awesome/less/font-awesome.less',
       'bootstrap/less/bootstrap.less',
       'codemirror/lib/codemirror.css',
