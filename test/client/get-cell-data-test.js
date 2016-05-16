@@ -122,7 +122,10 @@ describe("getCellData", () => {
     let data = getCellData(newCellsById, 'fbab120b-a409-4dc4-b8c2-dc1fdf65a1a1');
     expect(data).to.equal(fromJS([{
       "Student": "Alice",
-      "Grade": "95",
+      "Grade": "95"
+    },{
+      "Student": "Bob",
+      "Grade": "65"
     }]))
   });
 

@@ -24,21 +24,25 @@ function transformTo(getCellParent, cell, _chain = List(), options = {}) {
     name: 'Map', ref: Map
   }]
   const parentId = cell.get('parentId');
-  const funcStr = options.funcOverride || cell.get('func');
-  const func = Function('data', ...locals.map(i=>i.name), funcStr);
-  const chain = _chain.push(func);
-  const parentCell = getCellParent(cell)
-  let applyChain = (chain, data) => {
-    return chain.reverse().reduce((data,fn) => {
-      let args = [data].concat(locals.map(i=>i.ref));
-      return fn(...args)
-    }, data);
-  }
-  switch (parentCell.get('cellType')) {
-    case 'DATA':
-      return applyChain(chain, parentCell.get('data'));
-    case 'TRANSFORM':
-      return transformTo(getCellParent, parentCell, chain);
+  if (parentId) {
+    const funcStr = options.funcOverride || cell.get('func');
+    const func = Function('data', ...locals.map(i=>i.name), funcStr);
+    const chain = _chain.push(func);
+    const parentCell = getCellParent(cell)
+    let applyChain = (chain, data) => {
+      return chain.reverse().reduce((data,fn) => {
+        let args = [data].concat(locals.map(i=>i.ref));
+        return fn(...args)
+      }, data);
+    }
+    switch (parentCell.get('cellType')) {
+      case 'DATA':
+        return applyChain(chain, parentCell.get('data'));
+      case 'TRANSFORM':
+        return transformTo(getCellParent, parentCell, chain);
+    }
+  } else {
+    return cell.get('data');
   }
 }
 
