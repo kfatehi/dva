@@ -115,6 +115,17 @@ describe("getCellData", () => {
     }]))
   });
 
+  it("can get data from a VISUALIZATION cell 1 level deep", () => {
+    let vizCellId = 'fbab120b-a409-4dc4-b8c2-dc1fdf65a1a1';
+    let dataCellId = 'c64e714b-798a-465f-ad2d-827995da9087';
+    let newCellsById = cellsById.updateIn([vizCellId, 'parentId'], ()=>dataCellId);
+    let data = getCellData(newCellsById, 'fbab120b-a409-4dc4-b8c2-dc1fdf65a1a1');
+    expect(data).to.equal(fromJS([{
+      "Student": "Alice",
+      "Grade": "95",
+    }]))
+  });
+
 
   it("can get data from a VISUALIZATION cell 4 levels deep", () => {
     let data = getCellData(cellsById, 'fbab120b-a409-4dc4-b8c2-dc1fdf65a1a1');
