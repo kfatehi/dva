@@ -18,14 +18,12 @@ export default function (data){
                                 "value"  : parseInt(d['value'])
                             });
   });
- 
-
   
   //used to temporarily store all of the unique names before being
   //  pushed back into the prepedFraph instance
   var uniqueArr = [];
 
-  //removes all duplicates
+  //removes all duplicates and places just names into an array
   prepedGraph['nodes'].forEach(function(d){
     if(!uniqueArr[d['name']]){
       uniqueArr.push(d['name']);
@@ -48,7 +46,6 @@ export default function (data){
     prepedGraph['nodes'][i] = {"name" : d};   
   });
 
-  console.log(prepedGraph); 
   return prepedGraph;
 }
 

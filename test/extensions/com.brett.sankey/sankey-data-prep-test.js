@@ -2,7 +2,7 @@ import sankeyDataPrep from "../../../src/extensions/com.brett.sankeyV2/sankey-da
 
 describe("Sankey Data Preparation", function() {
   //no input test
-  it.skip("empty dataset returns empty preped dataset", function(){
+  it("empty dataset returns empty preped dataset", function(){
     let result = sankeyDataPrep([]);
      expect(result).to.deep.eq({"nodes" : [], "links" :[]});  
   })
