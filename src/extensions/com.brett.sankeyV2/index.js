@@ -1,7 +1,7 @@
 import d3 from 'd3';
 
 import sankeyLib from './sankey';
-
+import dataPrep from './sankey-data-prep.js'
 // first parameter is a div container that will hold your vesialization
 // second parameter is a configuration object that you should use to
 // build your visualization
@@ -43,12 +43,14 @@ var sankey = sankeyLib()
     .nodePadding(10)
     .size([width, height]);
 
-var path = sankey.link();
+  var path = sankey.link();
 
+  //parses the input file using our data prep tool
+  var convertedData = dataPrep(config); 
 
   sankey
-      .nodes(config['nodes'])
-      .links(config['links'])
+      .nodes(convertedData['nodes'])
+      .links(convertedData['links'])
       .layout(32);
 
   var link = svg.append("g").selectAll(".link")

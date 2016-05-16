@@ -50,6 +50,8 @@ ReactDOM.render(
   document.getElementById('mount')
 )
 
+
+/*
 let data = [{
   "Student": "Alice",
   "Grade": "95"
@@ -57,9 +59,9 @@ let data = [{
   "Student": "Bob",
   "Grade": "65"
 }]
+  */
 
 
-/*
 let data = [{
   "source": "Barry",
   "target": "Elvis",
@@ -87,9 +89,10 @@ let data = [{
 },{
   "source": "Sarah",
   "target": "Alice",
-  "value": "2"
+  "value": "4"
 }]
-*/
+
+
 let a = actionCreators.appendCell('DATA', {
   name: "Math Gradebook",
   contentType: "application/json",
