@@ -7,6 +7,7 @@ import Codemirror from 'react-codemirror';
 import ReactMarkdown from 'react-markdown';
 import 'codemirror/mode/markdown/markdown';
 import { Button, Row, Col, ButtonGroup } from 'react-bootstrap';
+import debounce from 'debounce';
 
 export const MarkdownCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -22,7 +23,7 @@ export const MarkdownCellEditor = React.createClass({
     } = this.props
 
     let editorProps = {
-      onChange: markdown.onChange,
+      onChange: debounce(markdown.onChange, 200),
       value: markdown.value,
       options: {
         lineNumbers: true,
