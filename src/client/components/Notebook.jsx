@@ -9,6 +9,8 @@ import { TransformCell } from './TransformCell';
 import { VisualizationCell } from './VisualizationCell';
 import { MarkdownCell } from './MarkdownCell';
 
+import { Grid, Row } from 'react-bootstrap';
+
 import './Notebook.less';
 
 export const Notebook = React.createClass({
@@ -29,9 +31,11 @@ export const Notebook = React.createClass({
           return <div>{id}</div>;
       }
     }
-    return <ul className="notebook">{ cells.map(id =>
-      <li key={id}>{renderCell(id)}</li>)}
-    </ul>;
+    return (
+      <Grid className="notebook">{ cells.map(id =>
+        <Row className="cell" key={id}>{renderCell(id)}</Row>)}
+      </Grid>
+    );
   }
 })
 
