@@ -44,6 +44,7 @@ export const TransformCellEditor = React.createClass({
       options: {
         lineNumbers: true,
         mode: 'javascript',
+        theme: 'tomorrow-night-bright'
       },
     }
 
