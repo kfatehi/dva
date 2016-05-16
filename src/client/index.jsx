@@ -51,4 +51,5 @@ window.mountApplication = function(){
   )
 
   demos.goodStudents(store.dispatch)
+  //demos.sankey(store.dispatch)
 }
