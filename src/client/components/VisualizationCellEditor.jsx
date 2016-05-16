@@ -37,7 +37,7 @@ export const VisualizationCellEditor = React.createClass({
       },
       getCellName,
       getData,
-      cellsBefore,
+      otherCellsWithData,
       handleSubmit,
       handleCancel,
     } = this.props;
@@ -84,7 +84,7 @@ export const VisualizationCellEditor = React.createClass({
     return (
       <form onSubmit={handleSubmit}>
         <label>Data Source</label>
-        <select {...parentId} onChange={handleParentChange}>{cellsBefore.map(id =>
+        <select {...parentId} onChange={handleParentChange}>{otherCellsWithData.map(id =>
           <option key={id} value={id}>{getCellName(id)}</option>)}
         </select>
         <label>Name</label>

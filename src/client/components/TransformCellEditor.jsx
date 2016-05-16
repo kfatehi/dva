@@ -16,7 +16,7 @@ export const TransformCellEditor = React.createClass({
         func
       },
       getData,
-      cellsBefore,
+      otherCellsWithData,
       getCellName,
       handleSubmit,
       handleCancel
@@ -49,7 +49,7 @@ export const TransformCellEditor = React.createClass({
     return (
       <form onSubmit={handleSubmit}>
         <label>Data Source</label>
-        <select {...parentId}>{cellsBefore.map(id =>
+        <select {...parentId}>{otherCellsWithData.map(id =>
           <option key={id} value={id}>{getCellName(id)}</option>)}
         </select>
         <label>Name</label>

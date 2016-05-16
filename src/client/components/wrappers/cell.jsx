@@ -2,7 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import * as actionCreators from '../../action-creators';
-import getCellData from '../../get-cell-data';
+import getCellData, { isCircular } from '../../get-cell-data';
 
 import { Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
@@ -47,20 +47,43 @@ export default function(Component){
   })
 
   function mapStateToProps(state, props) {
-    let notebook = state.get('notebook');
-    let cellsById = notebook.get('cellsById');
-    let cell = cellsById.get(props.cellId);
-    let cellsBefore = notebook.get('cells').takeUntil(id=>id === props.cellId);
-    let editing = notebook.get('editingCell') === props.cellId;
-    let editingOther = notebook.get('editingCell') !== undefined;
-    let getData = (opts) => getCellData(cellsById, props.cellId, opts);
-    let getCellName = (id) => cellsById.get(id).get('name');
+    const { cellId } = props;
+    const notebook = state.get('notebook');
+    const cellsById = notebook.get('cellsById');
+    const cell = cellsById.get(cellId);
+    const otherCellsWithData = notebook.get('cells').filter( id => {
+      // you cannot make a cell a parent of itself
+      if (id === cellId) return false;
+
+      const type = cellsById.getIn([id, 'cellType']);
+
+      // a DATA cell can always be a parent to other cells
+      if (type === 'DATA') return true;
+
+      // transforms can be parents
+      if (type === 'TRANSFORM') {
+        // but be wary of circular dependencies
+        const parentId = cellsById.getIn([id, 'parentId']);
+        
+         return isCircular(
+          cellsById.updateIn([ cellId, 'parentId' ], () => id),
+          cellId
+        ) ? false : true
+      }
+
+      // otherwise do not show this cell as an option
+      return false;
+    })
+    const editing = notebook.get('editingCell') === cellId;
+    const editingOther = notebook.get('editingCell') !== undefined;
+    const getData = (opts) => getCellData(cellsById, cellId, opts);
+    const getCellName = (id) => cellsById.get(id).get('name');
     return {
       editing,
       editingOther,
       cell,
       cellsById,
-      cellsBefore,
+      otherCellsWithData,
       initialValues: cell.toJS(),
       getCellName,
       getData,
