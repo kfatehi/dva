@@ -24,13 +24,12 @@ describe("notebook reducer", () => {
   describe("action APPEND_CELL", () => {
 
     it("creates a MARKDOWN cell", () => {
-      let action = actionCreators.appendCell("MARKDOWN", { name: 'oh', markdown: 'hi' })
+      let action = actionCreators.appendCell("MARKDOWN", { markdown: 'hi' })
       let nextState = reducers.notebook(undefined, action);
       let cellsById = nextState.get('cellsById');
       expect(cellsById.size === 1);
       expect(cellsById.get(action.uuid)).to.equal(fromJS({
         cellType: "MARKDOWN",
-        name: action.name,
         markdown: action.markdown
       }));
     });

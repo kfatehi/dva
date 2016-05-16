@@ -14,10 +14,7 @@ export const MarkdownCell = cellWrapper(React.createClass({
       }
     } = this.props
     return renderCell({
-      view: <div>
-        <h1>{cell.get('name')}</h1>
-        <ReactMarkdown source={cell.get('markdown')}/>
-      </div>,
+      view: <ReactMarkdown source={cell.get('markdown')}/>,
       edit: <MarkdownCellEditorForm {...this.props}
         onSubmit={updateCell}
         handleCancel={cancelEditCell}

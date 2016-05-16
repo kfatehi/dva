@@ -36,7 +36,6 @@ export function notebook(state = Map(), action) {
     function createMarkdownCell(action) {
       return Map({
         cellType: 'MARKDOWN',
-        name: action.name,
         markdown: action.markdown
       })
     }

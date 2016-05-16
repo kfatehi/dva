@@ -12,7 +12,6 @@ export const MarkdownCellEditor = React.createClass({
   render: function() {
     const {
       fields: {
-        name,
         markdown
       },
       cellsBefore,
@@ -32,8 +31,6 @@ export const MarkdownCellEditor = React.createClass({
 
     return (
       <form onSubmit={handleSubmit}>
-        <label>Name</label>
-        <input type="text" {...name} />
         <Codemirror {...editorProps} />
         <ReactMarkdown source={markdown.value}/>
         <button type="submit">Save</button>
@@ -45,6 +42,6 @@ export const MarkdownCellEditor = React.createClass({
 
 export const MarkdownCellEditorForm = reduxForm({
   form: 'cell',
-  fields: ['name', 'markdown'],
+  fields: ['markdown'],
   getFormState: (state, reduxMountPoint) => state.get(reduxMountPoint).toJS()
 })(MarkdownCellEditor);
