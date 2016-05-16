@@ -6,6 +6,7 @@ import * as actionCreators from '../action-creators';
 import Codemirror from 'react-codemirror';
 import 'codemirror/mode/javascript/javascript';
 import { Button, ButtonGroup } from 'react-bootstrap';
+import debounce from 'debounce';
 
 export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -39,7 +40,7 @@ export const TransformCellEditor = React.createClass({
     }
 
     let editorProps = {
-      onChange: func.onChange,
+      onChange: debounce(func.onChange, 200),
       value: func.value,
       options: {
         lineNumbers: true,
