@@ -136,5 +136,16 @@ describe("notebook reducer", () => {
         expect(nextState.get('editingCell')).to.equal(undefined);
       });
     });
+
+    describe("action TOGGLE_COMPRESS_CELL", () => {
+      it("flips cell attribute 'isCompressed'", () => {
+        let action1 = actionCreators.toggleCompressCell('x');
+        let nextState = reducers.notebook(initialState, action1);
+        expect(nextState.getIn(['cellsById', 'x', 'isCompressed'])).to.equal(true);
+        let action2 = actionCreators.toggleCompressCell('x');
+        let nextNextState = reducers.notebook(nextState, action2);
+        expect(nextNextState.getIn(['cellsById', 'x', 'isCompressed'])).to.equal(false);
+      });
+    });
   });
 });

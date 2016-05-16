@@ -33,7 +33,9 @@ export const Notebook = React.createClass({
     }
     return (
       <Grid className="notebook">{ cells.map(id =>
-        <Row className="cell" key={id}>{renderCell(id)}</Row>)}
+        <Row className="cell" key={id}>
+          {renderCell(id)}
+        </Row>)}
       </Grid>
     );
   }

@@ -73,6 +73,11 @@ export function notebook(state = Map(), action) {
     return state.remove('editingCell');
   }
 
+  function toggleCompressCell(state, uuid) {
+    const keyPath = ['cellsById', uuid, 'isCompressed'];
+    return state.updateIn(keyPath, flag => !!!flag);
+  }
+
   switch (action.type) {
     case 'APPEND_CELL':
       return appendCell(state, action.uuid, createCell(action));
@@ -82,6 +87,8 @@ export function notebook(state = Map(), action) {
       return updateCell(state, action.uuid, action.params);
     case 'CANCEL_EDIT_CELL':
       return cancelEditCell(state, action.uuid);
+    case 'TOGGLE_COMPRESS_CELL':
+      return toggleCompressCell(state, action.uuid);
   }
   return state;
 }

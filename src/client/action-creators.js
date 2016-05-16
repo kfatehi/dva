@@ -36,3 +36,10 @@ export function cancelEditCell(cellId) {
     uuid: cellId
   };
 }
+
+export function toggleCompressCell(cellId) {
+  return {
+    type: "TOGGLE_COMPRESS_CELL",
+    uuid: cellId,
+  }
+}

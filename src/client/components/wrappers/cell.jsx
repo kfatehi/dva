@@ -25,19 +25,22 @@ export default function(Component){
     },
     renderCell: function(states) {
       const {
+        cell,
+        cellId,
         editing,
         editingOther,
         isFirstPosition,
         isLastPosition,
+        isCompressed,
+        toggleCompressCell,
       } = this.props;
       const {view, edit} = states;
 
       const buttonGroupInstance = (
         <ButtonToolbar>
           <ButtonGroup>
-            <Button disabled={!edit} onClick={this.editCell}>
-              <FontAwesome name='pencil'/>
-            </Button>
+            <Button onClick={() => toggleCompressCell(cellId)}><FontAwesome name={isCompressed ? "expand" : "compress"} /></Button>
+            <Button disabled={!edit} onClick={this.editCell}><FontAwesome name='pencil'/></Button>
             <Button disabled={isFirstPosition}><FontAwesome name="arrow-up" /></Button>
             <Button disabled={isLastPosition}><FontAwesome name="arrow-down" /></Button>
           </ButtonGroup>
@@ -55,10 +58,16 @@ export default function(Component){
         </ButtonToolbar>
       );
 
+      function compressedView() {
+        let name = cell.get('name');
+        let type = cell.get('cellType');
+        return <div><i>{type}</i> {name}</div>;
+      }
+
       function renderCellView(cellView) {
         return (
           <div>
-            {cellView}
+            { isCompressed ? compressedView() : cellView}
             { editingOther ? null : buttonGroupInstance }
           </div>
         );
@@ -94,6 +103,7 @@ export default function(Component){
     const cellPosition = cells.findIndex(i=>i===cellId);
     const isFirstPosition = cellPosition === 0;
     const isLastPosition = cellPosition === cells.size-1;
+    const isCompressed = cell.get('isCompressed');
     return {
       editing,
       editingOther,
@@ -105,6 +115,7 @@ export default function(Component){
       getData,
       isFirstPosition,
       isLastPosition,
+      isCompressed,
     };
   }
 

@@ -61,4 +61,12 @@ describe("action creators", () => {
       expect(action.bucketKey).to.equal('foo');
     });
   });
+
+  describe("toggleCompressCell", () => {
+    it("is type TOGGLE_COMPRESS_CELL", () => {
+      var action = actionCreators.toggleCompressCell('hi');
+      expect(action.uuid).to.equal('hi');
+      expect(action.type).to.equal('TOGGLE_COMPRESS_CELL');
+    });
+  });
 });
