@@ -36,24 +36,38 @@ export default function(Component){
       } = this.props;
       const {view, edit} = states;
 
+      const newCellActions = [{
+        label: 'Append Data',
+        icon: 'database',
+      },{
+        label: 'Append Transformation',
+        icon: 'file-code-o',
+      },{
+        label: 'Append Markdown',
+        icon: 'file-text-o',
+      },{
+        label: 'Append Visualization',
+        icon: 'bar-chart',
+      }];
+
       const buttonGroupInstance = (
         <ButtonToolbar>
           <ButtonGroup>
-            <Button onClick={() => toggleCompressCell(cellId)}><FontAwesome name={isCompressed ? "expand" : "compress"} /></Button>
-            <Button disabled={!edit} onClick={this.editCell}><FontAwesome name='pencil'/></Button>
-            <Button disabled={isFirstPosition}><FontAwesome name="arrow-up" /></Button>
-            <Button disabled={isLastPosition}><FontAwesome name="arrow-down" /></Button>
+            <Button title={isCompressed ? "Expand" : "Compress"} onClick={() => toggleCompressCell(cellId)}><FontAwesome name={isCompressed ? "expand" : "compress"} /></Button>
+            <Button title="Edit" disabled={!edit} onClick={this.editCell}><FontAwesome name='pencil'/></Button>
+            <Button title="Move Cell Up" disabled={isFirstPosition}><FontAwesome name="arrow-up" /></Button>
+            <Button title="Move Cell Down" disabled={isLastPosition}><FontAwesome name="arrow-down" /></Button>
+          </ButtonGroup>
+
+          <ButtonGroup>{newCellActions.map((action,i) => 
+            <Button key={i} title={action.label}>
+              <FontAwesome name={action.icon} />
+              <span className='hidden-sm hidden-xs'> {action.label}</span>
+            </Button>)}
           </ButtonGroup>
 
           <ButtonGroup>
-            <Button><FontAwesome name="database" /> Append Data</Button>
-            <Button><FontAwesome name="file-code-o" /> Append Transformation</Button>
-            <Button><FontAwesome name="file-text-o" /> Append Markdown</Button>
-            <Button><FontAwesome name="bar-chart" /> Append Visualization</Button>
-          </ButtonGroup>
-
-          <ButtonGroup>
-            <Button><FontAwesome name='remove'/></Button>
+            <Button title="Delete Cell"><FontAwesome name='remove'/></Button>
           </ButtonGroup>
         </ButtonToolbar>
       );
