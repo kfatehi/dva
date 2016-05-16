@@ -42,6 +42,9 @@ export function goodStudents(dispatch) {
   dispatch(a)
   dispatch(b)
   dispatch(c)
+  dispatch(actionCreators.appendCell('MARKDOWN', {
+    markdown: `I am _bold_ or **italics** or is it the other way around?`
+  }))
   dispatch(d)
   dispatch(e)
   dispatch(actionCreators.editCell(e.uuid));
@@ -49,9 +52,4 @@ export function goodStudents(dispatch) {
     "visExtId": "com.keyvan.barchart",
     "visConfigJSON": "{\"config\":{},\"bucketMapping\":{\"bucketMap\":{\"group\":[\"Student\"],\"value\":[\"Grade\"]},\"columnMap\":{\"0\":\"group\",\"1\":\"value\"}}}"
   }));
-
-  dispatch(actionCreators.appendCell('MARKDOWN', {
-    name: "Hello",
-    markdown: `I am _bold_ or **italics** or is it the other way around?`
-  }))
 }
