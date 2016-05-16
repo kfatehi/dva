@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../../action-creators';
 import getCellData, { isCircular } from '../../get-cell-data';
 
-import { Button } from 'react-bootstrap';
+import { Button, Col } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 export default function(Component){
@@ -29,10 +29,10 @@ export default function(Component){
       const btn = <Button onClick={this.editCell} bsStyle="primary">
         <FontAwesome name='pencil'/> Edit
       </Button>;
-      return <div>
+      return <Col xs={12}>
         { editing ? edit : view }
         { editing || editingOther ? null : (edit ? btn : null) }
-      </div>;
+      </Col>;
     },
     render: function() {
       const cellHelpers = {
