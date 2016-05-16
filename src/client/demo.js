@@ -60,6 +60,21 @@ export function goodStudents(dispatch) {
 }
 
 export function sankey(dispatch) {
+  dispatch(actionCreators.appendCell('MARKDOWN', {
+    markdown: `# Sankey Demo
+This is a demo of a **sankey** visualization. 
+
+## Limitations
+
+Unfortunately due to the nature of \`react-faux-dom\` which we use for d3 rendering
+within a _pure React component_, the nodes of the sankey are not draggable.
+
+We hope to iron out this bug in the future without having to compromise the
+pure-functional code style used consistently throughout the app.
+
+In the meantime, please enjoy the static version.`
+  }))
+
   let data = [{
     "source": "Barry",
     "target": "Elvis",
