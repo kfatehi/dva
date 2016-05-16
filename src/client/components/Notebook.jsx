@@ -7,7 +7,7 @@ import { List, Map, fromJS } from 'immutable';
 import { DataCell } from './DataCell';
 import { TransformCell } from './TransformCell';
 import { VisualizationCell } from './VisualizationCell';
-
+import { MarkdownCell } from './MarkdownCell';
 
 import './Notebook.less';
 
@@ -23,8 +23,10 @@ export const Notebook = React.createClass({
           return <TransformCell cellId={id} />
         case 'VISUALIZATION':
           return <VisualizationCell cellId={id} />
+        case 'MARKDOWN':
+          return <MarkdownCell cellId={id} />
         default:
-          return null;
+          return <div>{id}</div>;
       }
     }
     return <ul className="notebook">{ cells.map(id =>

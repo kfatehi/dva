@@ -23,6 +23,18 @@ let appendDataCellAction = (data) =>
 describe("notebook reducer", () => {
   describe("action APPEND_CELL", () => {
 
+    it("creates a MARKDOWN cell", () => {
+      let action = actionCreators.appendCell("MARKDOWN", { name: 'oh', markdown: 'hi' })
+      let nextState = reducers.notebook(undefined, action);
+      let cellsById = nextState.get('cellsById');
+      expect(cellsById.size === 1);
+      expect(cellsById.get(action.uuid)).to.equal(fromJS({
+        cellType: "MARKDOWN",
+        name: action.name,
+        markdown: action.markdown
+      }));
+    });
+
     it("creates first DATA cell", () => {
       let action = appendDataCellAction(gradebookData)
       let nextState = reducers.notebook(undefined, action);

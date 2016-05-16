@@ -33,6 +33,14 @@ export function notebook(state = Map(), action) {
       })
     }
 
+    function createMarkdownCell(action) {
+      return Map({
+        cellType: 'MARKDOWN',
+        name: action.name,
+        markdown: action.markdown
+      })
+    }
+
     switch (action.cellType) {
       case 'DATA':
         return createDataCell(action);
@@ -40,6 +48,8 @@ export function notebook(state = Map(), action) {
         return createTransformCell(action);
       case 'VISUALIZATION':
         return createVisualizationCell(action);
+      case 'MARKDOWN':
+        return createMarkdownCell(action);
     }
   }
 

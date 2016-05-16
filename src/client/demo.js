@@ -38,6 +38,7 @@ export function goodStudents(dispatch) {
     parentId: d.uuid
   })
 
+
   dispatch(a)
   dispatch(b)
   dispatch(c)
@@ -48,4 +49,9 @@ export function goodStudents(dispatch) {
     "visExtId": "com.keyvan.barchart",
     "visConfigJSON": "{\"config\":{},\"bucketMapping\":{\"bucketMap\":{\"group\":[\"Student\"],\"value\":[\"Grade\"]},\"columnMap\":{\"0\":\"group\",\"1\":\"value\"}}}"
   }));
+
+  dispatch(actionCreators.appendCell('MARKDOWN', {
+    name: "Hello",
+    markdown: `I am _bold_ or **italics** or is it the other way around?`
+  }))
 }

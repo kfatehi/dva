@@ -20,6 +20,7 @@ module.exports = {
       'react-faux-dom',
       'react-bootstrap',
       'react-fontawesome',
+      'react-markdown',
       'd3',
       'socket.io-client',
       'immutable',

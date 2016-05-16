@@ -2,7 +2,6 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { reduxForm } from 'redux-form';
 import { fromJS } from 'immutable';
-import {connect} from 'react-redux';
 import * as actionCreators from '../action-creators';
 import Codemirror from 'react-codemirror';
 import 'codemirror/mode/javascript/javascript';
