@@ -3,6 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import * as actionCreators from '../../action-creators';
 import getCellData, { getParentCandidates } from '../../get-cell-data';
+import { getDependentCell } from '../../get-cell-dependencies';
 
 import { Button, Col, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
@@ -27,12 +28,14 @@ export default function(Component){
       const {
         cell,
         cellId,
+        cellsById,
         editing,
         editingOther,
         isFirstPosition,
         isLastPosition,
         isCompressed,
         toggleCompressCell,
+        removeCell
       } = this.props;
       const {view, edit} = states;
 
@@ -49,6 +52,18 @@ export default function(Component){
         label: 'Append Visualization',
         icon: 'bar-chart',
       }];
+
+      const handleRemoveCell = () => {
+        //if (confirm('Are you sure?'))
+        let dep = getDependentCell(cellsById, cellId);
+        if (dep) {
+          let depCell = cellsById.get(dep);
+          let depName = depCell.get('name');
+          alert(`This cell is depended upon by another cell (name: ${depName})`);
+        } else {
+          return removeCell(cellId);
+        }
+      }
 
       const buttonGroupInstance = (
         <ButtonToolbar>
@@ -67,7 +82,7 @@ export default function(Component){
           </ButtonGroup>
 
           <ButtonGroup>
-            <Button title="Delete Cell"><FontAwesome name='remove'/></Button>
+            <Button onClick={handleRemoveCell} title="Delete Cell"><FontAwesome name='remove'/></Button>
           </ButtonGroup>
         </ButtonToolbar>
       );
