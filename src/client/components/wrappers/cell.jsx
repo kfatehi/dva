@@ -79,13 +79,12 @@ export default function(Component){
       }];
 
       const handleRemoveCell = () => {
-        //if (confirm('Are you sure?'))
         let dep = getDependentCell(cellsById, cellId);
         if (dep) {
           let depCell = cellsById.get(dep);
           let depName = depCell.get('name');
           alert(`This cell is depended upon by another cell (name: ${depName})`);
-        } else {
+        } else if (confirm('Are you sure?')) {
           return removeCell(cellId);
         }
       }
