@@ -52,12 +52,21 @@ export function notebook(state = Map(), action) {
     }
   }
 
-  function appendCell(state, uuid, cell) {
+  function appendCell(state, uuid, action) {
+    const { atIndex } = action;
+    const cell = createCell(action);
     return state
       .updateIn(['cellsById', uuid], () => cell)
       .update('cells', list => {
-        if (list) return list.push(uuid);
-        else return List.of(uuid);
+        if (list) {
+          if (atIndex === undefined) {
+            return list.push(uuid);
+          } else {
+            return list.insert(atIndex, uuid);
+          }
+        } else {
+          return List.of(uuid);
+        }
       })
   }
 
@@ -86,7 +95,7 @@ export function notebook(state = Map(), action) {
 
   switch (action.type) {
     case 'APPEND_CELL':
-      return appendCell(state, action.uuid, createCell(action));
+      return appendCell(state, action.uuid, action);
     case 'EDIT_CELL':
       return editCell(state, action.uuid);
     case 'UPDATE_CELL':

@@ -93,6 +93,19 @@ describe("notebook reducer", () => {
       let cell = cellsById.get(action2.uuid);
       expect(cell.get('cellType')).to.equal('VISUALIZATION');
     });
+
+    it("creates a cell at an index", () => {
+      let action1 = appendDataCellAction(gradebookData);
+      let initialState = reducers.notebook(undefined, action1);
+      let action2 = actionCreators.appendCell('VISUALIZATION', {
+        name: 'Gradebook Plot',
+        parentId: action1.uuid,
+        atIndex: 0,
+      })
+      let nextState = reducers.notebook(initialState, action2);
+      let cells = nextState.get('cells');
+      expect(nextState.getIn(['cells', 0])).to.equal(action2.uuid);
+    });
   });
 
   describe("cell mutation", () => {
