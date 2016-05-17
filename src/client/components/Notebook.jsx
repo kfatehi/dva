@@ -8,6 +8,7 @@ import { DataCell } from './DataCell';
 import { TransformCell } from './TransformCell';
 import { VisualizationCell } from './VisualizationCell';
 import { MarkdownCell } from './MarkdownCell';
+import { NewCellButtonGroup } from './NewCellButtonGroup';
 
 import { Grid, Row } from 'react-bootstrap';
 
@@ -16,7 +17,7 @@ import './Notebook.less';
 export const Notebook = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    const { cells, cellsById } = this.props;
+    const { cells, cellsById, appendCell } = this.props;
     const renderCell = (id) => {
       switch (cellsById.getIn([id, 'cellType'])) {
         case 'DATA':
@@ -31,13 +32,17 @@ export const Notebook = React.createClass({
           return <div>{id}</div>;
       }
     }
-    return (
-      <Grid className="notebook">{ cells.map(id =>
-        <Row className="cell" key={id}>
-          {renderCell(id)}
-        </Row>)}
-      </Grid>
-    );
+    if (cells.size === 0) {
+      return <NewCellButtonGroup cellPosition={-1} appendCell={appendCell} />
+    } else {
+      return (
+        <Grid className="notebook">{ cells.map(id =>
+          <Row className="cell" key={id}>
+            {renderCell(id)}
+          </Row>)}
+        </Grid>
+      );
+    }
   }
 })
 
