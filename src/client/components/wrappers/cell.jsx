@@ -28,6 +28,7 @@ export default function(Component){
       const {
         cell,
         cellId,
+        cellPosition,
         cellsById,
         editing,
         editingOther,
@@ -35,6 +36,7 @@ export default function(Component){
         isLastPosition,
         isCompressed,
         toggleCompressCell,
+        appendCell,
         removeCell
       } = this.props;
       const {view, edit} = states;
@@ -42,15 +44,38 @@ export default function(Component){
       const newCellActions = [{
         label: 'Append Data',
         icon: 'database',
+        handleClick: () => {
+          return appendCell('DATA', {
+            atIndex: cellPosition+1,
+            contentType: "application/json",
+            data: JSON.stringify([])
+          })
+        }
       },{
         label: 'Append Transformation',
         icon: 'file-code-o',
+        handleClick: () => {
+          return appendCell('TRANSFORMATION', {
+            atIndex: cellPosition+1
+          })
+        }
       },{
         label: 'Append Markdown',
         icon: 'file-text-o',
+        handleClick: () => {
+          return appendCell('MARKDOWN', {
+            atIndex: cellPosition+1,
+            markdown: '### New markdown',
+          })
+        }
       },{
         label: 'Append Visualization',
         icon: 'bar-chart',
+        handleClick: () => {
+          return appendCell('VISUALIZATION', {
+            atIndex: cellPosition+1
+          })
+        }
       }];
 
       const handleRemoveCell = () => {
@@ -75,7 +100,7 @@ export default function(Component){
           </ButtonGroup>
 
           <ButtonGroup>{newCellActions.map((action,i) => 
-            <Button key={i} title={action.label}>
+            <Button key={i} title={action.label} onClick={action.handleClick}>
               <FontAwesome name={action.icon} />
               <span className='hidden-sm hidden-xs'> {action.label}</span>
             </Button>)}
@@ -134,6 +159,7 @@ export default function(Component){
     const isLastPosition = cellPosition === cells.size-1;
     const isCompressed = cell.get('isCompressed');
     return {
+      cellPosition,
       editing,
       editingOther,
       cell,
