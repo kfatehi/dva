@@ -42,7 +42,7 @@ function transformTo(getCellParent, cell, _chain = List(), options = {}) {
         return transformTo(getCellParent, parentCell, chain);
     }
   } else {
-    return cell.get('data');
+    return cell.get('data') || List();
   }
 }
 
