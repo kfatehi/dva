@@ -37,7 +37,9 @@ export default function(Component){
         isCompressed,
         toggleCompressCell,
         appendCell,
-        removeCell
+        removeCell,
+        moveCellDown,
+        moveCellUp,
       } = this.props;
       const {view, edit} = states;
 
@@ -81,6 +83,10 @@ export default function(Component){
         }
       }];
 
+      const handleMoveUp = () => moveCellUp(cellId);
+
+      const handleMoveDown = () => moveCellDown(cellId);
+
       const handleRemoveCell = () => {
         let dep = getDependentCell(cellsById, cellId);
         if (dep) {
@@ -97,8 +103,8 @@ export default function(Component){
           <ButtonGroup>
             <Button title={isCompressed ? "Expand" : "Compress"} onClick={() => toggleCompressCell(cellId)}><FontAwesome name={isCompressed ? "expand" : "compress"} /></Button>
             <Button title="Edit" disabled={!edit} onClick={this.editCell}><FontAwesome name='pencil'/></Button>
-            <Button title="Move Cell Up" disabled={isFirstPosition}><FontAwesome name="arrow-up" /></Button>
-            <Button title="Move Cell Down" disabled={isLastPosition}><FontAwesome name="arrow-down" /></Button>
+            <Button title="Move Cell Up" onClick={handleMoveUp} disabled={isFirstPosition}><FontAwesome name="arrow-up" /></Button>
+            <Button title="Move Cell Down" onClick={handleMoveDown} disabled={isLastPosition}><FontAwesome name="arrow-down" /></Button>
           </ButtonGroup>
 
           <ButtonGroup>{newCellActions.map((action,i) => 
