@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../../action-creators';
 import getCellData, { getParentCandidates } from '../../get-cell-data';
 import { getDependentCell } from '../../get-cell-dependencies';
-
+import { NewCellButtonGroup } from '../NewCellButtonGroup';
 import { Button, Col, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
@@ -43,46 +43,6 @@ export default function(Component){
       } = this.props;
       const {view, edit} = states;
 
-      const newCellActions = [{
-        label: 'Append Data',
-        icon: 'database',
-        handleClick: () => {
-          return appendCell('DATA', {
-            name: 'New data',
-            atIndex: cellPosition+1,
-            contentType: "application/json",
-            data: JSON.stringify([])
-          })
-        }
-      },{
-        label: 'Append Transformation',
-        icon: 'file-code-o',
-        handleClick: () => {
-          return appendCell('TRANSFORM', {
-            atIndex: cellPosition+1,
-            name: 'New transform',
-          })
-        }
-      },{
-        label: 'Append Markdown',
-        icon: 'file-text-o',
-        handleClick: () => {
-          return appendCell('MARKDOWN', {
-            atIndex: cellPosition+1,
-            markdown: '# New markdown',
-          })
-        }
-      },{
-        label: 'Append Visualization',
-        icon: 'bar-chart',
-        handleClick: () => {
-          return appendCell('VISUALIZATION', {
-            name: 'New visualization',
-            atIndex: cellPosition+1
-          })
-        }
-      }];
-
       const handleMoveUp = () => moveCellUp(cellId);
 
       const handleMoveDown = () => moveCellDown(cellId);
@@ -107,12 +67,7 @@ export default function(Component){
             <Button title="Move Cell Down" onClick={handleMoveDown} disabled={isLastPosition}><FontAwesome name="arrow-down" /></Button>
           </ButtonGroup>
 
-          <ButtonGroup>{newCellActions.map((action,i) => 
-            <Button key={i} title={action.label} onClick={action.handleClick}>
-              <FontAwesome name={action.icon} />
-              <span className='hidden-sm hidden-xs'> {action.label}</span>
-            </Button>)}
-          </ButtonGroup>
+          <NewCellButtonGroup cellPosition={cellPosition} appendCell={appendCell} />
 
           <ButtonGroup>
             <Button onClick={handleRemoveCell} title="Delete Cell"><FontAwesome name='remove'/></Button>
