@@ -78,6 +78,12 @@ export function notebook(state = Map(), action) {
     return state.updateIn(keyPath, flag => !!!flag);
   }
 
+  function removeCell(state, uuid) {
+    return state
+      .removeIn(['cellsById', uuid])
+      .update('cells', list => list.filterNot(id=>id===uuid))
+  }
+
   switch (action.type) {
     case 'APPEND_CELL':
       return appendCell(state, action.uuid, createCell(action));
@@ -89,6 +95,8 @@ export function notebook(state = Map(), action) {
       return cancelEditCell(state, action.uuid);
     case 'TOGGLE_COMPRESS_CELL':
       return toggleCompressCell(state, action.uuid);
+    case 'REMOVE_CELL':
+      return removeCell(state, action.uuid);
   }
   return state;
 }

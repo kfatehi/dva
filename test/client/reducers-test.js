@@ -147,5 +147,18 @@ describe("notebook reducer", () => {
         expect(nextNextState.getIn(['cellsById', 'x', 'isCompressed'])).to.equal(false);
       });
     });
+
+    describe("action REMOVE_CELL", () => {
+      it("removes the cell", () => {
+        let action1 = actionCreators.appendCell("MARKDOWN", { markdown: '' })
+        let initialState = reducers.notebook(undefined, action1);
+        let action2 = actionCreators.removeCell(action1.uuid);
+        let nextState = reducers.notebook(initialState, action2);
+        let cells = nextState.get('cells');
+        let cellsById = nextState.get('cellsById');
+        expect(cells.size).to.equal(0);
+        expect(cellsById.size).to.equal(0);
+      });
+    });
   });
 });
