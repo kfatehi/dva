@@ -16,7 +16,7 @@ export const Datatable = React.createClass({
     function truncateTable(rows, limit) {
       if (limit && limit < rows.size) {
         return {
-          lessRows: rows.take(limit),
+          rows: rows.take(limit),
           hidden: rows.size-limit
         };
       } else {
@@ -24,16 +24,15 @@ export const Datatable = React.createClass({
       }
     }
 
-    function renderTable(rows, columns) {
-      const { lessRows, hidden } = truncateTable(rows, opts.maxRows);
+    function renderTable(allRows, columns) {
+      const { rows, hidden } = truncateTable(allRows, opts.maxRows);
       return <div>
-        {Table(columns, lessRows, opts)}
+        {Table(columns, rows, opts)}
         { hidden > 0 ?
           <span><i>{hidden} additional row{hidden > 1 ? 's' : null} hidden</i></span>
           : null }
       </div>;
     }
-
 
     if (props.columns && props.rows) {
       return renderTable(props.rows, props.columns);
