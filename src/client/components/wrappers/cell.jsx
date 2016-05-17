@@ -46,6 +46,7 @@ export default function(Component){
         icon: 'database',
         handleClick: () => {
           return appendCell('DATA', {
+            name: 'New data',
             atIndex: cellPosition+1,
             contentType: "application/json",
             data: JSON.stringify([])
@@ -55,8 +56,9 @@ export default function(Component){
         label: 'Append Transformation',
         icon: 'file-code-o',
         handleClick: () => {
-          return appendCell('TRANSFORMATION', {
-            atIndex: cellPosition+1
+          return appendCell('TRANSFORM', {
+            atIndex: cellPosition+1,
+            name: 'New transform',
           })
         }
       },{
@@ -65,7 +67,7 @@ export default function(Component){
         handleClick: () => {
           return appendCell('MARKDOWN', {
             atIndex: cellPosition+1,
-            markdown: '### New markdown',
+            markdown: '# New markdown',
           })
         }
       },{
@@ -73,6 +75,7 @@ export default function(Component){
         icon: 'bar-chart',
         handleClick: () => {
           return appendCell('VISUALIZATION', {
+            name: 'New visualization',
             atIndex: cellPosition+1
           })
         }
