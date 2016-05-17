@@ -52,20 +52,24 @@ export const Datatable = React.createClass({
 
 
 const Table = (columns = List(), rows = List()) => {
-  let el = ReactFauxDOM.createElement('table');
-  let table = d3.select(el);
+  if (rows.size === 0) {
+    return <span><i>No data to show</i></span>;
+  } else {
+    let el = ReactFauxDOM.createElement('table');
+    let table = d3.select(el);
 
-  table.attr('class', 'table table-bordered table-hover table-condensed');
+    table.attr('class', 'table table-bordered table-hover table-condensed');
 
-  table.append('thead').append("tr")
-    .selectAll("td").data(columns.toJS())
-    .enter().append('td').text(d=>d)
+    table.append('thead').append("tr")
+      .selectAll("td").data(columns.toJS())
+      .enter().append('td').text(d=>d)
 
-  table.append('tbody')
-    .selectAll("tr").data(rows.toJS())
-    .enter().append("tr")
-    .selectAll("td").data(d=>d).enter().append("td").text(d=>d)
+    table.append('tbody')
+      .selectAll("tr").data(rows.toJS())
+      .enter().append("tr")
+      .selectAll("td").data(d=>d).enter().append("td").text(d=>d)
 
-  return el.toReact();
+    return el.toReact();
+  }
 }
 
