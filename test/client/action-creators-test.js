@@ -77,4 +77,20 @@ describe("action creators", () => {
       expect(action.type).to.equal('REMOVE_CELL');
     });
   });
+
+  describe("moveCellUp", () => {
+    it("is type MOVE_CELL_UP", () => {
+      var action = actionCreators.moveCellUp('hi');
+      expect(action.uuid).to.equal('hi');
+      expect(action.type).to.equal('MOVE_CELL_UP');
+    });
+  });
+
+  describe("moveCellDown", () => {
+    it("is type MOVE_CELL_DOWN", () => {
+      var action = actionCreators.moveCellDown('hi');
+      expect(action.uuid).to.equal('hi');
+      expect(action.type).to.equal('MOVE_CELL_DOWN');
+    });
+  });
 });

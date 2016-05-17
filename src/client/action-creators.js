@@ -50,3 +50,17 @@ export function removeCell(cellId) {
     uuid: cellId,
   }
 }
+
+export function moveCellUp(cellId) {
+  return {
+    type: "MOVE_CELL_UP",
+    uuid: cellId,
+  }
+}
+
+export function moveCellDown(cellId) {
+  return {
+    type: "MOVE_CELL_DOWN",
+    uuid: cellId,
+  }
+}
