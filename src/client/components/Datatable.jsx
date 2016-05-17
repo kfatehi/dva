@@ -28,7 +28,9 @@ export const Datatable = React.createClass({
       const { lessRows, hidden } = truncateTable(rows, opts.maxRows);
       return <div>
         {Table(columns, lessRows, opts)}
-        <span><i>{hidden} additional row{hidden > 1 ? 's' : null} hidden</i></span>
+        { hidden > 0 ?
+          <span><i>{hidden} additional row{hidden > 1 ? 's' : null} hidden</i></span>
+          : null }
       </div>;
     }
 
@@ -49,9 +51,7 @@ export const Datatable = React.createClass({
 })
 
 
-const Table = (columns, rows, opts) => {
-
-
+const Table = (columns = List(), rows = List()) => {
   let el = ReactFauxDOM.createElement('table');
   let table = d3.select(el);
 
