@@ -43,3 +43,10 @@ export function toggleCompressCell(cellId) {
     uuid: cellId,
   }
 }
+
+export function removeCell(cellId) {
+  return {
+    type: "REMOVE_CELL",
+    uuid: cellId,
+  }
+}

@@ -69,4 +69,12 @@ describe("action creators", () => {
       expect(action.type).to.equal('TOGGLE_COMPRESS_CELL');
     });
   });
+
+  describe("removeCell", () => {
+    it("is type REMOVE_CELL", () => {
+      var action = actionCreators.removeCell('hi');
+      expect(action.uuid).to.equal('hi');
+      expect(action.type).to.equal('REMOVE_CELL');
+    });
+  });
 });
