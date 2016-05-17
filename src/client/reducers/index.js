@@ -93,6 +93,22 @@ export function notebook(state = Map(), action) {
       .update('cells', list => list.filterNot(id=>id===uuid))
   }
 
+  let moveCell = (uuid, direction) => cells => {
+    let posA = cells.findIndex(id => id === uuid);
+    let posB = posA + direction;
+    let valA = uuid;
+    let valB = cells.get(posB);
+    return cells.set(posB, valA).set(posA, valB);
+  }
+
+  function moveCellUp(state, uuid) {
+    return state.update('cells', moveCell(uuid, -1));
+  }
+
+  function moveCellDown(state, uuid) {
+    return state.update('cells', moveCell(uuid, 1));
+  }
+
   switch (action.type) {
     case 'APPEND_CELL':
       return appendCell(state, action.uuid, action);
@@ -106,6 +122,10 @@ export function notebook(state = Map(), action) {
       return toggleCompressCell(state, action.uuid);
     case 'REMOVE_CELL':
       return removeCell(state, action.uuid);
+    case 'MOVE_CELL_UP':
+      return moveCellUp(state, action.uuid);
+    case 'MOVE_CELL_DOWN':
+      return moveCellDown(state, action.uuid);
   }
   return state;
 }

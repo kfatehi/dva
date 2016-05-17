@@ -173,5 +173,47 @@ describe("notebook reducer", () => {
         expect(cellsById.size).to.equal(0);
       });
     });
+
+    describe("actions that move cells", () => {
+      let initialState, a, b, c = null;
+      let findIndex = (list, elem) => list.findIndex(e=>elem===e);
+
+      beforeEach(function() {
+        a = actionCreators.appendCell("MARKDOWN");
+        b = actionCreators.appendCell("MARKDOWN");
+        c = actionCreators.appendCell("MARKDOWN");
+        initialState = [a,b,c].reduce(reducers.notebook, undefined);
+      });
+
+      it("starts out in order", () => {
+        let cells = initialState.get('cells');
+        expect(findIndex(cells, a.uuid)).to.equal(0);
+        expect(findIndex(cells, b.uuid)).to.equal(1);
+        expect(findIndex(cells, c.uuid)).to.equal(2);
+      });
+
+      describe("action MOVE_CELL_UP", () => {
+        it("can move 2nd cell up into the 1st position", () => {
+          let action =  actionCreators.moveCellUp(b.uuid);
+          let nextState = reducers.notebook(initialState, action)
+          let cells = nextState.get('cells');
+          expect(findIndex(cells, a.uuid)).to.equal(1);
+          expect(findIndex(cells, b.uuid)).to.equal(0);
+          expect(findIndex(cells, c.uuid)).to.equal(2);
+        });
+      });
+
+      describe("action MOVE_CELL_DOWN", () => {
+        it("can move 2nd cell down into the 3rd position", () => {
+          let action =  actionCreators.moveCellDown(b.uuid);
+          let nextState = reducers.notebook(initialState, action)
+          let cells = nextState.get('cells');
+          expect(findIndex(cells, a.uuid)).to.equal(0);
+          expect(findIndex(cells, b.uuid)).to.equal(2);
+          expect(findIndex(cells, c.uuid)).to.equal(1);
+        });
+      });
+    });
+
   });
 });
