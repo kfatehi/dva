@@ -6,13 +6,14 @@ let cellsById = fromJS({
   'c64e714b-798a-465f-ad2d-827995da9087':{
     name: "Math Gradebook",
     cellType: "DATA",
-    data: [{
+    parser: 'json',
+    data: JSON.stringify([{
       "Student": "Alice",
       "Grade": "95"
     },{
       "Student": "Bob",
       "Grade": "65"
-    }]
+    }])
   },
   '81ff74ac-bba6-4f33-beec-63ebfb021c9d':{
     name: "Math Grades to decimal",

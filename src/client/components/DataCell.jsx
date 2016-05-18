@@ -1,6 +1,7 @@
 import React from 'react';
 import cellWrapper from './wrappers/cell';
 import {Datatable} from './Datatable';
+import { DataCellEditorForm } from './DataCellEditor';
 
 export const DataCell = cellWrapper(React.createClass({
   render: function() {
@@ -17,7 +18,11 @@ export const DataCell = cellWrapper(React.createClass({
       view: <div>
         <h1>{cell.get('name')}</h1>
         <Datatable data={getData()} />
-      </div>
+      </div>,
+      edit: <DataCellEditorForm {...this.props}
+        onSubmit={updateCell}
+        handleCancel={cancelEditCell}
+      />
     });
   }
 }))

@@ -11,7 +11,7 @@ export function goodStudents(dispatch) {
 
   let a = actionCreators.appendCell('DATA', {
     name: "Math Gradebook",
-    contentType: "application/json",
+    parser: "json",
     data: JSON.stringify(data)
   })
 
@@ -107,7 +107,7 @@ In the meantime, please enjoy the static version.`
 
   let a = actionCreators.appendCell('DATA', {
     name: "Sankey Data",
-    contentType: "application/json",
+    parser: "json",
     data: JSON.stringify(data)
   })
 

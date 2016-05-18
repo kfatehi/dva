@@ -1,4 +1,12 @@
-import { List, Map } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
+
+import { parseData } from '../parsers';
+
+function getDataFromDataCell(cell) {
+  const parser = cell.get('parser');
+  const data = cell.get('data');
+  return fromJS(parseData(parser,data)) || List();
+}
 
 export default function getCellData(cellsById, cellId, options = {}) {
   let root = cellsById.get(cellId).update('parentId', parentId => {
@@ -8,7 +16,7 @@ export default function getCellData(cellsById, cellId, options = {}) {
   let getParent = cell => cellsById.get(cell.get('parentId'));
   switch (root.get('cellType')) {
     case 'DATA':
-      return root.get('data');
+      return getDataFromDataCell(root);
     case 'TRANSFORM':
       return transformTo(getParent, root, List(), options);
     case 'VISUALIZATION':
@@ -37,12 +45,12 @@ function transformTo(getCellParent, cell, _chain = List(), options = {}) {
     }
     switch (parentCell.get('cellType')) {
       case 'DATA':
-        return applyChain(chain, parentCell.get('data'));
+        return applyChain(chain,  getDataFromDataCell(parentCell));
       case 'TRANSFORM':
         return transformTo(getCellParent, parentCell, chain);
     }
   } else {
-    return cell.get('data') || List();
+    return getDataFromDataCell(cell);
   }
 }
 

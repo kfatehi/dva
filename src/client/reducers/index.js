@@ -3,17 +3,9 @@ import { Map, List, fromJS } from 'immutable';
 export function notebook(state = Map(), action) {
   function createCell(action) {
     function createDataCell(action) {
-      function parseData(contentType, data) {
-        switch (contentType) {
-          case 'application/json':
-            return fromJS(JSON.parse(data));
-        }
-      }
-      return Map({
-        cellType: 'DATA',
-        name: action.name,
-        data: parseData(action.contentType, action.data)
-      })
+      const { name, parser, data } = action;
+      const cellType = 'DATA';
+      return Map({ cellType, name, parser, data });
     }
 
     function createTransformCell(action) {

@@ -15,7 +15,7 @@ let appendDataCellAction = (data) =>
   actionCreators
     .appendCell('DATA', {
       name: "Math Gradebook",
-      contentType: "application/json",
+      parser: "json",
       data: JSON.stringify(data),
       uuid: genUUID()
     })
@@ -47,7 +47,8 @@ describe("notebook reducer", () => {
       expect(cellsById.get(action.uuid)).to.equal(fromJS({
         cellType: "DATA",
         name: action.name,
-        data: gradebookData
+        parser: 'json',
+        data: JSON.stringify(gradebookData),
       }));
     });
 
