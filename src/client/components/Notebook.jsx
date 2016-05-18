@@ -17,7 +17,7 @@ import './Notebook.less';
 export const Notebook = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    const { cells, cellsById, appendCell } = this.props;
+    const { cells, cellsById } = this.props;
     const renderCell = (id) => {
       switch (cellsById.getIn([id, 'cellType'])) {
         case 'DATA':
@@ -33,7 +33,7 @@ export const Notebook = React.createClass({
       }
     }
     if (cells.size === 0) {
-      return <NewCellButtonGroup cellPosition={-1} appendCell={appendCell} />
+      return <NewCellButtonGroup cellPosition={-1} {...this.props} />
     } else {
       return (
         <Grid className="notebook">{ cells.map(id =>

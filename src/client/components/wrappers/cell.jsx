@@ -67,7 +67,7 @@ export default function(Component){
             <Button title="Move Cell Down" onClick={handleMoveDown} disabled={isLastPosition}><FontAwesome name="arrow-down" /></Button>
           </ButtonGroup>
 
-          <NewCellButtonGroup cellPosition={cellPosition} appendCell={appendCell} />
+          <NewCellButtonGroup {...this.props} />
 
           <ButtonGroup>
             <Button onClick={handleRemoveCell} title="Delete Cell"><FontAwesome name='remove'/></Button>

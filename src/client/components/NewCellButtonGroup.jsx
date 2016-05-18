@@ -8,45 +8,46 @@ export const NewCellButtonGroup = React.createClass({
   render: function() {
     const {
       appendCell,
+      editCell,
       cellPosition,
     } = this.props;
     const newCellActions = [{
       label: 'Append Data',
       icon: 'database',
       handleClick: () => {
-        return appendCell('DATA', {
+        editCell(appendCell('DATA', {
           name: 'New data',
           atIndex: cellPosition+1,
           contentType: "application/json",
           data: JSON.stringify([])
-        })
+        }).uuid)
       }
     },{
       label: 'Append Transformation',
       icon: 'file-code-o',
       handleClick: () => {
-        return appendCell('TRANSFORM', {
+        editCell(appendCell('TRANSFORM', {
           atIndex: cellPosition+1,
           name: 'New transform',
-        })
+        }).uuid)
       }
     },{
       label: 'Append Markdown',
       icon: 'file-text-o',
       handleClick: () => {
-        return appendCell('MARKDOWN', {
+        editCell(appendCell('MARKDOWN', {
           atIndex: cellPosition+1,
           markdown: '# New markdown',
-        })
+        }).uuid)
       }
     },{
       label: 'Append Visualization',
       icon: 'bar-chart',
       handleClick: () => {
-        return appendCell('VISUALIZATION', {
+        editCell(appendCell('VISUALIZATION', {
           name: 'New visualization',
           atIndex: cellPosition+1
-        })
+        }).uuid)
       }
     }];
     return (
