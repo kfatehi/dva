@@ -9,5 +9,8 @@
 /public/*.ttf
 /public/*.eot
 /public/*.svg
+/public/*.gif
+/public/*.jpg
+/public/*.md
 /webpack.log
 /es5
