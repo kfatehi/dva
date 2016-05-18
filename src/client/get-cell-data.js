@@ -2,10 +2,10 @@ import { List, Map, fromJS } from 'immutable';
 
 import { parseData } from '../parsers';
 
-function getDataFromDataCell(cell) {
-  const parser = cell.get('parser');
-  const data = cell.get('data');
-  return fromJS(parseData(parser,data)) || List();
+function getDataFromDataCell(cell, options = {}) {
+  const override = key => current => options[key] || current;
+  const get = key => cell.update(key, override(key)).get(key);
+  return fromJS(parseData(get('parser'),get('data'))) || List();
 }
 
 export default function getCellData(cellsById, cellId, options = {}) {
@@ -16,7 +16,7 @@ export default function getCellData(cellsById, cellId, options = {}) {
   let getParent = cell => cellsById.get(cell.get('parentId'));
   switch (root.get('cellType')) {
     case 'DATA':
-      return getDataFromDataCell(root);
+      return getDataFromDataCell(root, options);
     case 'TRANSFORM':
       return transformTo(getParent, root, List(), options);
     case 'VISUALIZATION':

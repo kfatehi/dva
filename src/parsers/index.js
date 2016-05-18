@@ -1,10 +1,20 @@
+import csvParseSync from 'csv-parse/lib/sync';
+
+
 let parsers = {
   'json': {
     parse: function(str) {
       return JSON.parse(str);
-    },
-    stringify: function(obj) {
-      return JSON.stringify(obj);
+    }
+  },
+  'csv': {
+    parse: function(str) {
+      return csvParseSync(str, { delimiter: ',', columns: true })
+    }
+  },
+  'tsv': {
+    parse: function(str) {
+      return csvParseSync(str, { delimiter: '\t', columns: true })
     }
   }
 }

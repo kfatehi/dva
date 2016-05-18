@@ -68,6 +68,20 @@ describe("getCellData", () => {
     }]))
   });
 
+  it("can get different data from a DATA cell using overrides", () => {
+    let a = getCellData(cellsById, 'c64e714b-798a-465f-ad2d-827995da9087', {
+      data: JSON.stringify([{foo:'bar'}]),
+      parser: 'json'
+    });
+    expect(a).to.equal(fromJS([{ foo:'bar' }]));
+
+    let b = getCellData(cellsById, 'c64e714b-798a-465f-ad2d-827995da9087', {
+      data: `foo,bar\n1,2`,
+      parser: 'csv'
+    });
+    expect(b).to.equal(fromJS([{foo: '1', bar: '2' }]));
+  });
+
   it("can get data from a mutating TRANSFORM cell 1 level deep", () => {
     let data = getCellData(cellsById, '81ff74ac-bba6-4f33-beec-63ebfb021c9d');
     expect(data).to.equal(fromJS([{
