@@ -12,14 +12,14 @@ import * as reducers from './reducers';
 import App from './components/App';
 import { NotebookContainer } from './components/Notebook';
 import { fromJS } from 'immutable';
-import * as demos from './demo';
 
-//import 'codemirror/mode/markdown/markdown';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/tomorrow-night-bright.css';
-
 import 'font-awesome/less/font-awesome.less';
 import 'bootstrap/less/bootstrap.less';
+
+//import demo from './demos/contrived-students';
+//import demo from './demos/contrived-sankey';
 
 const socket = io();
 
@@ -50,6 +50,6 @@ window.mountApplication = function(){
     document.getElementById('mount')
   )
 
-  demos.goodStudents(store.dispatch)
-  //demos.sankey(store.dispatch)
+  if (typeof demo !== 'undefined')
+    demo(store.dispatch)
 }
