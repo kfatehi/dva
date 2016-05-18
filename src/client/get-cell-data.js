@@ -3,9 +3,14 @@ import { List, Map, fromJS } from 'immutable';
 import { parseData } from '../parsers';
 
 function getDataFromDataCell(cell, options = {}) {
-  const override = key => current => options[key] || current;
-  const get = key => cell.update(key, override(key)).get(key);
-  return fromJS(parseData(get('parser'),get('data'))) || List();
+  let parsedData = cell.get('parsedData');
+  if (parsedData && Object.keys(options).length === 0) {
+    return fromJS(parsedData);
+  } else {
+    const override = key => current => options[key] || current;
+    const get = key => cell.update(key, override(key)).get(key);
+    return fromJS(parseData(get('parser'),get('data'))) || List();
+  }
 }
 
 export default function getCellData(cellsById, cellId, options = {}) {
@@ -26,31 +31,35 @@ export default function getCellData(cellsById, cellId, options = {}) {
 }
 
 function transformTo(getCellParent, cell, _chain = List(), options = {}) {
-  const locals = [{
-    name: 'List', ref: List,
-  },{
-    name: 'Map', ref: Map
-  }]
-  const parentId = cell.get('parentId');
-  if (parentId) {
-    const funcStr = options.funcOverride || cell.get('func');
-    const func = Function('data', ...locals.map(i=>i.name), funcStr);
-    const chain = _chain.push(func);
-    const parentCell = getCellParent(cell)
-    let applyChain = (chain, data) => {
-      return chain.reverse().reduce((data,fn) => {
-        let args = [data].concat(locals.map(i=>i.ref));
-        return fn(...args)
-      }, data);
-    }
-    switch (parentCell.get('cellType')) {
-      case 'DATA':
-        return applyChain(chain,  getDataFromDataCell(parentCell));
-      case 'TRANSFORM':
-        return transformTo(getCellParent, parentCell, chain);
+  if (cell) {
+    const parentId = cell.get('parentId');
+    if (parentId) {
+      const locals = [{
+        name: 'List', ref: List,
+      },{
+        name: 'Map', ref: Map
+      }]
+      const funcStr = options.funcOverride || cell.get('func');
+      const func = Function('data', ...locals.map(i=>i.name), funcStr);
+      const chain = _chain.push(func);
+      const parentCell = getCellParent(cell)
+      let applyChain = (chain, data) => {
+        return chain.reverse().reduce((data,fn) => {
+          let args = [data].concat(locals.map(i=>i.ref));
+          return fn(...args)
+        }, data);
+      }
+      switch (parentCell.get('cellType')) {
+        case 'DATA':
+          return applyChain(chain,  getDataFromDataCell(parentCell));
+        case 'TRANSFORM':
+          return transformTo(getCellParent, parentCell, chain);
+      }
+    } else {
+      return getDataFromDataCell(cell);
     }
   } else {
-    return getDataFromDataCell(cell);
+    return List();
   }
 }
 
