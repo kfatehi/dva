@@ -10,18 +10,25 @@ export default function (data){
 
   //cycles through the unprepared data to populate our new formatting
   data.forEach(function(d){
-    //pushes the soure node of a data entry into our node list
-    prepedGraph['nodes'].push({"name" : getValue(d['source']) });
 
-    //pushes the target node of a data entry into our node list
-    prepedGraph['nodes'].push({"name" : getValue(d['target'])});
+ 
+    //in this data prep tool, if src and target are equal or if either
+    //  the source, target, or value is missing, then the data row is ignored.       
+    if(getValue(d['source']) !== getValue(d['target']) && d['source'] && d['target'] && d['value']) {
 
-    //populates all of the links
-    prepedGraph['links'].push({ "source" : getValue(d['source']),
-                                "target" : getValue(d['target']),
-                                "value"  : parseInt(getValue(d['value']))
-                            });
-  });
+      //pushes the soure node of a data entry into our node list
+      prepedGraph['nodes'].push({"name" : getValue(d['source']) });
+
+      //pushes the target node of a data entry into our node list
+      prepedGraph['nodes'].push({"name" : getValue(d['target'])});
+
+      //populates all of the links
+      prepedGraph['links'].push({ "source" : getValue(d['source']),
+                                  "target" : getValue(d['target']),
+                                  "value"  : parseInt(getValue(d['value']))
+                              });
+      }
+    });
  
   //***Disclaimer: there are better ways to get non-duplicates, but this will work for what
   //                we are doing
