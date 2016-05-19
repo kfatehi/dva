@@ -14,3 +14,5 @@
 /public/*.md
 /webpack.log
 /es5
+public/bundle.js.map
+public/vendor.bundle.js.map
