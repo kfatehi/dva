@@ -1,7 +1,7 @@
 import d3 from 'd3';
 
-import sankeyLib from './sankey';
-import dataPrep from './sankey-data-prep.js'
+import { sankey as sankeyLib } from 'd3-sankey';
+import dataPrep from './sankey-data-prep.js';
 // first parameter is a div container that will hold your vesialization
 // second parameter is a configuration object that you should use to
 // build your visualization
