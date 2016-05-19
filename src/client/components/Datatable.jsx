@@ -38,8 +38,12 @@ export const Datatable = React.createClass({
       return renderTable(props.rows, props.columns);
     } else if (props.data) {
       if (List.isList(props.data)) {
-        const { rows, columns } = toRowCol(props.data);
-        return renderTable(rows, columns);
+        try {
+          const { rows, columns } = toRowCol(props.data);
+          return renderTable(rows, columns);
+        } catch (e) {
+          return <pre>{e.stack}</pre>;
+        }
       } else {
         return <pre>{props.data}</pre>;
       }
