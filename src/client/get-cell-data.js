@@ -38,6 +38,8 @@ function transformTo(getCellParent, cell, _chain = List(), options = {}) {
         name: 'List', ref: List,
       },{
         name: 'Map', ref: Map
+      },{
+        name: 'fromJS', ref: fromJS
       }]
       const funcStr = options.funcOverride || cell.get('func');
       const func = Function('data', ...locals.map(i=>i.name), funcStr);
