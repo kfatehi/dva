@@ -42,6 +42,36 @@ describe("Sankey Data Preparation", function() {
   })
 
 
+  it("small dataset testing errors in data input", function(){
+    let result = sankeyDataPrep(
+      [{
+        "target": ["Elvis"],
+        "value" : [1]
+      },
+      {
+        "source": ["Marley"],
+        "value" : [2]
+      },
+      {
+        "source": ["Bob"],
+        "target": ["Wolfe"]
+      },
+      {
+        "source": ["Larry"],
+        "target": ["Larry"],
+        "value" : [3]
+      },
+      {
+        "source": ["Kyle"],
+        "target": ["Jones"],
+        "value" : [4]
+      }]);
+
+    expect(result).to.deep.eq({ 
+      "nodes" : [{"name" : "Kyle"},
+                 {"name" : "Jones"}], 
+        "links" :[{"source" : 0, "target":1, "value": 4}]});
+  })
   //testing default behavior
   it("default behavior", function(){
 
