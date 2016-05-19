@@ -10,7 +10,7 @@ export const Datatable = React.createClass({
   render: function() {
     const props = this.props;
     const opts = this.props.tableOpts || {
-      maxRows: 3
+      maxRows: 10
     }
 
     function truncateTable(rows, limit) {
