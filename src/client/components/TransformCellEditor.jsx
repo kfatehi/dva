@@ -40,8 +40,12 @@ export const TransformCellEditor = React.createClass({
       }
     }
 
+    let editorValue = func.value;
+
     let editorProps = {
-      onChange: debounce(func.onChange, 200),
+      onChange: function(value) {
+        editorValue = value;
+      },
       value: func.value,
       options: {
         lineNumbers: true,
@@ -60,6 +64,7 @@ export const TransformCellEditor = React.createClass({
         <input type="text" {...name} />
         <Codemirror {...editorProps} />
         <Datatable data={getDataPreview(parentId.value, func.value)} />
+        <Button onClick={() => func.onChange(editorValue)}>Preview</Button>
         <ButtonGroup>
           <Button bsStyle="success" disabled={broken} type="submit">Save</Button>
           <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>
