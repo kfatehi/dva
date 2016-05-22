@@ -11,6 +11,7 @@ import {reducer as formReducer} from 'redux-form';
 import * as reducers from './reducers';
 import App from './components/App';
 import { NotebookContainer } from './components/Notebook';
+import { HomeContainer } from './components/Home';
 import { fromJS } from 'immutable';
 
 import 'codemirror/lib/codemirror.css';
@@ -31,6 +32,7 @@ const createStoreWithMiddleware = applyMiddleware(
 const reducer = combineReducers({
   form: (state = fromJS({}), action) => fromJS(formReducer(state.toJS(), action)),
   notebook: reducers.notebook,
+  home: reducers.home,
 });
 
 const store = createStoreWithMiddleware(reducer);
@@ -44,13 +46,11 @@ window.mountApplication = function(){
     <Provider store={store}>
       <Router history={hashHistory}>
         <Route component={App}>
-          <Route path="/" component={NotebookContainer} />
+          <Route path="/" component={HomeContainer} />
+          <Route path="/notebooks/:id" component={NotebookContainer} />
         </Route>
       </Router>
     </Provider>,
     document.getElementById('mount')
   )
-
-  if (typeof demo !== 'undefined')
-    demo(store.dispatch)
 }

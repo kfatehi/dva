@@ -1,6 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import * as reducers from '../../src/client/reducers';
 import * as actionCreators from '../../src/client/action-creators';
+import * as serverActionCreators from '../../src/server/action-creators';
 import genUUID from '../../src/uuid';
 
 let gradebookData = [{
@@ -215,6 +216,23 @@ describe("notebook reducer", () => {
         });
       });
     });
+  });
+});
 
+describe("home reducer", () => {
+  describe("action SET_NOTEBOOKS", () => {
+    it("sets available notebooks", () => {
+      let action = serverActionCreators.setNotebooks([{
+        uuid: 'da26c0e5-60a0-49b5-b4dc-a83b91a967be',
+        name: 'abc',
+      }])
+
+      let nextState = reducers.home(undefined, action);
+
+      expect(nextState.get('notebooks')).to.equal(fromJS([{
+        uuid: 'da26c0e5-60a0-49b5-b4dc-a83b91a967be',
+        name: 'abc',
+      }]))
+    });
   });
 });

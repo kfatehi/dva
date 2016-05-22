@@ -12,6 +12,7 @@ const path = require('path');
 const debug = require('debug')('dva:src/server/app');
 const io = require('socket.io').listen(server);
 import * as extensions from '../extensions';
+import * as actionCreators from './action-creators';
 
 module.exports.app = app
 module.exports.server = server;
@@ -124,4 +125,14 @@ app.use(express.static('public'));
 io.on('connection', function(socket) {
   const user = socket.request.user;
   debug(`${user.email} connected`);
+
+  let notebooks = [{
+    uuid: '44a8b08b-dfd1-4a8e-aca0-7792add06e47',
+    name: 'The Titanic Story',
+  },{
+    uuid: 'cdc2c9a0-4fc5-452d-99b3-d57c8618c4e8',
+    name: 'Student Grades'
+  }]
+
+  socket.emit('action', actionCreators.setNotebooks(notebooks));
 });

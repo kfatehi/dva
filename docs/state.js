@@ -14,8 +14,30 @@ var jsonString = JSON.stringify([{
   data: jsonString
 }
 
+// no notebook loaded
+
+{
+  notebook: null
+}
+
+// List out available notebooks
+
+{
+  publicNotebooks: [{
+    id: '4ea8af4f-8d38-49e1-9db2-e25087e230eb'
+  }],
+  myNotebooks: [{
+    id: '0787c045-f5ad-4ef6-9db1-16402b619c15'
+  }]
+}
+
+
+
+// a notebook is loaded
+
 {
   notebook: {
+    id: '047836d9-d37a-4eb6-b7a0-27e51d3cdabc',
     editingCell: null, // id of cell in edit mode
     cells: [
       'c64e714b-798a-465f-ad2d-827995da9087',
