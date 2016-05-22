@@ -217,6 +217,19 @@ describe("notebook reducer", () => {
       });
     });
   });
+
+  describe("action SET_NOTEBOOK", () => {
+    it("sets the notebook uuid, cells, and cellsById", () => {
+      let uuid = 'a';
+      let cells = ['b'];
+      let cellsById = {'b': 'foo'}
+      let action = serverActionCreators.setNotebook(uuid, cells, cellsById);
+      let nextState = reducers.notebook(undefined, action);
+      expect(nextState).to.equal(fromJS({
+        uuid, cells, cellsById
+      }))
+    });
+  })
 });
 
 describe("home reducer", () => {

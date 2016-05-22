@@ -10,6 +10,7 @@ const Strategy = require('passport-local').Strategy;
 const layout = require('express-layout');
 const path = require('path');
 const debug = require('debug')('dva:src/server/app');
+const error = require('debug')('dva:src/server/app:error');
 const io = require('socket.io').listen(server);
 import * as extensions from '../extensions';
 import * as actionCreators from './action-creators';
@@ -135,4 +136,23 @@ io.on('connection', function(socket) {
   }]
 
   socket.emit('action', actionCreators.setNotebooks(notebooks));
+
+  socket.on('action', function(action) {
+    switch (action.type) {
+      case 'LOAD_NOTEBOOK':
+        return sendNotebook(socket, user, action.uuid);
+    }
+  })
 });
+
+function sendNotebook(socket, user, uuid) {
+  try {
+    var fs = require('fs');
+    const buf = fs.readFileSync(__dirname+'/../../var/notebooks/someid.json');
+    const { cells, cellsById } = JSON.parse(buf.toString());
+    const action = actionCreators.setNotebook(uuid, cells, cellsById);
+    socket.emit('action', action);
+  } catch (e) {
+    error(e.message);
+  }
+}

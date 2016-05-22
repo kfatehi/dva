@@ -64,3 +64,10 @@ export function moveCellDown(cellId) {
     uuid: cellId,
   }
 }
+
+export function loadNotebook(uuid) {
+  return {
+    meta: { remote: true },
+    type: 'LOAD_NOTEBOOK', uuid
+  }
+}

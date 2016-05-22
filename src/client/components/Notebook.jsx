@@ -17,7 +17,11 @@ import './Notebook.less';
 export const Notebook = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    const { cells, cellsById } = this.props;
+    const {
+      cells,
+      cellsById,
+      isLoading
+    } = this.props;
     const renderCell = (id) => {
       switch (cellsById.getIn([id, 'cellType'])) {
         case 'DATA':
@@ -32,22 +36,31 @@ export const Notebook = React.createClass({
           return <div>{id}</div>;
       }
     }
-    if (cells.size === 0) {
-      return <NewCellButtonGroup cellPosition={-1} {...this.props} />
+    if (isLoading) {
+      this.props.loadNotebook(this.props.params.id);
+      return <div> loading </div>
     } else {
-      return (
-        <Grid className="notebook">{ cells.map(id =>
-          <Row className="cell" key={id}>
-            {renderCell(id)}
-          </Row>)}
-        </Grid>
-      );
+      if (cells.size === 0) {
+        return <NewCellButtonGroup cellPosition={-1} {...this.props} />
+      } else {
+        return (
+          <Grid className="notebook">{ cells.map(id =>
+            <Row className="cell" key={id}>
+              {renderCell(id)}
+            </Row>)}
+          </Grid>
+        );
+      }
     }
   }
 })
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+  const id = props.params.id;
+  const isNew = props.params.id === 'new';
+  const loadedId = state.getIn(['notebook', 'uuid']);
   return {
+    isLoading: isNew ? false : id !== loadedId,
     cells: state.getIn(['notebook', 'cells']) || List(),
     cellsById: state.getIn(['notebook', 'cellsById']) || Map()
   };
@@ -57,3 +70,5 @@ export const NotebookContainer = connect(
   mapStateToProps,
   actionCreators
 )(Notebook);
+
+// JSON.stringify($r.props.store.getState().get('notebook').toJS(), null, 2)

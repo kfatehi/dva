@@ -9,3 +9,11 @@ export function setNotebooks(notebooks) {
     })
   }
 }
+
+
+export function setNotebook(uuid, cells, cellsById) {
+  return {
+    type: 'SET_NOTEBOOK',
+    uuid, cells, cellsById
+  }
+}

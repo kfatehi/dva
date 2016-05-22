@@ -101,6 +101,13 @@ export function notebook(state = Map(), action) {
     return state.update('cells', moveCell(uuid, 1));
   }
 
+  function setNotebook(state, action) {
+    return state
+      .update('uuid', () => action.uuid)
+      .update('cells', () => fromJS(action.cells))
+      .update('cellsById', () => fromJS(action.cellsById))
+  }
+
   switch (action.type) {
     case 'APPEND_CELL':
       return appendCell(state, action.uuid, action);
@@ -118,6 +125,8 @@ export function notebook(state = Map(), action) {
       return moveCellUp(state, action.uuid);
     case 'MOVE_CELL_DOWN':
       return moveCellDown(state, action.uuid);
+    case 'SET_NOTEBOOK':
+      return setNotebook(state, action);
   }
   return state;
 }

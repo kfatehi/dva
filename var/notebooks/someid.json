@@ -1,0 +1,42 @@
+{
+  "cellsById": {
+    "00553a97-3ebd-1568-780e-dde28aa76a82": {
+      "cellType": "DATA",
+      "name": "Math Gradebook",
+      "parser": "json",
+      "data": "[{\"Student\":\"Alice\",\"Grade\":\"95\"},{\"Student\":\"Bob\",\"Grade\":\"65\"}]"
+    },
+    "fec088a4-3915-62dc-873e-f9fcde276436": {
+      "cellType": "TRANSFORM",
+      "name": "Math Grades to decimal",
+      "parentId": "00553a97-3ebd-1568-780e-dde28aa76a82",
+      "func": "return data.map( row => row.update('Grade', grade => parseInt(grade) / 100 ) )"
+    },
+    "594174ed-b097-5382-bc30-59f4c0ac596a": {
+      "cellType": "TRANSFORM",
+      "name": "Add Dimension: Pass/Fail",
+      "parentId": "fec088a4-3915-62dc-873e-f9fcde276436",
+      "func": "return data.map( row => row.update('PF', () => row.get('Grade') > .7 ? 'PASS' : 'FAIL' ) )"
+    },
+    "07ce8407-f809-0631-eab1-ed14fec85b82": {
+      "cellType": "TRANSFORM",
+      "name": "Filter Rows: Only Passes",
+      "parentId": "594174ed-b097-5382-bc30-59f4c0ac596a",
+      "func": "return data.filter( row => row.get('PF') === 'PASS' )"
+    },
+    "7e77c55b-c04a-be13-97ee-f3addf8adb3e": {
+      "cellType": "VISUALIZATION",
+      "name": "Good Students",
+      "parentId": "07ce8407-f809-0631-eab1-ed14fec85b82",
+      "visExtId": "com.keyvan.barchart",
+      "visConfigJSON": "{\"config\":{},\"bucketMapping\":{\"bucketMap\":{\"group\":[\"Student\"],\"value\":[\"Grade\"]},\"columnMap\":{\"0\":\"group\",\"1\":\"value\"}}}"
+    }
+  },
+  "cells": [
+    "00553a97-3ebd-1568-780e-dde28aa76a82",
+    "fec088a4-3915-62dc-873e-f9fcde276436",
+    "594174ed-b097-5382-bc30-59f4c0ac596a",
+    "07ce8407-f809-0631-eab1-ed14fec85b82",
+    "7e77c55b-c04a-be13-97ee-f3addf8adb3e"
+  ]
+}
