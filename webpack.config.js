@@ -25,6 +25,7 @@ module.exports = {
       'socket.io-client',
       'immutable',
       'debounce',
+      'babel-standalone',
       'font-awesome/less/font-awesome.less',
       'bootstrap/less/bootstrap.less',
       'codemirror/lib/codemirror.css',

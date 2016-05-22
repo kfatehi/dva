@@ -1,6 +1,15 @@
 import { List, Map, fromJS } from 'immutable';
 
 import { parseData } from '../parsers';
+import * as Babel from 'babel-standalone';
+
+const TRANSFORM_LOCALS = [{
+  name: 'List', ref: List,
+},{
+  name: 'Map', ref: Map
+},{
+  name: 'fromJS', ref: fromJS
+}];
 
 function getDataFromDataCell(cell, options = {}) {
   let parsedData = cell.get('parsedData');
@@ -34,26 +43,13 @@ function transformTo(getCellParent, cell, _chain = List(), options = {}) {
   if (cell) {
     const parentId = cell.get('parentId');
     if (parentId) {
-      const locals = [{
-        name: 'List', ref: List,
-      },{
-        name: 'Map', ref: Map
-      },{
-        name: 'fromJS', ref: fromJS
-      }]
       const funcStr = options.funcOverride || cell.get('func');
-      const func = Function('data', ...locals.map(i=>i.name), funcStr);
+      const func = Function('data', ...TRANSFORM_LOCALS.map(i=>i.name), babelCompile(funcStr));
       const chain = _chain.push(func);
       const parentCell = getCellParent(cell)
-      let applyChain = (chain, data) => {
-        return chain.reverse().reduce((data,fn) => {
-          let args = [data].concat(locals.map(i=>i.ref));
-          return fn(...args)
-        }, data);
-      }
       switch (parentCell.get('cellType')) {
         case 'DATA':
-          return applyChain(chain,  getDataFromDataCell(parentCell));
+          return applyTransformChain(chain,  getDataFromDataCell(parentCell));
         case 'TRANSFORM':
           return transformTo(getCellParent, parentCell, chain);
       }
@@ -63,6 +59,19 @@ function transformTo(getCellParent, cell, _chain = List(), options = {}) {
   } else {
     return List();
   }
+}
+
+function babelCompile(fbody) {
+  const conf = { presets: ['es2015'] };
+  const lines = Babel.transform(`()=>{${fbody}}`, conf).code.split('\n');
+  return lines.slice(3, lines.length-1).join('\n');
+}
+
+function applyTransformChain(chain, data) {
+  return chain.reverse().reduce((data,fn) => {
+    let args = [data].concat(TRANSFORM_LOCALS.map(i=>i.ref));
+    return fn(...args)
+  }, data);
 }
 
 export function isCircular(cellsById, cellId, seen=Map()) {
