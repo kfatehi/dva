@@ -12,7 +12,6 @@ export const Home = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
     const { notebooks } = this.props;
-    console.log(notebooks.toJS());
     return (
       <div>
         <Link to={`/notebook/new`}>New Notebook</Link>
@@ -30,7 +29,6 @@ export const Home = React.createClass({
 })
 
 function mapStateToProps(state) {
-  console.log(state.toJS());
   const home = state.get('home');
   const notebooks = home.get('notebooks', List());
   return {

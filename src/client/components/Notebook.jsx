@@ -16,6 +16,13 @@ import './Notebook.less';
 
 export const Notebook = React.createClass({
   mixins: [PureRenderMixin],
+  componentDidMount: function() {
+    if (this.props.isLoading) 
+      this.props.loadNotebook(this.props.params.id);
+  },
+  componentWillUnmount: function() {
+    this.props.unsetNotebook();
+  },
   render: function() {
     const {
       cells,
@@ -37,7 +44,6 @@ export const Notebook = React.createClass({
       }
     }
     if (isLoading) {
-      this.props.loadNotebook(this.props.params.id);
       return <div> loading </div>
     } else {
       if (cells.size === 0) {

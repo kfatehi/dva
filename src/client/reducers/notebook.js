@@ -108,6 +108,13 @@ export function notebook(state = Map(), action) {
       .update('cellsById', () => fromJS(action.cellsById))
   }
 
+  function unsetNotebook(state) {
+    return state
+      .remove('uuid')
+      .remove('cells')
+      .remove('cellsById')
+  }
+
   switch (action.type) {
     case 'APPEND_CELL':
       return appendCell(state, action.uuid, action);
@@ -127,6 +134,8 @@ export function notebook(state = Map(), action) {
       return moveCellDown(state, action.uuid);
     case 'SET_NOTEBOOK':
       return setNotebook(state, action);
+    case 'UNSET_NOTEBOOK':
+      return unsetNotebook(state);
   }
   return state;
 }

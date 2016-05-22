@@ -71,3 +71,9 @@ export function loadNotebook(uuid) {
     type: 'LOAD_NOTEBOOK', uuid
   }
 }
+
+export function unsetNotebook() {
+  return {
+    type: 'UNSET_NOTEBOOK'
+  }
+}
