@@ -37,8 +37,15 @@ export const DataCellEditor = React.createClass({
     let editorProps = {
       onChange: value => {
         cmVal = value;
-        let data = getDataPreview(value, parser.value);
-        this.refs.datatable.replaceState({ data });
+        this.refs.preview.replaceState({ 
+          data: getDataPreview(cmVal, parser.value)
+        });
+      },
+      onFocusChange: (focused) => {
+        data.onChange(cmVal);
+        this.refs.preview.replaceState({ 
+          data: getDataPreview(cmVal, parser.value)
+        });
       },
       value: data.value,
       options: { theme: 'tomorrow-night-bright' }
@@ -59,7 +66,7 @@ export const DataCellEditor = React.createClass({
         <label>Name</label>
         <input type="text" {...name} />
         <Codemirror {...editorProps} />
-        <Datatable ref='datatable' data={getDataPreview(data.value, parser.value)} />
+        <Datatable ref='preview' data={getDataPreview(data.value, parser.value)} />
         <ButtonGroup>
           <Button bsStyle="success" type="submit">Save</Button>
           <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>

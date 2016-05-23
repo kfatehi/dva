@@ -39,6 +39,12 @@ export const MarkdownCellEditor = React.createClass({
         cmVal = source;
         this.refs.preview.replaceState({ source });
       },
+      onFocusChange: (focused) => {
+        markdown.onChange(cmVal);
+        this.refs.preview.replaceState({ 
+          source: cmVal
+        });
+      },
       value: markdown.value,
       options: {
         lineNumbers: true,

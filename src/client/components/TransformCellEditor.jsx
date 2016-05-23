@@ -42,7 +42,13 @@ export const TransformCellEditor = React.createClass({
       onChange: value => {
         cmVal = value;
         let data = getDataPreview(parentId.value, value);
-        this.refs.datatable.replaceState({ data });
+        this.refs.preview.replaceState({ data });
+      },
+      onFocusChange: (focused) => {
+        func.onChange(cmVal);
+        this.refs.preview.replaceState({ 
+          data: getDataPreview(parentId.value, cmVal)
+        });
       },
       value: func.value,
       options: {
@@ -61,7 +67,7 @@ export const TransformCellEditor = React.createClass({
         <label>Name</label>
         <input type="text" {...name} />
         <Codemirror {...editorProps} />
-        <Datatable ref='datatable' data={getDataPreview(parentId.value, func.value)} />
+        <Datatable ref='preview' data={getDataPreview(parentId.value, func.value)} />
         <ButtonGroup>
           <Button bsStyle="success" type="submit">Save</Button>
           <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>

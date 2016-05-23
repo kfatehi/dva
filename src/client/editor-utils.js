@@ -1,7 +1,8 @@
 export function hookHandler(next, preFunc) {
   return function(event) {
-    preFunc();
     event.persist();
+    event.preventDefault();
+    preFunc();
     setTimeout(()=>next(event), 0);
   }
 }
