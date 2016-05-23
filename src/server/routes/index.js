@@ -5,6 +5,7 @@ const passport = require('passport');
 const ensureLogin = require('connect-ensure-login')
 const router = express.Router();
 const debug = require('debug')('dva:router')
+const error = require('debug')('dva:router:error')
 const commonmark = require('commonmark');
 const fs = require('fs');
 
@@ -40,17 +41,25 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', function(req, res, next) {
+  function handleError(err) {
+    if(err) {
+      error(err.message);
+      res.render('register', {
+        user: null,
+        errorMessage: "Sorry! Something is wrong with your input."
+      });
+    } else {
+      res.redirect('/');
+    }
+  }
   if (req.body.password === req.body.password_confirm) {
     models.User.createWithPassword(req.body.password, {
       email: req.body.email
     }).then(function(user) {
-      req.login(user, function(err){
-        if(err) return next(err);
-        res.redirect('/');
-      });
-    }).catch(next)
+      req.login(user, handleError);
+    }).catch(handleError)
   } else {
-    next(new Error("Password does not match confirmation"))
+    handleError(new Error("Password does not match confirmation"));
   }
 });
 
