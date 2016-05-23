@@ -7,7 +7,7 @@ import Codemirror from 'react-codemirror';
 import 'codemirror/mode/javascript/javascript';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { Datatable } from './Datatable';
-import debounce from 'debounce';
+import { hookHandler as hook } from '../editor-utils';
 
 export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -36,11 +36,11 @@ export const TransformCellEditor = React.createClass({
       }
     }
 
-    let editorValue = func.value;
+    let funcVal = func.value;
 
     let editorProps = {
       onChange: value => {
-        editorValue = value;
+        funcVal = value;
         let data = getDataPreview(parentId.value, value);
         this.refs.datatable.replaceState({ data });
       },
@@ -52,16 +52,8 @@ export const TransformCellEditor = React.createClass({
       },
     }
 
-    function _handleSubmit(e) {
-      e.persist();
-      func.onChange(editorValue);
-      setTimeout(function() {
-        handleSubmit(e);
-      },0);
-    }
-
     return (
-      <form onSubmit={_handleSubmit}>
+      <form onSubmit={hook(handleSubmit,()=>func.onChange(funcVal))}>
         <label>Data Source</label>
         <select {...parentId}>{otherCellsWithData.map(id =>
           <option key={id} value={id}>{getCellName(id)}</option>)}
