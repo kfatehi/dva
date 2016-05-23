@@ -7,6 +7,9 @@ import d3 from 'd3';
 
 export const Datatable = React.createClass({
   mixins: [PureRenderMixin],
+  getInitialState: function() {
+    return { data: null }
+  },
   render: function() {
     const props = this.props;
     const opts = this.props.tableOpts || {
@@ -34,18 +37,20 @@ export const Datatable = React.createClass({
       </div>;
     }
 
+    let data = this.state.data || props.data;
+
     if (props.columns && props.rows) {
       return renderTable(props.rows, props.columns);
-    } else if (props.data) {
-      if (List.isList(props.data)) {
+    } else if (data) {
+      if (List.isList(data)) {
         try {
-          const { rows, columns } = toRowCol(props.data);
+          const { rows, columns } = toRowCol(data);
           return renderTable(rows, columns);
         } catch (e) {
           return <pre>{e.stack}</pre>;
         }
       } else {
-        return <pre>{props.data}</pre>;
+        return <pre>{data}</pre>;
       }
     } else {
       return null;

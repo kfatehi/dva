@@ -25,17 +25,13 @@ export const TransformCellEditor = React.createClass({
       handleCancel
     } = this.props
 
-    let broken = false;
-
     function getDataPreview(parentId, funcValue) {
       try {
-        broken = false;
         return getData({
           parentOverride: parentId,
           funcOverride: funcValue
         });
       } catch (e) {
-        broken = true;
         return e.stack;
       }
     }
@@ -43,8 +39,10 @@ export const TransformCellEditor = React.createClass({
     let editorValue = func.value;
 
     let editorProps = {
-      onChange: function(value) {
+      onChange: value => {
         editorValue = value;
+        let data = getDataPreview(parentId.value, value);
+        this.refs.datatable.replaceState({ data });
       },
       value: func.value,
       options: {
@@ -54,8 +52,16 @@ export const TransformCellEditor = React.createClass({
       },
     }
 
+    function _handleSubmit(e) {
+      e.persist();
+      func.onChange(editorValue);
+      setTimeout(function() {
+        handleSubmit(e);
+      },0);
+    }
+
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={_handleSubmit}>
         <label>Data Source</label>
         <select {...parentId}>{otherCellsWithData.map(id =>
           <option key={id} value={id}>{getCellName(id)}</option>)}
@@ -63,10 +69,9 @@ export const TransformCellEditor = React.createClass({
         <label>Name</label>
         <input type="text" {...name} />
         <Codemirror {...editorProps} />
-        <Datatable data={getDataPreview(parentId.value, func.value)} />
-        <Button onClick={() => func.onChange(editorValue)}>Preview</Button>
+        <Datatable ref='datatable' data={getDataPreview(parentId.value, func.value)} />
         <ButtonGroup>
-          <Button bsStyle="success" disabled={broken} type="submit">Save</Button>
+          <Button bsStyle="success" type="submit">Save</Button>
           <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>
         </ButtonGroup>
       </form>
