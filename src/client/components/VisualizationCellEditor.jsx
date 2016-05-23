@@ -96,6 +96,7 @@ export const VisualizationCellEditor = React.createClass({
           </li>)}
         </ul>
 
+
         <h3>Visualization Extensions</h3>
         <ul>{getExtensions().map(ext =>
           <li key={ext.info.id}>
