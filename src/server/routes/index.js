@@ -5,6 +5,16 @@ const passport = require('passport');
 const ensureLogin = require('connect-ensure-login')
 const router = express.Router();
 const debug = require('debug')('dva:router')
+const commonmark = require('commonmark');
+const fs = require('fs');
+
+function markdownCompile(mdFilePath) {
+  var content = fs.readFileSync(mdFilePath).toString()
+  var reader = new commonmark.Parser();
+  var writer = new commonmark.HtmlRenderer();
+  var parsed = reader.parse(content);
+  return writer.render(parsed);
+}
 
 router.get('/', function(req, res) {
   if (req.user) {
@@ -15,7 +25,10 @@ router.get('/', function(req, res) {
 });
 
 router.get('/help', function(req, res) {
-  res.render('help', { user: req.user });
+  res.render('help', {
+    user: req.user,
+    userGuide: markdownCompile(`${__dirname}/../../../docs/user-guides/user-guide.md`)
+  });
 });
 
 router.get('/gallery', function(req, res) {
