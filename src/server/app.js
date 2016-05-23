@@ -141,6 +141,8 @@ io.on('connection', function(socket) {
     switch (action.type) {
       case 'LOAD_NOTEBOOK':
         return sendNotebook(socket, user, action.uuid);
+      case 'SAVE_NOTEBOOK':
+        return saveNotebook(socket, user, action.uuid);
     }
   })
 });
@@ -148,7 +150,7 @@ io.on('connection', function(socket) {
 function sendNotebook(socket, user, uuid) {
   try {
     var fs = require('fs');
-    const buf = fs.readFileSync(__dirname+'/../../var/notebooks/someid.json');
+    const buf = fs.readFileSync(__dirname+'/../../var/notebooks/'+uuid+'.json');
     const { cells, cellsById } = JSON.parse(buf.toString());
     const action = actionCreators.setNotebook(uuid, cells, cellsById);
     socket.emit('action', action);

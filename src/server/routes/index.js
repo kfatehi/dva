@@ -6,12 +6,24 @@ const ensureLogin = require('connect-ensure-login')
 const router = express.Router();
 const debug = require('debug')('dva:router')
 
-router.get('/', ensureLogin.ensureLoggedIn(), function(req, res) {
-  res.render('app');
+router.get('/', function(req, res) {
+  if (req.user) {
+    res.render('app', { user: req.user, layout: 'react' });
+  } else {
+    res.render('welcome', { user: req.user });
+  }
+});
+
+router.get('/help', function(req, res) {
+  res.render('help', { user: req.user });
+});
+
+router.get('/gallery', function(req, res) {
+  res.render('gallery', { user: req.user });
 });
 
 router.get('/register', function(req, res) {
-  res.render('register');
+  res.render('register', { user: req.user });
 });
 
 router.post('/register', function(req, res, next) {
@@ -30,7 +42,7 @@ router.post('/register', function(req, res, next) {
 });
 
 router.get('/login', function(req, res){
-  res.render('login');
+  res.render('login', { user: req.user });
 });
   
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {

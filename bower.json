@@ -1,0 +1,22 @@
+{
+  "name": "dva",
+  "description": "this is a stub",
+  "main": "index.js",
+  "authors": [
+    "Keyvan Fatehi <keyvanfatehi@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/kfatehi/dva",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/lib/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
