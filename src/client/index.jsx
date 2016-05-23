@@ -19,9 +19,9 @@ import 'codemirror/theme/tomorrow-night-bright.css';
 import 'font-awesome/less/font-awesome.less';
 import 'bootstrap/less/bootstrap.less';
 
-import demo from './demos/contrived-students';
+//import demo from './demos/contrived-students';
 //import demo from './demos/contrived-sankey';
-//import demo from './demos/titanic';
+import demo from './demos/titanic';
 
 const socket = io();
 
@@ -54,5 +54,5 @@ window.mountApplication = function(){
     document.getElementById('mount')
   )
 
-  // demo(store.dispatch)
+  //demo(store.dispatch)
 }
