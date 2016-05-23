@@ -7,7 +7,17 @@ import Codemirror from 'react-codemirror';
 import ReactMarkdown from 'react-markdown';
 import 'codemirror/mode/markdown/markdown';
 import { Button, Row, Col, ButtonGroup } from 'react-bootstrap';
-import debounce from 'debounce';
+import { hookHandler as hook } from '../editor-utils';
+
+const Markdown = React.createClass({
+  getInitialState: function() {
+    return { source: '' }
+  },
+  render: function() {
+    let source = this.state.source || this.props.source || '';
+    return <ReactMarkdown source={source}/>;
+  }
+})
 
 export const MarkdownCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -22,8 +32,13 @@ export const MarkdownCellEditor = React.createClass({
       handleCancel
     } = this.props
 
+    let cmVal = markdown.value;
+
     let editorProps = {
-      onChange: debounce(markdown.onChange, 200),
+      onChange: source => {
+        cmVal = source;
+        this.refs.preview.replaceState({ source });
+      },
       value: markdown.value,
       options: {
         lineNumbers: true,
@@ -33,7 +48,7 @@ export const MarkdownCellEditor = React.createClass({
     }
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={hook(handleSubmit,()=>markdown.onChange(cmVal))}>
         <Row>
           <Col sm={6}>
             <Codemirror {...editorProps} />
@@ -43,7 +58,7 @@ export const MarkdownCellEditor = React.createClass({
             </ButtonGroup>
           </Col>
           <Col sm={6}>
-            <ReactMarkdown source={markdown.value}/>
+            <Markdown ref="preview" source={markdown.value}/>
           </Col>
         </Row>
       </form>
