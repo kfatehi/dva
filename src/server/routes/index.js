@@ -52,7 +52,9 @@ router.post('/register', function(req, res, next) {
       res.redirect('/');
     }
   }
-  if (req.body.password === req.body.password_confirm) {
+  if (req.body.password.length < 3) {
+    handleError(new Error("Password does not match confirmation"));
+  } else if (req.body.password === req.body.password_confirm) {
     models.User.createWithPassword(req.body.password, {
       email: req.body.email
     }).then(function(user) {
