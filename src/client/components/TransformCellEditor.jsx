@@ -25,22 +25,22 @@ export const TransformCellEditor = React.createClass({
       handleCancel
     } = this.props
 
-    function getDataPreview(parentId, funcValue) {
+    function getDataPreview(parentId, cmValue) {
       try {
         return getData({
           parentOverride: parentId,
-          funcOverride: funcValue
+          funcOverride: cmValue
         });
       } catch (e) {
         return e.stack;
       }
     }
 
-    let funcVal = func.value;
+    let cmVal = func.value;
 
     let editorProps = {
       onChange: value => {
-        funcVal = value;
+        cmVal = value;
         let data = getDataPreview(parentId.value, value);
         this.refs.datatable.replaceState({ data });
       },
@@ -53,7 +53,7 @@ export const TransformCellEditor = React.createClass({
     }
 
     return (
-      <form onSubmit={hook(handleSubmit,()=>func.onChange(funcVal))}>
+      <form onSubmit={hook(handleSubmit,()=>func.onChange(cmVal))}>
         <label>Data Source</label>
         <select {...parentId}>{otherCellsWithData.map(id =>
           <option key={id} value={id}>{getCellName(id)}</option>)}
