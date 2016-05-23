@@ -101,7 +101,7 @@ export const VisualizationCellEditor = React.createClass({
           <li key={ext.info.id}>
             <button onClick={(e) => this.setVisExt(e, ext.info.id)}
               className={visExtId.value === ext.info.id ? 'vis-selected' : null}>
-              {ext.info.id}
+              {ext.info.description}
             </button>
           </li>)}
         </ul>
