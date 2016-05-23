@@ -6,7 +6,7 @@ import * as actionCreators from '../action-creators';
 import Codemirror from 'react-codemirror';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { Datatable } from './Datatable';
-import debounce from 'debounce';
+import { hookHandler as hook } from '../editor-utils';
 
 export const DataCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -24,20 +24,22 @@ export const DataCellEditor = React.createClass({
       handleCancel
     } = this.props
 
-    let broken = false;
-
     function getDataPreview(data, parser) {
       try {
-        broken = false;
         return getData({ data, parser });
       } catch (e) {
-        broken = true;
         return e.stack;
       }
     }
 
+    let cmVal = data.value;
+
     let editorProps = {
-      onChange: debounce(data.onChange, 200),
+      onChange: value => {
+        cmVal = value;
+        let data = getDataPreview(value, parser.value);
+        this.refs.datatable.replaceState({ data });
+      },
       value: data.value,
       options: { theme: 'tomorrow-night-bright' }
     }
@@ -49,7 +51,7 @@ export const DataCellEditor = React.createClass({
     }]
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={hook(handleSubmit,()=>data.onChange(cmVal))}>
         <label>Content Type</label>
         <select {...parser}>{parserOptions.map(ct =>
           <option key={ct.id} value={ct.id}>{ct.id}</option>)}
@@ -57,9 +59,9 @@ export const DataCellEditor = React.createClass({
         <label>Name</label>
         <input type="text" {...name} />
         <Codemirror {...editorProps} />
-        <Datatable data={getDataPreview(data.value, parser.value)} />
+        <Datatable ref='datatable' data={getDataPreview(data.value, parser.value)} />
         <ButtonGroup>
-          <Button bsStyle="success" disabled={broken} type="submit">Save</Button>
+          <Button bsStyle="success" type="submit">Save</Button>
           <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>
         </ButtonGroup>
       </form>
