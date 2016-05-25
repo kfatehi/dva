@@ -1,5 +1,6 @@
 'use strict';
 const passUtil = require('../password-utils');
+var Promise = require('bluebird');
 
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
@@ -30,9 +31,6 @@ module.exports = function(sequelize, DataTypes) {
         let user = this;
         let ppw = user.password;
         return passUtil.compare(pw, ppw).then(() => user)
-      },
-      getNotebooks: function() {
-        console.log(this);
       }
     }
   });

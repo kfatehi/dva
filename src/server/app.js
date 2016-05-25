@@ -127,20 +127,27 @@ io.on('connection', function(socket) {
   const user = socket.request.user;
   debug(`${user.email} connected`);
 
-  let notebooks = [{
-    uuid: '44a8b08b-dfd1-4a8e-aca0-7792add06e47',
-    name: 'The Titanic Story',
-  },{
-    uuid: 'cdc2c9a0-4fc5-452d-99b3-d57c8618c4e8',
-    name: 'Student Grades'
-  }]
-
-
-  socket.emit('action', actionCreators.setNotebooks(notebooks));
-
-  user.getNotebooks().then(function(notebooks) {
-    console.log('NOTEBOOKS', notebooks);
+  models.Notebook.findAll({
+    attributes: ['uuid', 'name'],
+    where: {
+      $or: [{
+        isPublic: true
+      },{
+        ownerId: user.id
+      }]
+    }
+  }).then(function(notebooks) {
+    socket.emit('action', actionCreators.setNotebooks(notebooks));
   })
+
+  /*
+*
+  user.getNotebooks().then(function(userNotebooks) {
+    if (notebooks) {
+      socket.emit('action', actionCreators.setNotebooks(notebooks));
+    }
+  })
+  */
 
   socket.on('action', function(action) {
     switch (action.type) {
@@ -153,13 +160,14 @@ io.on('connection', function(socket) {
 });
 
 function sendNotebook(socket, user, uuid) {
-  try {
-    var fs = require('fs');
-    const buf = fs.readFileSync(__dirname+'/../../var/notebooks/'+uuid+'.json');
-    const { cells, cellsById } = JSON.parse(buf.toString());
+  models.Notebook.findOne({
+    attributes: ['jsonData'],
+    where: { uuid }
+  }).then(function(notebook) {
+    const {cells, cellsById} = JSON.parse(notebook.jsonData);
     const action = actionCreators.setNotebook(uuid, cells, cellsById);
     socket.emit('action', action);
-  } catch (e) {
+  }).catch(function(e) {
     error(e.message);
-  }
+  })
 }

@@ -6,7 +6,9 @@
   "scripts": {
     "es5:compile": "bash bin/compile-es5.sh",
     "db:migrate": "sequelize db:migrate",
-    "start": "npm run db:migrate && DEBUG=dva:* babel-node bin/www",
+    "db:seed": "sequelize db:seed:all",
+    "db:seed:undo": "sequelize db:seed:undo:all",
+    "start": "npm run db:migrate && npm run db:seed && DEBUG=dva:* babel-node bin/www",
     "test": "mocha --compilers js:babel-core/register --require ./test/test-helper.js \"test/**/*@(.js|.jsx)\"",
     "test:watch": "mocha -w --compilers js:babel-core/register --require ./test/test-helper.js \"test/**/*@(.js|.jsx)\"",
     "dev": "tmuxtdd run --watch={bin/www,src/server/**/*.js} --kill --cmd='DEBUG=dva:* babel-node bin/www' --fmt='server S{#[bg=green]ON,#[bg=red]OFF,#[bg=red]ERR}'",

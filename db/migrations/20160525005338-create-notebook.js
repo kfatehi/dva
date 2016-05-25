@@ -2,11 +2,13 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('Notebooks', {
-      id: {
+      uuid: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
+      },
+      isPublic: {
+        type: Sequelize.BOOLEAN
       },
       ownerId: {
         type: Sequelize.INTEGER
