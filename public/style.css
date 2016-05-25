@@ -8,6 +8,7 @@ nav > div { /* the navbar color */
 
 nav a.navbar-brand {
   color: #7D2BB7 !important;
+  font-size: 1.8em;
 }
 
 table {
