@@ -129,25 +129,10 @@ io.on('connection', function(socket) {
 
   models.Notebook.findAll({
     attributes: ['uuid', 'name'],
-    where: {
-      $or: [{
-        isPublic: true
-      },{
-        ownerId: user.id
-      }]
-    }
+    where: { $or: [{ isPublic: true },{ ownerId: user.id }] }
   }).then(function(notebooks) {
     socket.emit('action', actionCreators.setNotebooks(notebooks));
   })
-
-  /*
-*
-  user.getNotebooks().then(function(userNotebooks) {
-    if (notebooks) {
-      socket.emit('action', actionCreators.setNotebooks(notebooks));
-    }
-  })
-  */
 
   socket.on('action', function(action) {
     switch (action.type) {
