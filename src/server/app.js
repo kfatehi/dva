@@ -135,7 +135,12 @@ io.on('connection', function(socket) {
     name: 'Student Grades'
   }]
 
+
   socket.emit('action', actionCreators.setNotebooks(notebooks));
+
+  user.getNotebooks().then(function(notebooks) {
+    console.log('NOTEBOOKS', notebooks);
+  })
 
   socket.on('action', function(action) {
     switch (action.type) {

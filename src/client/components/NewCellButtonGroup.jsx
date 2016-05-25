@@ -12,7 +12,7 @@ export const NewCellButtonGroup = React.createClass({
       cellPosition,
     } = this.props;
     const newCellActions = [{
-      label: 'Append Data',
+      label: 'Add Data',
       icon: 'database',
       handleClick: () => {
         editCell(appendCell('DATA', {
@@ -23,7 +23,7 @@ export const NewCellButtonGroup = React.createClass({
         }).uuid)
       }
     },{
-      label: 'Append Transformation',
+      label: 'Add Transformation',
       icon: 'file-code-o',
       handleClick: () => {
         editCell(appendCell('TRANSFORM', {
@@ -32,7 +32,7 @@ export const NewCellButtonGroup = React.createClass({
         }).uuid)
       }
     },{
-      label: 'Append Markdown',
+      label: 'Add Text',
       icon: 'file-text-o',
       handleClick: () => {
         editCell(appendCell('MARKDOWN', {
@@ -41,7 +41,7 @@ export const NewCellButtonGroup = React.createClass({
         }).uuid)
       }
     },{
-      label: 'Append Visualization',
+      label: 'Add Visualization',
       icon: 'bar-chart',
       handleClick: () => {
         editCell(appendCell('VISUALIZATION', {

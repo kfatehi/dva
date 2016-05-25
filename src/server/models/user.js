@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
         });
       },
       associate: function(models) {
-        User.hasMany(models.Dataset, {
+        User.hasMany(models.Notebook, {
           foreignKey: 'ownerId'
         })
       }
@@ -31,6 +31,9 @@ module.exports = function(sequelize, DataTypes) {
         let ppw = user.password;
         return passUtil.compare(pw, ppw).then(() => user)
       },
+      getNotebooks: function() {
+        console.log(this);
+      }
     }
   });
   return User;

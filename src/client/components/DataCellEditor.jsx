@@ -4,9 +4,13 @@ import { reduxForm } from 'redux-form';
 import { fromJS } from 'immutable';
 import * as actionCreators from '../action-creators';
 import Codemirror from 'react-codemirror';
-import { Button, ButtonGroup } from 'react-bootstrap';
 import { Datatable } from './Datatable';
 import { hookHandler as hook } from '../editor-utils';
+import {
+  Button, ButtonGroup,
+  FormGroup, FormControl,
+  ControlLabel, Col
+} from 'react-bootstrap';
 
 export const DataCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -57,20 +61,46 @@ export const DataCellEditor = React.createClass({
       id: 'csv',
     }]
 
+    let saveButtonStyle = {
+      marginRight:'10px',
+      fontWeight: 'bold'
+    }
+
+    let cancelButtonStyle = {
+      fontWeight: 'bold'
+    }
+
     return (
-      <form onSubmit={hook(handleSubmit,()=>data.onChange(cmVal))}>
-        <label>Content Type</label>
-        <select {...parser}>{parserOptions.map(ct =>
-          <option key={ct.id} value={ct.id}>{ct.id}</option>)}
-        </select>
-        <label>Name</label>
-        <input type="text" {...name} />
+      <form className="form-horizontal" onSubmit={hook(handleSubmit,()=>data.onChange(cmVal))}>
+
+        <FormGroup>
+          <Col xs={2}>
+            <ControlLabel>Data Name</ControlLabel>
+          </Col>
+          <Col xs={10}>
+            <input className="form-control" type="text" {...name} />
+          </Col>
+        </FormGroup>
+
+        <FormGroup>
+          <Col xs={2}>
+            <ControlLabel>Content Type</ControlLabel>
+          </Col>
+          <Col xs={10} >
+            <select className="form-control" type="select"
+             {...parser}>{parserOptions.map(ct =>
+              <option key={ct.id} value={ct.id}>{ct.id}</option>)}
+            </select>
+          </Col>
+        </FormGroup>
+
         <Codemirror {...editorProps} />
         <Datatable ref='preview' data={getDataPreview(data.value, parser.value)} />
-        <ButtonGroup>
-          <Button bsStyle="success" type="submit">Save</Button>
-          <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>
-        </ButtonGroup>
+
+        <div className="pull-right">
+          <Button style={saveButtonStyle} type="submit">Save</Button>
+          <Button style={cancelButtonStyle} onClick={handleCancel}>Cancel</Button>
+        </div>
       </form>
     );
   }
