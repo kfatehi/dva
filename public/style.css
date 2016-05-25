@@ -1,3 +1,23 @@
+body {
+  background-color: #d9edf7 !important;
+}
+
+nav > div { /* the navbar color */
+  background-color: #E0E0E8;
+}
+
+nav a.navbar-brand {
+  color: #7D2BB7 !important;
+}
+
+table {
+  background-color: #EFEFEF !important;
+}
+
+table, th, td {
+  border: 1px solid black !important;
+}
+
 .my-account {
   background-color:#E7CCFF;
   min-height: 20px;
