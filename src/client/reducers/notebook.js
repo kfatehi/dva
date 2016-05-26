@@ -1,6 +1,18 @@
 import { Map, List, fromJS } from 'immutable';
 
 export function notebook(state = Map(), action) {
+  function editNotebook(state, uuid) {
+    return state.update('editingNotebook', () => true);
+  }
+
+  function updateNotebook(state, params) {
+    return state.merge(params).remove('editingNotebook');
+  }
+
+  function cancelEditNotebook(state) {
+    return state.remove('editingNotebook');
+  }
+
   function createCell(action) {
     function createDataCell(action) {
       const { name, parser, data } = action;
@@ -116,6 +128,12 @@ export function notebook(state = Map(), action) {
   }
 
   switch (action.type) {
+    case 'EDIT_NOTEBOOK':
+      return editNotebook(state);
+    case 'UPDATE_NOTEBOOK':
+      return updateNotebook(state, action.params);
+    case 'CANCEL_EDIT_NOTEBOOK':
+      return cancelEditNotebook(state);
     case 'APPEND_CELL':
       return appendCell(state, action.uuid, action);
     case 'EDIT_CELL':

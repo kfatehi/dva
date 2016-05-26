@@ -15,6 +15,25 @@ export function appendCell(cellType, props) {
   }, props);
 }
 
+export function editNotebook() {
+  return {
+    type: "EDIT_NOTEBOOK",
+  }
+}
+
+export function updateNotebook(params) {
+  return {
+    type: "UPDATE_NOTEBOOK",
+    params
+  }
+}
+
+export function cancelEditNotebook() {
+  return {
+    type: "CANCEL_EDIT_NOTEBOOK"
+  };
+}
+
 export function editCell(cellId) {
   return {
     type: "EDIT_CELL",

@@ -5,19 +5,30 @@ import * as actionCreators from '../action-creators';
 import { List, Map, fromJS } from 'immutable';
 
 import { Grid, Row, Col, Button } from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
 
 export const NotebookHeader = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
     const {
       name,
-      isPublic
+      isPublic,
+      edit,
+      editNotebook,
+      updateNotebook,
     } = this.props;
+
+    let makePrivate = () => updateNotebook({ isPublic: false });
+    let makePublic = () => updateNotebook({ isPublic: true });
     return (
       <Row>
         <Col xs={12}>
           <p>Name: {name}</p>
-          <p>{isPublic ? 'Public' : 'Private'} Notebook</p>
+          {isPublic ?
+            <Button title="Edit" onClick={makePrivate}><FontAwesome name='lock'/></Button>
+            :
+          <Button title="Edit" onClick={makePublic}><FontAwesome name='unlock'/></Button>
+          }
         </Col>
       </Row>
     );
