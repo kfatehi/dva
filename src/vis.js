@@ -16,7 +16,8 @@ export function genVizConfig(columns, rows, bucketMapping) {
   return Map({
     height: 500,
     width: 500,
-    data: fromJS(applyBucketMapping(zippedRows, bucketMapping.toJS()))
+    bucketMapping,
+    data: fromJS(applyBucketMapping(zippedRows, bucketMapping.toJS())),
   })
 }
 

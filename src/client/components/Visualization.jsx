@@ -14,11 +14,11 @@ export const Visualization = React.createClass({
     try {
       const data = getData();
       const { rows, columns } = toRowCol(getData())
-      const config = genVisConfigFromJSON(visConfigJSON, rows, columns);
+      const config = genVisConfigFromJSON(visConfigJSON, rows, columns).toJS();
       const container = ReactFauxDOM.createElement('svg');
       const { render, style } = getModule(visExtId);
       style.use()
-      render(container, config.toJS())
+      render(container, config)
       return <div className="visualization">
         {container.toReact()}
       </div>
