@@ -1,8 +1,0 @@
-This extension is currently broken. This is the method by which we want our sankey visualizations to read in data.
-
-i.e. 
-source, target, value
-#	#	#
-
-
-
