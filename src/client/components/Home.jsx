@@ -7,7 +7,7 @@ import { List, Map, fromJS } from 'immutable';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import { Link } from 'react-router';
-import './Home.css';
+import './Home.less';
 
 import FontAwesome from 'react-fontawesome';  
 

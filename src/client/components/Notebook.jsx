@@ -9,8 +9,9 @@ import { TransformCell } from './TransformCell';
 import { VisualizationCell } from './VisualizationCell';
 import { MarkdownCell } from './MarkdownCell';
 import { NewCellButtonGroup } from './NewCellButtonGroup';
+import { NotebookHeaderContainer } from './NotebookHeader';
 
-import { Grid, Row } from 'react-bootstrap';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
 
 import './Notebook.less';
 
@@ -27,10 +28,13 @@ export const Notebook = React.createClass({
     const {
       cells,
       cellsById,
+      cellType,
       isLoading
     } = this.props;
+    const header = <NotebookHeaderContainer />;
     const renderCell = (id) => {
-      switch (cellsById.getIn([id, 'cellType'])) {
+      const cellType = cellsById.getIn([id, 'cellType'])
+      switch (cellType) {
         case 'DATA':
           return <DataCell cellId={id} />
         case 'TRANSFORM':
@@ -40,17 +44,20 @@ export const Notebook = React.createClass({
         case 'MARKDOWN':
           return <MarkdownCell cellId={id} />
         default:
-          return <div>{id}</div>;
+          return <div>Unimplemented Cell Type {}</div>;
       }
     }
     if (isLoading) {
-      return <div> loading </div>
+      return <div>Loading...</div>
     } else {
       if (cells.size === 0) {
-        return <NewCellButtonGroup cellPosition={-1} {...this.props} />
+        return <div>
+          {header}
+          <NewCellButtonGroup cellPosition={-1} {...this.props} />
+        </div>;
       } else {
         return (
-          <Grid className="notebook">{ cells.map(id =>
+          <Grid className="notebook">{header}{ cells.map(id =>
             <Row className="cell" key={id}>
               {renderCell(id)}
             </Row>)}
@@ -64,11 +71,15 @@ export const Notebook = React.createClass({
 function mapStateToProps(state, props) {
   const id = props.params.id;
   const isNew = props.params.id === 'new';
-  const loadedId = state.getIn(['notebook', 'uuid']);
+  const notebook = state.get('notebook');
+  const loadedId = notebook.get('uuid');
+  const isLoading = isNew ? false : id !== loadedId;
+  const cells = notebook.get('cells', List());
+  const cellsById = notebook.get('cellsById', Map());
   return {
-    isLoading: isNew ? false : id !== loadedId,
-    cells: state.getIn(['notebook', 'cells']) || List(),
-    cellsById: state.getIn(['notebook', 'cellsById']) || Map()
+    isLoading,
+    cells,
+    cellsById,
   };
 }
 
@@ -76,5 +87,3 @@ export const NotebookContainer = connect(
   mapStateToProps,
   actionCreators
 )(Notebook);
-
-// JSON.stringify($r.props.store.getState().get('notebook').toJS(), null, 2)
