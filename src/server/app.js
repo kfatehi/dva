@@ -146,11 +146,17 @@ io.on('connection', function(socket) {
 
 function sendNotebook(socket, user, uuid) {
   models.Notebook.findOne({
-    attributes: ['jsonData'],
+    attributes: ['jsonData', 'name', 'uuid', 'isPublic'],
     where: { uuid }
-  }).then(function(notebook) {
-    const {cells, cellsById} = JSON.parse(notebook.jsonData);
-    const action = actionCreators.setNotebook(uuid, cells, cellsById);
+  }).then(function(record) {
+    const { cells, cellsById } = JSON.parse(record.jsonData);
+    const action = actionCreators.setNotebook({
+      uuid: record.uuid,
+      name: record.name,
+      isPublic: record.isPublic,
+      cells,
+      cellsById,
+    });
     socket.emit('action', action);
   }).catch(function(e) {
     error(e.message);

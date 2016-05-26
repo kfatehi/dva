@@ -11,9 +11,9 @@ export function setNotebooks(notebooks) {
 }
 
 
-export function setNotebook(uuid, cells, cellsById) {
+export function setNotebook(notebook) {
   return {
     type: 'SET_NOTEBOOK',
-    uuid, cells, cellsById
+    notebook
   }
 }

@@ -29,6 +29,7 @@ export const Notebook = React.createClass({
       cells,
       cellsById,
       cellType,
+      isEditing,
       isLoading
     } = this.props;
     const header = <NotebookHeaderContainer />;
@@ -53,11 +54,15 @@ export const Notebook = React.createClass({
       if (cells.size === 0) {
         return <div>
           {header}
-          <NewCellButtonGroup cellPosition={-1} {...this.props} />
+          { isEditing ? null : 
+            <NewCellButtonGroup cellPosition={-1} {...this.props} />
+            }
         </div>;
       } else {
         return (
-          <Grid className="notebook">{header}{ cells.map(id =>
+          <Grid className="notebook">
+            {header}
+            { isEditing ? null : cells.map(id =>
             <Row className="cell" key={id}>
               {renderCell(id)}
             </Row>)}
@@ -76,7 +81,9 @@ function mapStateToProps(state, props) {
   const isLoading = isNew ? false : id !== loadedId;
   const cells = notebook.get('cells', List());
   const cellsById = notebook.get('cellsById', Map());
+  const isEditing = notebook.get('editingNotebook');
   return {
+    isEditing,
     isLoading,
     cells,
     cellsById,

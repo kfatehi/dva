@@ -13,35 +13,49 @@ export const NotebookHeader = React.createClass({
     const {
       name,
       isPublic,
-      edit,
+      isEditing,
       editNotebook,
       updateNotebook,
     } = this.props;
 
     let makePrivate = () => updateNotebook({ isPublic: false });
     let makePublic = () => updateNotebook({ isPublic: true });
-    return (
-      <Row>
-        <Col xs={12}>
-          <p>Name: {name}</p>
-          {isPublic ?
-            <Button title="Edit" onClick={makePrivate}><FontAwesome name='lock'/></Button>
-            :
-          <Button title="Edit" onClick={makePublic}><FontAwesome name='unlock'/></Button>
-          }
-        </Col>
-      </Row>
-    );
+    if (isEditing) {
+      return (
+        <Row>
+          <Col xs={12}>
+            <p>Name: {name}</p>
+            {isPublic ?
+              <Button title="Edit" onClick={makePrivate}><FontAwesome name='eye-slash'/> Make private</Button>
+              :
+            <Button title="Edit" onClick={makePublic}><FontAwesome name='eye'/> Make public</Button>
+            }
+          </Col>
+        </Row>
+      );
+    } else {
+      return (
+        <Row>
+          <Col xs={12}>
+            <p>Name: {name}</p>
+            <span><FontAwesome name={isPublic ? 'eye' : 'eye-slash'}/> {isPublic ? 'Public' : 'Private'}</span>
+          </Col>
+        </Row>
+      );
+    }
   }
 })
 
 function mapStateToProps(state, props) {
   const notebook = state.get('notebook');
   const name = notebook.get('name', 'Untitled');
+  console.log(notebook.toJS());
   const isPublic = notebook.get('isPublic', false);
+  const isEditing = notebook.get('editingNotebook');
   return {
     name,
-    isPublic
+    isPublic,
+    isEditing
   };
 }
 

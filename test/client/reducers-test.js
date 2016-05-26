@@ -223,7 +223,9 @@ describe("notebook reducer", () => {
       let uuid = 'a';
       let cells = ['b'];
       let cellsById = {'b': 'foo'}
-      let action = serverActionCreators.setNotebook(uuid, cells, cellsById);
+      let action = serverActionCreators.setNotebook({
+        uuid, cells, cellsById
+      });
       let nextState = reducers.notebook(undefined, action);
       expect(nextState).to.equal(fromJS({
         uuid, cells, cellsById
