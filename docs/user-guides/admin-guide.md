@@ -4,6 +4,7 @@ This document will walk you through installation of the application on the follo
 
 * Amazon Linux (EC2)
 * Ubuntu (tested on 14.04)
+* Apple OSX (instructions TBD)
 
 *Don't use this guide if you're trying to develop. For that, see the README in project root.*
 
