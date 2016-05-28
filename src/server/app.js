@@ -15,6 +15,7 @@ const io = require('socket.io').listen(server);
 import * as extensions from '../extensions';
 import * as actionCreators from './action-creators';
 import { notebook as notebookReducer } from '../client/reducers/notebook';
+import { fromJS } from 'immutable';
 
 module.exports.app = app
 module.exports.server = server;
@@ -192,7 +193,6 @@ function createNewNotebook(socket, user) {
 
 function changeNotebookAttributes(action, callback) {
   if (action.meta && action.meta.uuid) {
-    debug('ehh?' ,action);
     const { params, meta: { uuid } } = action;
     models.Notebook.update(params, {
       where: { uuid }
@@ -207,6 +207,24 @@ function changeNotebookAttributes(action, callback) {
 
 function changeNotebookJSON(action) {
   if (action.meta && action.meta.uuid) {
-  //  const nextState = notebookReducer(state, action);
+    const { meta: { uuid } } = action;
+    debug('finding notebook data');
+    return models.Notebook.findOne({
+      attributes: ['jsonData'],
+      where: { uuid }
+    }).then(function(record) {
+      const state = fromJS(JSON.parse(record.jsonData));
+      const nextState = notebookReducer(state, action);
+      debug('applied action to notebook data');
+      models.Notebook.update({
+        jsonData: JSON.stringify(nextState.toJS())
+      },{
+        where: { uuid }
+      }).then(function(record) {
+        debug('persisted json data', uuid);
+      })
+    }).catch(function(e) {
+      error(e.message);
+    })
   }
 }
