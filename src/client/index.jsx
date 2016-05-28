@@ -17,7 +17,6 @@ import { fromJS } from 'immutable';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/tomorrow-night-bright.css';
 import 'font-awesome/less/font-awesome.less';
-import 'bootstrap/less/bootstrap.less';
 
 //import demo from './demos/contrived-students';
 //import demo from './demos/contrived-sankey';
@@ -33,12 +32,18 @@ const reducer = combineReducers({
   form: (state = fromJS({}), action) => fromJS(formReducer(state.toJS(), action)),
   notebook: reducers.notebook,
   home: reducers.home,
+  nav: reducers.nav
 });
 
 const store = createStoreWithMiddleware(reducer);
 
 socket.on('action', action => {
   store.dispatch(action);
+});
+
+socket.on('navigateTo', function(path) {
+  console.log('navigate to', path);
+  hashHistory.push(path)
 });
 
 window.mountApplication = function(){

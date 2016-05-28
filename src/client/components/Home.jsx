@@ -14,13 +14,13 @@ import FontAwesome from 'react-fontawesome';
 export const Home = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    const { notebooks } = this.props;
+    const { notebooks, createNewNotebook } = this.props;
     const colProps = { xs: 12, sm: 4};
     return (
       <div className="notebook-list">
       <h1>My Notebooks</h1>
         <Row>{ notebooks.map(nb =>
-          <Col {...colProps} className="col_center" key={nb.get('uuid')}>
+          <Col {...colProps} key={nb.get('uuid')}>
             <div className="icon_container">  
               <Link
                   to={`/notebook/${nb.get('uuid')}`}>
@@ -31,12 +31,11 @@ export const Home = React.createClass({
               </Link>
             </div>
           </Col>)}
-          <Col {...colProps} className="center-block col_center"> 
-         <div className="icon_container">  
-          <Link to={`/notebook/new`}> 
-            <FontAwesome className="new_icon" name="plus-square"  /> <br/> 
-            <span className="notebook_name">Create New Notebook</span></Link>
-        </div>
+          <Col {...colProps}>
+            <div className="icon_container" style={{cursor:'pointer'}} onClick={createNewNotebook}>
+              <FontAwesome className="new_icon" name="plus-square"  /> <br/> 
+              <span className="notebook_name">Create New Notebook</span>
+            </div>
           </Col>
         </Row>
       </div>

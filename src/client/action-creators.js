@@ -96,3 +96,10 @@ export function unsetNotebook() {
     type: 'UNSET_NOTEBOOK'
   }
 }
+
+export function createNewNotebook() {
+  return {
+    meta: { remote: true },
+    type: 'CREATE_NEW_NOTEBOOK'
+  }
+}
