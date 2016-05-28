@@ -8,6 +8,7 @@ import 'codemirror/mode/javascript/javascript';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { Datatable } from './Datatable';
 import { hookHandler as hook } from '../editor-utils';
+import debounce from 'debounce';
 
 export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -38,17 +39,17 @@ export const TransformCellEditor = React.createClass({
 
     let cmVal = func.value;
 
+    let updatePreview = () => {
+      let data = getDataPreview(parentId.value, cmVal);
+      this.refs.preview.replaceState({ data });
+    }
+
+    let debouncedUpdatePreview = debounce(updatePreview, 400);
+
     let editorProps = {
       onChange: value => {
         cmVal = value;
-        let data = getDataPreview(parentId.value, value);
-        this.refs.preview.replaceState({ data });
-      },
-      onFocusChange: (focused) => {
-        func.onChange(cmVal);
-        this.refs.preview.replaceState({ 
-          data: getDataPreview(parentId.value, cmVal)
-        });
+        debouncedUpdatePreview();
       },
       value: func.value,
       options: {

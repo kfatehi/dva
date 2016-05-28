@@ -8,6 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import 'codemirror/mode/markdown/markdown';
 import { Button, Row, Col, ButtonGroup } from 'react-bootstrap';
 import { hookHandler as hook } from '../editor-utils';
+import debounce from 'debounce';
 
 const Markdown = React.createClass({
   getInitialState: function() {
@@ -34,16 +35,16 @@ export const MarkdownCellEditor = React.createClass({
 
     let cmVal = markdown.value;
 
+    let updatePreview = () => {
+      this.refs.preview.replaceState({ source: cmVal });
+    }
+
+    let debouncedUpdatePreview = debounce(updatePreview, 200);
+
     let editorProps = {
       onChange: source => {
         cmVal = source;
-        this.refs.preview.replaceState({ source });
-      },
-      onFocusChange: (focused) => {
-        markdown.onChange(cmVal);
-        this.refs.preview.replaceState({ 
-          source: cmVal
-        });
+        debouncedUpdatePreview();
       },
       value: markdown.value,
       options: {

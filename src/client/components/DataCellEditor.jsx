@@ -11,6 +11,7 @@ import {
   FormGroup, FormControl,
   ControlLabel, Col
 } from 'react-bootstrap';
+import debounce from 'debounce';
 
 export const DataCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -38,18 +39,22 @@ export const DataCellEditor = React.createClass({
 
     let cmVal = data.value;
 
+    let updatePreview = () => {
+      this.refs.preview.replaceState({ 
+        data: getDataPreview(cmVal, parser.value)
+      });
+    }
+
+    let debouncedUpdatePreview = debounce(updatePreview, 400);
+
     let editorProps = {
       onChange: value => {
         cmVal = value;
-        this.refs.preview.replaceState({ 
-          data: getDataPreview(cmVal, parser.value)
-        });
+        debouncedUpdatePreview();
       },
       onFocusChange: (focused) => {
         data.onChange(cmVal);
-        this.refs.preview.replaceState({ 
-          data: getDataPreview(cmVal, parser.value)
-        });
+        updatePreview()
       },
       value: data.value,
       options: { theme: 'tomorrow-night-bright' }
