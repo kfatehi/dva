@@ -137,10 +137,10 @@ io.on('connection', function(socket) {
       case 'CREATE_NEW_NOTEBOOK':
         return createNewNotebook(socket, user);
       case 'UPDATE_NOTEBOOK': {
-        return changeNotebookAttributes(action, () => sendNotebooks(socket, user));
+        return changeNotebookAttributes(user, action, () => sendNotebooks(socket, user));
       }
       default: {
-        return changeNotebookJSON(action);
+        return changeNotebookJSON(user, action);
       }
     }
   })
@@ -191,11 +191,11 @@ function createNewNotebook(socket, user) {
   })
 }
 
-function changeNotebookAttributes(action, callback) {
+function changeNotebookAttributes(user, action, callback) {
   if (action.meta && action.meta.uuid) {
     const { params, meta: { uuid } } = action;
     models.Notebook.update(params, {
-      where: { uuid }
+      where: { uuid, ownerId: user.id }
     }).then(function() {
       debug('persisted', uuid, params);
       callback()
@@ -205,13 +205,13 @@ function changeNotebookAttributes(action, callback) {
   }
 }
 
-function changeNotebookJSON(action) {
+function changeNotebookJSON(user, action) {
   if (action.meta && action.meta.uuid) {
     const { meta: { uuid } } = action;
     debug('finding notebook data');
     return models.Notebook.findOne({
       attributes: ['jsonData'],
-      where: { uuid }
+      where: { uuid, ownerId: user.id }
     }).then(function(record) {
       const state = fromJS(JSON.parse(record.jsonData));
       const nextState = notebookReducer(state, action);
