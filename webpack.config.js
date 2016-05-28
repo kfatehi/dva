@@ -27,8 +27,6 @@ module.exports = {
       'debounce',
       'babel-standalone',
       'font-awesome/less/font-awesome.less',
-      'bootstrap/less/bootstrap.less',
-      'codemirror/lib/codemirror.css',
       'codemirror/mode/markdown/markdown',
       'codemirror/mode/javascript/javascript',
     ]
