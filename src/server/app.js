@@ -127,22 +127,28 @@ io.on('connection', function(socket) {
   const user = socket.request.user;
   debug(`${user.email} connected`);
 
-  models.Notebook.findAll({
-    attributes: ['uuid', 'name'],
-    where: { $or: [{ isPublic: true },{ ownerId: user.id }] }
-  }).then(function(notebooks) {
-    socket.emit('action', actionCreators.setNotebooks(notebooks));
-  })
-
   socket.on('action', function(action) {
     switch (action.type) {
       case 'LOAD_NOTEBOOK':
         return sendNotebook(socket, user, action.uuid);
       case 'SAVE_NOTEBOOK':
         return saveNotebook(socket, user, action.uuid);
+      case 'CREATE_NEW_NOTEBOOK':
+        return createNewNotebook(socket, user);
     }
   })
+
+  sendNotebooks(socket, user);
 });
+
+function sendNotebooks(socket, user) {
+  models.Notebook.findAll({
+    attributes: ['uuid', 'name'],
+    where: { $or: [{ isPublic: true },{ ownerId: user.id }] }
+  }).then(function(notebooks) {
+    socket.emit('action', actionCreators.setNotebooks(notebooks));
+  })
+}
 
 function sendNotebook(socket, user, uuid) {
   models.Notebook.findOne({
@@ -158,6 +164,20 @@ function sendNotebook(socket, user, uuid) {
       cellsById,
     });
     socket.emit('action', action);
+  }).catch(function(e) {
+    error(e.message);
+  })
+}
+
+function createNewNotebook(socket, user) {
+  models.Notebook.create({
+    jsonData: '{}',
+    name: 'Untitled',
+    isPublic: false,
+    ownerId: user.id,
+  }).then(function(record) {
+    sendNotebooks(socket, user);
+    socket.emit('navigateTo', `/notebook/${record.uuid}`);
   }).catch(function(e) {
     error(e.message);
   })

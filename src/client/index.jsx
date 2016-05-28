@@ -32,12 +32,18 @@ const reducer = combineReducers({
   form: (state = fromJS({}), action) => fromJS(formReducer(state.toJS(), action)),
   notebook: reducers.notebook,
   home: reducers.home,
+  nav: reducers.nav
 });
 
 const store = createStoreWithMiddleware(reducer);
 
 socket.on('action', action => {
   store.dispatch(action);
+});
+
+socket.on('navigateTo', function(path) {
+  console.log('navigate to', path);
+  hashHistory.push(path)
 });
 
 window.mountApplication = function(){
