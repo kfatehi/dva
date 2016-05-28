@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { subscribe, createStore, applyMiddleware } from 'redux';
 import Immutable from 'immutable';
 import { combineReducers } from 'redux-immutablejs';
 import { Router, Route, hashHistory } from 'react-router';
@@ -32,7 +32,6 @@ const reducer = combineReducers({
   form: (state = fromJS({}), action) => fromJS(formReducer(state.toJS(), action)),
   notebook: reducers.notebook,
   home: reducers.home,
-  nav: reducers.nav
 });
 
 const store = createStoreWithMiddleware(reducer);

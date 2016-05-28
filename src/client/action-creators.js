@@ -2,6 +2,7 @@ import genUUID from '../uuid';
 
 export function draggedToBucket(columnIndex, bucketKey) {
   return {
+    meta: { remote: true },
     type: 'DRAGGED_TO_BUCKET',
     columnIndex,
     bucketKey
@@ -10,6 +11,7 @@ export function draggedToBucket(columnIndex, bucketKey) {
 
 export function appendCell(cellType, props) {
   return Object.assign({}, {
+    meta: { remote: true },
     type: "APPEND_CELL", cellType,
     uuid: genUUID()
   }, props);
@@ -23,6 +25,7 @@ export function editNotebook() {
 
 export function updateNotebook(params) {
   return {
+    meta: { remote: true },
     type: "UPDATE_NOTEBOOK",
     params
   }
@@ -43,6 +46,7 @@ export function editCell(cellId) {
 
 export function updateCell(cellId, params) {
   return {
+    meta: { remote: true },
     type: "UPDATE_CELL",
     uuid: cellId,
     params
@@ -58,6 +62,7 @@ export function cancelEditCell(cellId) {
 
 export function toggleCompressCell(cellId) {
   return {
+    meta: { remote: true },
     type: "TOGGLE_COMPRESS_CELL",
     uuid: cellId,
   }
@@ -65,6 +70,7 @@ export function toggleCompressCell(cellId) {
 
 export function removeCell(cellId) {
   return {
+    meta: { remote: true },
     type: "REMOVE_CELL",
     uuid: cellId,
   }
@@ -72,6 +78,7 @@ export function removeCell(cellId) {
 
 export function moveCellUp(cellId) {
   return {
+    meta: { remote: true },
     type: "MOVE_CELL_UP",
     uuid: cellId,
   }
@@ -79,6 +86,7 @@ export function moveCellUp(cellId) {
 
 export function moveCellDown(cellId) {
   return {
+    meta: { remote: true },
     type: "MOVE_CELL_DOWN",
     uuid: cellId,
   }

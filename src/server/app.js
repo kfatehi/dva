@@ -14,6 +14,7 @@ const error = require('debug')('dva:src/server/app:error');
 const io = require('socket.io').listen(server);
 import * as extensions from '../extensions';
 import * as actionCreators from './action-creators';
+import { notebook as notebookReducer } from '../client/reducers/notebook';
 
 module.exports.app = app
 module.exports.server = server;
@@ -128,13 +129,18 @@ io.on('connection', function(socket) {
   debug(`${user.email} connected`);
 
   socket.on('action', function(action) {
+    debug('got action', action);
     switch (action.type) {
       case 'LOAD_NOTEBOOK':
         return sendNotebook(socket, user, action.uuid);
-      case 'SAVE_NOTEBOOK':
-        return saveNotebook(socket, user, action.uuid);
       case 'CREATE_NEW_NOTEBOOK':
         return createNewNotebook(socket, user);
+      case 'UPDATE_NOTEBOOK': {
+        return changeNotebookAttributes(action, () => sendNotebooks(socket, user));
+      }
+      default: {
+        return changeNotebookJSON(action);
+      }
     }
   })
 
@@ -170,6 +176,7 @@ function sendNotebook(socket, user, uuid) {
 }
 
 function createNewNotebook(socket, user) {
+  debug('create new notebook');
   models.Notebook.create({
     jsonData: '{}',
     name: 'Untitled',
@@ -181,4 +188,25 @@ function createNewNotebook(socket, user) {
   }).catch(function(e) {
     error(e.message);
   })
+}
+
+function changeNotebookAttributes(action, callback) {
+  if (action.meta && action.meta.uuid) {
+    debug('ehh?' ,action);
+    const { params, meta: { uuid } } = action;
+    models.Notebook.update(params, {
+      where: { uuid }
+    }).then(function() {
+      debug('persisted', uuid, params);
+      callback()
+    }).catch(function(e) {
+      error(e.message);
+    })
+  }
+}
+
+function changeNotebookJSON(action) {
+  if (action.meta && action.meta.uuid) {
+  //  const nextState = notebookReducer(state, action);
+  }
 }
