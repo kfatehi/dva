@@ -97,7 +97,7 @@ export const TransformCellEditor = React.createClass({
         <Datatable ref='preview' data={getDataPreview(parentId.value, func.value)} />
 
         <div className="pull-right">
-          <Button style={saveButtonStyle} type="submit">Save</Button>
+          <Button className="btn-primary" style={saveButtonStyle} type="submit">Save</Button>
           <Button style={cancelButtonStyle} onClick={handleCancel}>Cancel</Button>
         </div>
       </form>
