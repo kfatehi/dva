@@ -12,7 +12,7 @@ import {DraggableDimension} from './Dimension';
 import {BucketMapper} from './BucketMapper';
 import {Visualization} from './Visualization';
 import { getModule, getSchema, getExtensions } from '../../extensions';
-import { draggedToBucket } from '../../bucket-mapping';
+import { draggedToBucket, removedFromBucket } from '../../bucket-mapping';
 import { bucketsFilled, mkVisConfigFromJSON } from '../../vis';
 import {
   Button, ButtonGroup,
@@ -45,6 +45,7 @@ export const VisualizationCellEditor = React.createClass({
       otherCellsWithData,
       handleSubmit,
       handleCancel,
+      removeFromBucket,
     } = this.props;
 
     let dataGetter = () => getData({
@@ -58,9 +59,14 @@ export const VisualizationCellEditor = React.createClass({
 
     let bucketMap = visConfig.get('bucketMapping').get('bucketMap')
 
-    let handleDrag = (columnIndex, bucketKey) => {
+    let handleDragToBucket = (columnIndex, bucketKey) => {
       let schemaBuckets = getSchema(visExtId.value).buckets;
       let out = draggedToBucket(visConfig, columnIndex, bucketKey, columns, schemaBuckets)
+      visConfigJSON.onChange(JSON.stringify(out.toJS()))
+    }
+
+    let handleRemoveFromBucket = (bucketKey, index, columnIndex) => {
+      let out = removedFromBucket(visConfig, bucketKey, index, columnIndex);
       visConfigJSON.onChange(JSON.stringify(out.toJS()))
     }
 
@@ -88,6 +94,15 @@ export const VisualizationCellEditor = React.createClass({
         <Row>
           <FormGroup>
             <Col xs={2}>
+              <ControlLabel>Name</ControlLabel>
+           </Col>
+            <Col xs={10}>
+              <input className="form-control" type="text" {...name} />
+            </Col>
+          </FormGroup>
+
+          <FormGroup>
+            <Col xs={2}>
               <ControlLabel>Data Source</ControlLabel>
             </Col>
             <Col xs={10}>
@@ -107,15 +122,6 @@ export const VisualizationCellEditor = React.createClass({
                   {ext.info.description}
                 </option>)}
               </select>
-            </Col>
-          </FormGroup>
-          
-          <FormGroup>
-            <Col xs={2}>
-              <ControlLabel>Name</ControlLabel>
-           </Col>
-            <Col xs={10}>
-              <input className="form-control" type="text" {...name} />
             </Col>
           </FormGroup>
         </Row>
@@ -149,10 +155,11 @@ export const VisualizationCellEditor = React.createClass({
             <Col xs={6} sm={12}>
               <div className="well">
                 <BucketMapper
-                  dragCallback={handleDrag}
+                  dragCallback={handleDragToBucket}
                   columns={columns}
                   buckets={schema.buckets}
                   bucketMapping={bucketMap}
+                  removeFromBucket={handleRemoveFromBucket}
                 />
               </div>
             </Col>
@@ -166,6 +173,7 @@ export const VisualizationCellEditor = React.createClass({
               visExtId={visExtId.value}
               visConfigJSON={visConfigJSON.value}
               getData={dataGetter}
+              {...this.props}
             /> : null }
           </Col>
         </Row>

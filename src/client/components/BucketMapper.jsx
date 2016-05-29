@@ -25,6 +25,7 @@ export const BucketMapper = React.createClass({
           dragCallback={this.props.dragCallback}
           items={this.getItems(b)}
           bucket={b}
+          removeFromBucket={this.props.removeFromBucket}
         />)}
       </div>
     );

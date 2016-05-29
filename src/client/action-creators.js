@@ -1,14 +1,5 @@
 import genUUID from '../uuid';
 
-export function draggedToBucket(columnIndex, bucketKey) {
-  return {
-    meta: { remote: true },
-    type: 'DRAGGED_TO_BUCKET',
-    columnIndex,
-    bucketKey
-  }
-}
-
 export function appendCell(cellType, props) {
   return Object.assign({}, {
     meta: { remote: true },

@@ -49,19 +49,6 @@ describe("action creators", () => {
     });
   });
 
-  describe("draggedToBucket", () => {
-    it("is type DRAGGED_TO_BUCKET", () => {
-      const action = actionCreators.draggedToBucket()
-      expect(action.type).to.equal('DRAGGED_TO_BUCKET')
-    });
-
-    it("is stores a number and a string", () => {
-      const action = actionCreators.draggedToBucket(1, 'foo');
-      expect(action.columnIndex).to.equal(1);
-      expect(action.bucketKey).to.equal('foo');
-    });
-  });
-
   describe("toggleCompressCell", () => {
     it("is type TOGGLE_COMPRESS_CELL", () => {
       var action = actionCreators.toggleCompressCell('hi');

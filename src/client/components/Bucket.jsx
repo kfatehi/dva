@@ -4,6 +4,8 @@ import { ItemTypes } from '../item-types';
 import { DropTarget } from 'react-dnd';
 import {DraggableDimension} from './Dimension';
 
+import './Bucket.less';
+
 const bucketTarget = {
   drop(props) {
     return {
@@ -23,13 +25,24 @@ function collect(connect, monitor) {
 export const Bucket = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    const { connectDropTarget, isOver } = this.props;
+    const {
+      connectDropTarget,
+      isOver,
+      items,
+      bucket: { key, label },
+      removeFromBucket
+    } = this.props;
     return connectDropTarget(
-      <div>
-        <label>{this.props.bucket.label}</label>
-        <ul>{this.props.items.map(item =>
+      <div className="bucket">
+        <label>{label}</label>
+        <ul>{items.map((item, i) =>
           <li key={item.columnIndex}>
             <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
+            <span
+              className="remove"
+              onClick={() => removeFromBucket(key, i, item.columnIndex)}>
+              x
+            </span>
           </li>)}
         </ul>
       </div>

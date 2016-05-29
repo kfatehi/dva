@@ -11,6 +11,15 @@ export function draggedToBucket(state, columnIndex, bucketKey, columns, schemaBu
   })
 }
 
+export function removedFromBucket(state, key, index, columnIndex) {
+  let columnKey = String(columnIndex);
+  return state.update('bucketMapping', old => {
+    return old
+      .removeIn(['columnMap', columnKey])
+      .updateIn(['bucketMap', key], li => li.remove(index))
+  })
+}
+
 function genBucketMap(columnMap, schemaBuckets, columns) {
   return Map(schemaBuckets.map(bucket => {
     let bucketKey = bucket.key;
