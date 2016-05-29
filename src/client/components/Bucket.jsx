@@ -3,6 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { ItemTypes } from '../item-types';
 import { DropTarget } from 'react-dnd';
 import {DraggableDimension} from './Dimension';
+import FontAwesome from 'react-fontawesome';  
 
 import './Bucket.less';
 
@@ -37,11 +38,11 @@ export const Bucket = React.createClass({
         <label>{label}</label>
         <ul>{items.map((item, i) =>
           <li key={item.columnIndex}>
-            <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
+            <DraggableDimension ucolumnIndex={item.columnIndex} name={item.name} />
             <span
               className="remove"
               onClick={() => removeFromBucket(key, i, item.columnIndex)}>
-              x
+              <FontAwesome name="minus" />
             </span>
           </li>)}
         </ul>

@@ -8,7 +8,7 @@ export const Dimension = React.createClass({
   render: function() {
     const { connectDragSource, isDragging } = this.props;
     return connectDragSource(
-      <div>{this.props.name}</div>
+      <div className="dimension" style={{cursor:'move'}}>{this.props.name}</div>
     );
   }
 })
