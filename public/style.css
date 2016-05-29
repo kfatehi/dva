@@ -1,26 +1,8 @@
-body {
-  background-color: #d9edf7 !important;
-}
-
-nav > div { /* the navbar color */
-  background-color: #E0E0E8;
-}
-
-nav a.navbar-brand {
-  color: #660EA5 !important;
-  font-size: 2.4em;
-}
-
-table {
-  background-color: #EFEFEF !important;
-}
-
-table, th, td {
-  border: 1px solid black !important;
+select {
+  padding-right: 14px;
 }
 
 .my-account {
-  background-color:#E7CCFF;
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;

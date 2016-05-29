@@ -1,6 +1,11 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { DropTargetBucket } from './Bucket';
+import {
+  Button, ButtonGroup,
+  FormGroup, FormControl,
+  ControlLabel, Col, Row
+} from 'react-bootstrap';
 
 export const BucketMapper = React.createClass({
   mixins: [PureRenderMixin],

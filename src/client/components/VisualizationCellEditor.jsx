@@ -14,11 +14,10 @@ import {Visualization} from './Visualization';
 import { getModule, getSchema, getExtensions } from '../../extensions';
 import { draggedToBucket } from '../../bucket-mapping';
 import { bucketsFilled, mkVisConfigFromJSON } from '../../vis';
-
 import {
   Button, ButtonGroup,
   FormGroup, FormControl,
-  ControlLabel, Col
+  ControlLabel, Col, Row
 } from 'react-bootstrap';
 
 import './VisualizationCellEditor.css';
@@ -86,71 +85,91 @@ export const VisualizationCellEditor = React.createClass({
 
     return (
       <form className="form-horizontal" onSubmit={handleSubmit}>
+        <Row>
+          <FormGroup>
+            <Col xs={2}>
+              <ControlLabel>Data Source</ControlLabel>
+            </Col>
+            <Col xs={10}>
+              <select classname="form-control" {...parentId} onChange={handleParentChange}>{otherCellsWithData.map(id =>
+                <option key={id} value={id}>{getCellName(id)}</option>)}
+              </select>
+            </Col>
+          </FormGroup>
 
-        <FormGroup>
-          <Col xs={2}>
-            <ControlLabel>Data Source</ControlLabel>
+          <FormGroup>
+            <Col xs={2}>
+              <ControlLabel>Visualization</ControlLabel>
+           </Col>
+            <Col xs={10}>
+              <select classname="form-control" {...visExtId}>{getExtensions().map(ext =>
+                <option key={ext.info.id} value={ext.info.id}>
+                  {ext.info.description}
+                </option>)}
+              </select>
+            </Col>
+          </FormGroup>
+          
+          <FormGroup>
+            <Col xs={2}>
+              <ControlLabel>Name</ControlLabel>
+           </Col>
+            <Col xs={10}>
+              <input className="form-control" type="text" {...name} />
+            </Col>
+          </FormGroup>
+        </Row>
+
+        <Row>
+          <Col xs={12}><Datatable rows={rows} columns={columns} /></Col>
+        </Row>
+
+        <Row>
+          <Col sm={4}>
+            <Col xs={6} sm={12}>
+              <div className="well">
+                <ControlLabel>Dimensions</ControlLabel>
+                <ul>{getDimensions(dimensions, columns).map(item =>
+                  <li className="dimension" key={item.columnIndex}>
+                    <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
+                  </li>)}
+                </ul>
+
+                <ControlLabel>Measures</ControlLabel>
+                <ul>{getMeasures(measures, columns).map(item =>
+                  <li className="measure" key={item.columnIndex}>
+                    <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
+                  </li>)}
+                </ul>
+              </div>
+            </Col>
+
+            { schema
+              ?
+            <Col xs={6} sm={12}>
+              <div className="well">
+                <BucketMapper
+                  dragCallback={handleDrag}
+                  columns={columns}
+                  buckets={schema.buckets}
+                  bucketMapping={bucketMap}
+                />
+              </div>
+            </Col>
+            : null }
           </Col>
-          <Col xs={10}>
-            <select classname="form-control" {...parentId} onChange={handleParentChange}>{otherCellsWithData.map(id =>
-              <option key={id} value={id}>{getCellName(id)}</option>)}
-            </select>
+
+          <Col xs={12} sm={8}>
+            { schema && bucketsFilled(schema.buckets, bucketMap)
+              ? 
+            <Visualization
+              visExtId={visExtId.value}
+              visConfigJSON={visConfigJSON.value}
+              getData={dataGetter}
+            /> : null }
           </Col>
-        </FormGroup>
-        
-        <FormGroup>
-          <Col xs={2}>
-            <ControlLabel>Name</ControlLabel>
-         </Col>
-          <Col xs={10}>
-            <input className="form-control" type="text" {...name} />
-          </Col>
-        </FormGroup>
+        </Row>
 
-        <h3>Data</h3>
-        <Datatable rows={rows} columns={columns} />
-
-        <h3>Dimensions</h3>
-        <ul>{getDimensions(dimensions, columns).map(item =>
-          <li className="dimension" key={item.columnIndex}>
-            <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
-          </li>)}
-        </ul>
-
-        <h3>Measures</h3>
-        <ul>{getMeasures(measures, columns).map(item =>
-          <li className="measure" key={item.columnIndex}>
-            <DraggableDimension columnIndex={item.columnIndex} name={item.name} />
-          </li>)}
-        </ul>
-
-        <h3>Visualization Extensions</h3>
-        <ul>{getExtensions().map(ext =>
-          <li key={ext.info.id}>
-            <button onClick={(e) => this.setVisExt(e, ext.info.id)}
-              className={visExtId.value === ext.info.id ? 'vis-selected' : null}>
-              {ext.info.description}
-            </button>
-          </li>)}
-        </ul>
-
-        { schema
-          ?
-        <div>
-          <BucketMapper
-            dragCallback={handleDrag}
-            columns={columns}
-            buckets={schema.buckets}
-            bucketMapping={bucketMap}
-          />
-          { bucketsFilled(schema.buckets, bucketMap)
-            ? 
-          <Visualization
-            visExtId={visExtId.value}
-            visConfigJSON={visConfigJSON.value}
-            getData={dataGetter}
-          /> : null }
-        </div> : null }
         <div className="pull-right">
           <Button className="btn-primary" style={saveButtonStyle} type="submit">Save</Button>
           <Button style={cancelButtonStyle} onClick={handleCancel}>Cancel</Button>
