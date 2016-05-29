@@ -14,7 +14,12 @@ import {Visualization} from './Visualization';
 import { getModule, getSchema, getExtensions } from '../../extensions';
 import { draggedToBucket } from '../../bucket-mapping';
 import { bucketsFilled, mkVisConfigFromJSON } from '../../vis';
-import { Button, ButtonGroup } from 'react-bootstrap';
+
+import {
+  Button, ButtonGroup,
+  FormGroup, FormControl,
+  ControlLabel, Col
+} from 'react-bootstrap';
 
 import './VisualizationCellEditor.css';
 
@@ -70,14 +75,37 @@ export const VisualizationCellEditor = React.createClass({
       schema = getSchema(visExtId.value)
     }
 
+    let saveButtonStyle = {
+      marginRight:'10px',
+      fontWeight: 'bold'
+    }
+
+    let cancelButtonStyle = {
+      fontWeight: 'bold'
+    }
+
     return (
-      <form onSubmit={handleSubmit}>
-        <label>Data Source</label>
-        <select {...parentId} onChange={handleParentChange}>{otherCellsWithData.map(id =>
-          <option key={id} value={id}>{getCellName(id)}</option>)}
-        </select>
-        <label>Name</label>
-        <input type="text" {...name} />
+      <form className="form-horizontal" onSubmit={handleSubmit}>
+
+        <FormGroup>
+          <Col xs={2}>
+            <ControlLabel>Data Source</ControlLabel>
+          </Col>
+          <Col xs={10}>
+            <select classname="form-control" {...parentId} onChange={handleParentChange}>{otherCellsWithData.map(id =>
+              <option key={id} value={id}>{getCellName(id)}</option>)}
+            </select>
+          </Col>
+        </FormGroup>
+        
+        <FormGroup>
+          <Col xs={2}>
+            <ControlLabel>Name</ControlLabel>
+         </Col>
+          <Col xs={10}>
+            <input className="form-control" type="text" {...name} />
+          </Col>
+        </FormGroup>
 
         <h3>Data</h3>
         <Datatable rows={rows} columns={columns} />
@@ -121,13 +149,15 @@ export const VisualizationCellEditor = React.createClass({
                 visConfigJSON={visConfigJSON.value}
                 getData={dataGetter}
               /> : null }
-          </div> : null }
+            </div> : null }
 
-        <ButtonGroup>
-          <Button bsStyle="success" type="submit">Save</Button>
-          <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>
-        </ButtonGroup>
-      </form>
+
+            <div className="pull-right">
+              <Button className="btn-primary" style={saveButtonStyle} type="submit">Save</Button>
+              <Button style={cancelButtonStyle} onClick={handleCancel}>Cancel</Button>
+            </div>
+          </form>
+
     );
   }
 });

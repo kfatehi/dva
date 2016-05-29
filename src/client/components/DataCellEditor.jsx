@@ -103,7 +103,7 @@ export const DataCellEditor = React.createClass({
         <Datatable ref='preview' data={getDataPreview(data.value, parser.value)} />
 
         <div className="pull-right">
-          <Button style={saveButtonStyle} type="submit">Save</Button>
+          <Button className="btn-primary" style={saveButtonStyle} type="submit">Save</Button>
           <Button style={cancelButtonStyle} onClick={handleCancel}>Cancel</Button>
         </div>
       </form>

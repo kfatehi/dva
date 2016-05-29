@@ -5,10 +5,14 @@ import { fromJS } from 'immutable';
 import * as actionCreators from '../action-creators';
 import Codemirror from 'react-codemirror';
 import 'codemirror/mode/javascript/javascript';
-import { Button, ButtonGroup } from 'react-bootstrap';
 import { Datatable } from './Datatable';
 import { hookHandler as hook } from '../editor-utils';
 import debounce from 'debounce';
+import {
+  Button, ButtonGroup,
+  FormGroup, FormControl,
+  ControlLabel, Col
+} from 'react-bootstrap';
 
 export const TransformCellEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -59,20 +63,44 @@ export const TransformCellEditor = React.createClass({
       },
     }
 
+    let saveButtonStyle = {
+      marginRight:'10px',
+      fontWeight: 'bold'
+    }
+
+    let cancelButtonStyle = {
+      fontWeight: 'bold'
+    }
+
     return (
-      <form onSubmit={hook(handleSubmit,()=>func.onChange(cmVal))}>
-        <label>Data Source</label>
-        <select {...parentId}>{otherCellsWithData.map(id =>
-          <option key={id} value={id}>{getCellName(id)}</option>)}
-        </select>
-        <label>Name</label>
-        <input type="text" {...name} />
+      <form className="form-horizontal" onSubmit={hook(handleSubmit,()=>func.onChange(cmVal))}>
+        <FormGroup>
+          <Col xs={2}>
+            <ControlLabel>Data Source</ControlLabel>
+          </Col>
+          <Col xs={10}>
+            <select className="form-control" {...parentId}>{otherCellsWithData.map(id =>
+              <option key={id} value={id}>{getCellName(id)}</option>)}
+            </select>
+          </Col>
+        </FormGroup>
+
+        <FormGroup>
+          <Col xs={2}>
+            <ControlLabel>Name</ControlLabel>
+          </Col>
+          <Col xs={10}>
+            <input className="form-control" type="text" {...name} />
+          </Col>
+        </FormGroup>
+
         <Codemirror {...editorProps} />
         <Datatable ref='preview' data={getDataPreview(parentId.value, func.value)} />
-        <ButtonGroup>
-          <Button bsStyle="success" type="submit">Save</Button>
-          <Button bsStyle="danger" onClick={handleCancel}>Cancel</Button>
-        </ButtonGroup>
+
+        <div className="pull-right">
+          <Button className="btn-primary" style={saveButtonStyle} type="submit">Save</Button>
+          <Button style={cancelButtonStyle} onClick={handleCancel}>Cancel</Button>
+        </div>
       </form>
     );
   }
