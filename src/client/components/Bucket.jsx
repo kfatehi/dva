@@ -42,7 +42,7 @@ export const Bucket = React.createClass({
             <span
               className="remove"
               onClick={() => removeFromBucket(key, i, item.columnIndex)}>
-              <FontAwesome name="minus" />
+              <FontAwesome className="text-primary" name="minus" />
             </span>
           </li>)}
         </ul>
