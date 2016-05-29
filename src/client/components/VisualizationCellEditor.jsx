@@ -124,7 +124,6 @@ export const VisualizationCellEditor = React.createClass({
           </li>)}
         </ul>
 
-
         <h3>Visualization Extensions</h3>
         <ul>{getExtensions().map(ext =>
           <li key={ext.info.id}>
@@ -135,29 +134,28 @@ export const VisualizationCellEditor = React.createClass({
           </li>)}
         </ul>
 
-        { schema ?
-          <div>
-            <BucketMapper
-              dragCallback={handleDrag}
-              columns={columns}
-              buckets={schema.buckets}
-              bucketMapping={bucketMap}
-            />
-            { bucketsFilled(schema.buckets, bucketMap) ? 
-              <Visualization
-                visExtId={visExtId.value}
-                visConfigJSON={visConfigJSON.value}
-                getData={dataGetter}
-              /> : null }
-            </div> : null }
-
-
-            <div className="pull-right">
-              <Button className="btn-primary" style={saveButtonStyle} type="submit">Save</Button>
-              <Button style={cancelButtonStyle} onClick={handleCancel}>Cancel</Button>
-            </div>
-          </form>
-
+        { schema
+          ?
+        <div>
+          <BucketMapper
+            dragCallback={handleDrag}
+            columns={columns}
+            buckets={schema.buckets}
+            bucketMapping={bucketMap}
+          />
+          { bucketsFilled(schema.buckets, bucketMap)
+            ? 
+          <Visualization
+            visExtId={visExtId.value}
+            visConfigJSON={visConfigJSON.value}
+            getData={dataGetter}
+          /> : null }
+        </div> : null }
+        <div className="pull-right">
+          <Button className="btn-primary" style={saveButtonStyle} type="submit">Save</Button>
+          <Button style={cancelButtonStyle} onClick={handleCancel}>Cancel</Button>
+        </div>
+      </form>
     );
   }
 });
