@@ -21,15 +21,15 @@ export const Home = React.createClass({
       <h1>My Notebooks</h1>
         <Row>{ notebooks.map(nb =>
           <Col {...colProps} key={nb.get('uuid')}>
-            <div className="icon_container">  
               <Link
                   to={`/notebook/${nb.get('uuid')}`}>
+            <div className="icon_container">  
                 <FontAwesome className="existing_icon" name="bar-chart"  /> <br/> 
                 <span className="notebook_name">
                 {nb.get('name')}
                 </span>
-              </Link>
             </div>
+              </Link>
           </Col>)}
           <Col {...colProps}>
             <div className="icon_container" style={{cursor:'pointer'}} onClick={createNewNotebook}>
