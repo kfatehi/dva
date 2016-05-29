@@ -4,7 +4,7 @@ This document will walk you through installation of the application on the follo
 
 * Amazon Linux (EC2)
 * Ubuntu (tested on 14.04)
-* Apple OSX (instructions TBD)
+* Apple OSX (El Capitan 10.11.5)
 
 *Don't use this guide if you're trying to develop. For that, see the README in project root.*
 
@@ -25,6 +25,11 @@ yum -y install nodejs gcc-c++ make
 curl --silent --location https://deb.nodesource.com/setup_5.x | sudo -E bash -
 apt-get install -y nodejs build-essential
 ```
+
+####Apple OS X With Brew
+* Install XCode from Apple App Store
+* To install brew: `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+* To install node: `brew install node`
 
 ## Get PM2
 
